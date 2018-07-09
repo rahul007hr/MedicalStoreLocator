@@ -5,4 +5,18 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <!--Background Colour-->
+    <color name="blackkground">#0069cc</color>
+
+    <!--Text Colour-->
+    <color name="text_color">#ffffff</color>
+
+
+    <!--Basic Colors-->
+    <color name="color_white">#ffffff</color>
+    <color name="color_transperant_white">#cccccc</color>
+
+
+
 </resources>
