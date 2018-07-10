@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.medicalstorefinder.medicalstorelocator.Fragments.ServiceProviderListItemFragment">
+    paanwala.paanwala.
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+        <TableLayout
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="5">
+
+            <TableRow android:id="@+id/tableRow">
+
+                <EditText
+                    android:id="@+id/txtItem"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="hintTxtItem"
+                    />
+
+                <EditText
+                    android:id="@+id/txtItemCost"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="Item Cost"
+                    />
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:text="lblBtnAdd"
+                    android:layout_toRightOf="@id/txtItem"
+                    />
+                <!--android:background="@drawable/loginbutton_selector"-->
+            </TableRow>
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="470dp"
+                android:layout_below="@+id/tableRow"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+
+        </TableLayout>
+    </RelativeLayout>
+
+</FrameLayout>

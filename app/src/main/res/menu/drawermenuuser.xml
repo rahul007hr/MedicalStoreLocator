@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Service Type ">
+        <menu>
+
+
+            <item android:title="Home"
+                android:id="@+id/home"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Paanwala"
+                android:id="@+id/paanwala"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Electrician"
+                android:id="@+id/electrician"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+
+            <item android:title="Painter"
+                android:id="@+id/painter"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Kamwalibai"
+                android:id="@+id/kamwalibai"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Garage"
+                android:id="@+id/garage"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Furniture"
+                android:id="@+id/furniture"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+            <item android:title="Auto"
+                android:id="@+id/auto"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Mess"
+                android:id="@+id/mess"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Pastecontrol"
+                android:id="@+id/pastecontrol"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+
+            <item android:title="Tempo"
+                android:id="@+id/tempo"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Plumber"
+                android:id="@+id/plumber"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Travel"
+                android:id="@+id/travel"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+
+            <item android:title="Interior"
+                android:id="@+id/interior"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Construction"
+                android:id="@+id/construction"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Medical"
+                android:id="@+id/medical"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Grocery"
+                android:id="@+id/grocery"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Salon"
+                android:id="@+id/salon"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+
+
+        </menu>
+    </item>
+
+
+    <item android:title="Account">
+        <menu>
+
+            <item android:title="Histry"
+                android:id="@+id/histry"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Profile"
+                android:id="@+id/profile"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item
+                android:title="Change Password"
+                android:id="@+id/change_password"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item
+                android:title="Logout"
+                android:id="@+id/logout"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+        </menu>
+    </item>
+
+
+    <item android:title="Help">
+        <menu>
+            <item
+                android:title="About us"
+                android:id="@+id/about_us"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item
+                android:title="Contact us"
+                android:id="@+id/contact_us"
+                android:icon="@drawable/code_icon"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+        </menu>
+    </item>
+</menu>

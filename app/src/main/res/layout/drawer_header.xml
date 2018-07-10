@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/drawer_header"
+    android:weightSum="1">
+    <!--android:background="@drawable/nav_drw_head_bg_img"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+
+
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:textColor="#ffffff"
+            android:text="ISAD"
+            android:textSize="14sp"
+            android:textStyle="bold|normal"
+            />
+
+        <TextView
+            android:id="@+id/reg_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#ffffff"
+            android:text="0000000000"
+            android:textSize="14sp"
+            android:textStyle="bold|normal"
+            />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="5dp"
+            android:text="xyz@gmail.com"
+            android:textSize="14sp"
+            android:textStyle="normal"
+
+            />
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
+        android:id="@+id/drawer_header_profile_pic"
+        app:civ_border_color="@color/color_white"
+        app:civ_border_width="2dp"
+        android:elevation="10dp"
+        android:fadingEdgeLength="5dp"
+        />
+    <!--android:src="@drawable/profile_pic"-->
+</RelativeLayout>
+
+

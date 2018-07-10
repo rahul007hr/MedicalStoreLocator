@@ -15,8 +15,40 @@
 
     <!--Basic Colors-->
     <color name="color_white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="color_transperant_white">#cccccc</color>
 
+    <!--navigation drawer selector-->
+    <color name="colorHighlight">#c5cae9</color>
 
+    <color name="primary">#8BC34A</color>
+    <color name="primary_dark">#689F38</color>
+    <color name="primary_light">#DCEDC8</color>
+    <color name="accent">#4CAF50</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#212121</color>
+    <color name="divider">#BDBDBD</color>
+
+
+    <color name="background_color">#8BC34A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="button_selectorcolor">#9E9E9E</color>
+    <color name="green">#8BC34A</color>
+
+    <color name="btn_alertdialog">#FFFF00</color>
+
+     <!--App SubTitle-->
+    <color name="app_sub_title">#8BC34A</color>
+
+
+    <color name="logoes">#75a7f5</color>
+
+    <!--<color name="background_color">#009688</color>-->
+    <color name="tx_FAILURE">#D50000</color>
+    <color name="tx_SUCCESS">#1B5E20</color>
+    <color name="tx_PENDING">#E65100</color>
+    <color name="tx_REVERSED">#0D47A1</color>
 
 </resources>

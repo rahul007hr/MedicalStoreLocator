@@ -1,7 +1,9 @@
-package com.medicalstorefinder.medicalstorelocator;
+package com.medicalstorefinder.medicalstorelocator.Activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.medicalstorefinder.medicalstorelocator.R;
 
 public class MainActivity extends AppCompatActivity {
 

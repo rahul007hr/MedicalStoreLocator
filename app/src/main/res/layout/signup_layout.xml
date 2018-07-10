@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="signUp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/fullName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+
+        android:drawablePadding="8dp"
+        android:maxLength="50"
+        android:gravity="center_vertical"
+        android:hint="fullName"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/user"-->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/userEmailId"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+
+        android:drawablePadding="8dp"
+        android:maxLength="50"
+        android:gravity="center_vertical"
+        android:hint="email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/email"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/mobileNumber"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="mobileNumber"
+        android:inputType="phone"
+        android:maxLength="10"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/phone"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/adharnumber"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:drawablePadding="8dp"
+        android:maxLength="12"
+        android:gravity="center_vertical"
+        android:hint="Adhaar Card Number"
+        android:inputType="number"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/user"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/location"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="location"
+        android:maxLength="50"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/location"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+
+        android:drawablePadding="8dp"
+        android:maxLength="20"
+        android:gravity="center_vertical"
+        android:hint="passowrd"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/password"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+    <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:maxLength="20"
+        android:hint="confirmPassword"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+    <!--android:drawableLeft="@drawable/confirm_password"-->
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/location1"
+    android:orientation="horizontal">
+    <RadioButton
+        android:id="@+id/email_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="SERVICE PROVIDER"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <RadioButton
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="USER"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+</RadioGroup>
+
+    <Spinner
+        android:id="@+id/service_provider_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"
+        android:visibility="gone"
+        />
+
+    <CheckBox
+        android:id="@+id/terms_conditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="terms_conditions"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/signUpBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="3dp"
+        android:text="signUp"
+        android:textColor="#8BC34A"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+    <!--android:background="@drawable/loginbutton_selector"-->
+    <TextView
+        android:id="@+id/already_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="already_user"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+</LinearLayout>
