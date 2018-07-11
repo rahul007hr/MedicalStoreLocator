@@ -12,7 +12,22 @@ public final class Constants {
     public static final String PREF_KEY_USER_ProfilePic = "PrefProfilePic";
 
     //    public static final String DOMAIN_NAME = "http://192.168.0.102/";
-    public static final String DOMAIN_NAME = "http://www.paanwalapro.com/";
+    public static final String DOMAIN_NAME = "http://www.kiranbachhav.com/";
+
+
+    public static final String API_Check_Stable_Version = DOMAIN_NAME + "emedical/api/checkversion";
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static final String API_Account_IsAuthorised = DOMAIN_NAME + "api/Users/IsAuthorised";//.....
     public static final String API_SetUserInfo = DOMAIN_NAME + "api/Users/PostUser";//.........
