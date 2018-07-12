@@ -3,19 +3,26 @@ package com.medicalstorefinder.medicalstorelocator.Constants;
 
 public final class Constants {
 
-    public static final String PREF_ISAD = "PrefISAD";
+    public static final String PREF_IS_FIRST_TIME = "PrefIsFirstTime";
+    public static final String PREF_IS_USER = "PrefISUser";
     public static final String PREF_KEY_USER_ID = "PrefUserID";
-    public static final String PREF_KEY_USER_NAME = "PrefUserName";
+    public static final String PREF_KEY_USER_PHONE = "PrefPhone";
     public static final String PREF_KEY_USER_PASS = "PrefUserPass";
+
+
+
+
+    public static final String PREF_ISAD = "PrefISAD";
+    public static final String PREF_KEY_USER_NAME = "PrefUserName";
     public static final String PREF_KEY_USER_RegMobile = "PrefRegMobile";
     public static final String PREF_KEY_USER_Email = "PrefEmail";
     public static final String PREF_KEY_USER_ProfilePic = "PrefProfilePic";
 
     //    public static final String DOMAIN_NAME = "http://192.168.0.102/";
-    public static final String DOMAIN_NAME = "http://www.kiranbachhav.com/";
+    public static final String DOMAIN_NAME = "https://www.kiranbachhav.com/";
 
 
-    public static final String API_Check_Stable_Version = DOMAIN_NAME + "emedical/api/checkversion";
+    public static final String API_CHECK_STABLE_VERSION = DOMAIN_NAME + "emedical/api/checkversion";
 
 
 

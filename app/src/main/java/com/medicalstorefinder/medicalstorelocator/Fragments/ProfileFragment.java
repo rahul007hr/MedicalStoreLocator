@@ -60,7 +60,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         txtvEmailID=(TextView)v.findViewById(R.id.email);
         txtvAdharCardNumber=(TextView)v.findViewById(R.id.adhar_card_number);
         txtvMobileNumber=(TextView)v.findViewById(R.id.regmobile);
-        txtvLocation=(TextView)v.findViewById(R.id.location);
+        txtvLocation=(TextView)v.findViewById(R.id.shop_name);
         txtvcType=(TextView)v.findViewById(R.id.ctype);
         txtvcStatus=(TextView)v.findViewById(R.id.cstatus);
         txtvActivated=(TextView)v.findViewById(R.id.activated);

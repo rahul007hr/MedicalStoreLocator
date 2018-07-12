@@ -238,7 +238,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.slide_layout, parent, false);
+                    .inflate(R.layout.slider_1, parent, false);
             ViewHolder viewHolder = new ViewHolder(v);
 
             final Animation anim_record_item = AnimationUtils.loadAnimation(parent.getContext(), R.anim.swipe_down);
@@ -305,9 +305,9 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 final View view = itemView;
                 vtxtFullName = (TextView) itemView.findViewById(R.id.profile);
                 vtxtCustomerNo = (TextView) itemView.findViewById(R.id.profile);
-                vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email_id);
+                vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email);
                 vtxtServiceType = (TextView) itemView.findViewById(R.id.profile);
-                vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtLocation = (TextView) itemView.findViewById(R.id.shop_name);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.profile);
                 imageViews=(ImageView)itemView.findViewById(R.id.profile);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);

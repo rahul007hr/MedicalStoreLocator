@@ -176,7 +176,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="20dp"
                         android:textSize="15sp"
-                        android:id="@+id/location"
+                        android:id="@+id/shop_name"
                         android:textColor="@color/black"
                         android:text="Location"
                         android:drawablePadding="10dp"/>

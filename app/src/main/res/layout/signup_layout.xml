@@ -10,29 +10,76 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="signUp"
+        android:text="Create Account"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/fullName"
+        android:id="@+id/firstName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
-
+        android:drawableLeft="@drawable/user"
         android:drawablePadding="8dp"
         android:maxLength="50"
         android:gravity="center_vertical"
-        android:hint="fullName"
+        android:hint="First Name"
         android:inputType="textCapWords"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/user"-->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+
+
+
+    <EditText
+        android:id="@+id/lastName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/user"
+        android:drawablePadding="8dp"
+        android:maxLength="50"
+        android:gravity="center_vertical"
+        android:hint="Last Name"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
+    <EditText
+        android:id="@+id/shop_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_prof_company"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Shop Name"
+        android:maxLength="50"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
@@ -44,18 +91,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-
+        android:drawableLeft="@drawable/ic_prof_email"
         android:drawablePadding="8dp"
         android:maxLength="50"
         android:gravity="center_vertical"
-        android:hint="email"
+        android:hint="Email Id"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/email"-->
 
     <View
         android:layout_width="fill_parent"
@@ -68,10 +114,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-
+        android:drawableLeft="@drawable/ic_action_user"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="mobileNumber"
+        android:hint="Mobile Number"
         android:inputType="phone"
         android:maxLength="10"
         android:padding="10dp"
@@ -79,59 +125,13 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/phone"-->
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#8BC34A" />
 
-    <EditText
-        android:id="@+id/adharnumber"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:maxLength="12"
-        android:gravity="center_vertical"
-        android:hint="Adhaar Card Number"
-        android:inputType="number"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/user"-->
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2px"
-        android:background="#8BC34A" />
-
-    <EditText
-        android:id="@+id/location"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="location"
-        android:maxLength="50"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/location"-->
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2px"
-        android:background="#8BC34A" />
 
     <EditText
         android:id="@+id/password"
@@ -139,18 +139,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-
+        android:drawableLeft="@drawable/ic_action_pass"
         android:drawablePadding="8dp"
         android:maxLength="20"
         android:gravity="center_vertical"
-        android:hint="passowrd"
+        android:hint="Passowrd"
         android:inputType="textPassword"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/password"-->
 
     <View
         android:layout_width="fill_parent"
@@ -166,52 +165,27 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:maxLength="20"
-        android:hint="confirmPassword"
+        android:hint="Confirm Password"
         android:inputType="textPassword"
+        android:drawableLeft="@drawable/ic_action_pass"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-    <!--android:drawableLeft="@drawable/confirm_password"-->
-<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/location1"
-    android:orientation="horizontal">
-    <RadioButton
-        android:id="@+id/email_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="SERVICE PROVIDER"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
 
-    <RadioButton
-        android:id="@+id/user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="USER"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
-</RadioGroup>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#8BC34A" />
 
-    <Spinner
-        android:id="@+id/service_provider_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"
-        android:visibility="gone"
-        />
 
     <CheckBox
         android:id="@+id/terms_conditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:text="terms_conditions"
+        android:text="Accept Terms and Conditions"
         android:textColor="@color/black"
         android:textSize="14sp" />
 
@@ -221,11 +195,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:padding="3dp"
-        android:text="signUp"
+        android:background="@drawable/loginbutton_selector"
+        android:text="Register"
         android:textColor="#8BC34A"
         android:textSize="17sp"
         android:textStyle="bold" />
-    <!--android:background="@drawable/loginbutton_selector"-->
     <TextView
         android:id="@+id/already_user"
         android:layout_width="wrap_content"
@@ -234,7 +208,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="already_user"
+        android:text="Already Registered ?"
         android:textColor="@color/black"
         android:textSize="15sp" />
 

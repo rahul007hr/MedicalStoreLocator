@@ -107,7 +107,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private void initViews() {
 		fragmentManager = getActivity().getSupportFragmentManager();
 
-		emailid = (EditText) view.findViewById(R.id.login_emailid);
+		emailid = (EditText) view.findViewById(R.id.login_mobile_no);
 		password = (EditText) view.findViewById(R.id.login_password);
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
 		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
@@ -242,19 +242,10 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 //							Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT).show();
 
-							if (apiUser.getcType().equals("Admin")) {
-								/*Intent myIntent = new Intent(getActivity(), AdminActivity.class);
-								getActivity().startActivity(myIntent);*/
-
-							} else if (apiUser.getcType().equals("User")) {
+							if (apiUser.getcType().equals("User")) {
 
 								Intent myIntent = new Intent(getActivity(), UserActivity.class);
 								getActivity().startActivity(myIntent);
-
-							} else if (apiUser.getcType().equals("Service Provider")) {
-
-								/*Intent myIntent = new Intent(getActivity(), ServiceProviderActivity.class);
-								getActivity().startActivity(myIntent);*/
 
 							}
 							getActivity().finish();
@@ -286,12 +277,12 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			loginLayout.startAnimation(shakeAnimation);
 			new CustomToast().Show_Toast(getActivity(), view,"Enter both credentials.");
 		}
-		else if (!m.find())
-			new CustomToast().Show_Toast(getActivity(), view,"Your Email Id is Invalid.");
 		else {
 
-			new AuthoriseUser().execute();
-
+//			new AuthoriseUser().execute();
+			Intent myIntent = new Intent(getActivity(), UserActivity.class);
+			getActivity().startActivity(myIntent);
+			getActivity().finish();
 		}
 	}
 }

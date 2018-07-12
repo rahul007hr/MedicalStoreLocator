@@ -6,6 +6,16 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".Activity.SplashScreenActivity">
 
+    <ImageView
+        android:layout_width="169dp"
+        android:layout_height="153dp"
+        android:id="@+id/img_rep_not_found"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="110dp"
+        android:src="@drawable/logo"
+        />
+
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
@@ -32,13 +42,6 @@
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
 
         </LinearLayout>
     </FrameLayout>

@@ -27,8 +27,6 @@ public class MainFragment extends Fragment
     public MyAdapter.Item item;
     public List<MyAdapter.Item> items = new ArrayList<MyAdapter.Item>();
     FragmentManager fragmentManager;
-    Toolbar toolbar;
-    public static String tool;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,9 +35,6 @@ public class MainFragment extends Fragment
         Bundle bundle = this.getArguments();
         myValue = bundle.getString("message");
 
-        toolbar=(Toolbar)v.findViewById(R.id.toolbar12);
-
-        tool= (String) toolbar.getTitle();
 
         GridView gridView = (GridView)v.findViewById(R.id.gridview);
         gridView.setAdapter(new MyAdapter(getContext()));
@@ -48,8 +43,6 @@ public class MainFragment extends Fragment
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                tool="a";
 
                 if(myValue.equals("User")){
 

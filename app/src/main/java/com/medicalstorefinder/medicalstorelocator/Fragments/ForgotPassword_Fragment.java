@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.medicalstorefinder.medicalstorelocator.Activity.MainActivity;
 import com.medicalstorefinder.medicalstorelocator.Constants.Constants;
 import com.medicalstorefinder.medicalstorelocator.Constants.CustomToast;
 import com.medicalstorefinder.medicalstorelocator.Constants.Utilities;
@@ -42,7 +43,7 @@ public class ForgotPassword_Fragment extends Fragment implements OnClickListener
 	}
 
 	private void initViews() {
-		emailId = (EditText) view.findViewById(R.id.registered_emailid);
+		emailId = (EditText) view.findViewById(R.id.registered_mobile_no);
 		submit = (TextView) view.findViewById(R.id.forgot_button);
 		back = (TextView) view.findViewById(R.id.backToLoginBtn);
 
@@ -58,7 +59,7 @@ public class ForgotPassword_Fragment extends Fragment implements OnClickListener
 		switch (v.getId()) {
 		case R.id.backToLoginBtn:
 
-//			new MainActivity().replaceLoginFragment();
+			new MainActivity().replaceLoginFragment();
 			break;
 
 		case R.id.forgot_button:

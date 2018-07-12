@@ -245,158 +245,6 @@ public class UserActivity extends AppCompatActivity {
                         fragmentClass1 = MainFragment.class;
                         return true;
 
-
-
-
-
-                    case R.id.paanwala:
-
-                        myMessage = "paanwala";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-
-                        return true;
-
-                    case R.id.electrician:
-                        myMessage = "electrician";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-
-
-                    case R.id.painter:
-                        myMessage = "painter";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.kamwalibai:
-                        myMessage = "kamwalibai";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.garage:
-                        myMessage = "garage";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-
-                    case R.id.furniture:
-                        myMessage = "furniture";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.auto:
-                        myMessage = "auto";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.mess:
-                        myMessage = "mess";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.pastecontrol:
-                        myMessage = "pastecontrol";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-
-                    case R.id.tempo:
-                        myMessage = "tempo";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-
-                    case R.id.plumber:
-                        myMessage = "plumber";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.travel:
-                        myMessage = "travel";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.interior:
-                        myMessage = "interior";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.construction:
-                        myMessage = "construction";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-
                     case R.id.medical:
                         myMessage = "medical";
                         bundle.putString("message", myMessage );
@@ -407,25 +255,6 @@ public class UserActivity extends AppCompatActivity {
                         fragmentClass1 = ServiceProviderListFragment.class;
                         return true;
 
-                    case R.id.grocery:
-                        myMessage = "grocery";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
-
-                    case R.id.salon:
-                        myMessage = "salon";
-                        bundle.putString("message", myMessage );
-                        fragobj.setArguments(bundle);
-
-
-                        xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-                        return true;
 
                    /* case R.id.histry:
                         xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
@@ -508,7 +337,7 @@ public class UserActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         try {
-            if (!MainFragment.tool.contains("Home")) {
+/*            if (!MainFragment.tool.contains("Home")) {
 
                 MainFragment fragobj = new MainFragment();
                 Fragment fragment = null;
@@ -528,7 +357,7 @@ public class UserActivity extends AppCompatActivity {
 
             }
 
-        else{
+        else{*/
 
             android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
@@ -545,7 +374,7 @@ public class UserActivity extends AppCompatActivity {
                     .setNegativeButton("No", null)
                     .show();
 
-        }
+//        }
         } catch (Exception e) {
 
         }

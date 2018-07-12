@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Medical Store Locator</string>
+    <string name="app_name">e-Medicine</string>
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
-    <string name="splash_screen_welcome">Welcome</string>
+    <string name="splash_screen_welcome">e-Medicine</string>
 
     <string name="title_activity_welcome_instructins">WelcomeInstructinsActivity</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

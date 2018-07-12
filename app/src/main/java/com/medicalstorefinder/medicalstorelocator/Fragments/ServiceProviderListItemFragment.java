@@ -57,7 +57,7 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
 
 
         // Inflate the layout for this fragment
-    View v1=inflater.inflate(R.layout.slide_layout, container, false);
+    View v1=inflater.inflate(R.layout.slider_1, container, false);
         /** Reference to the button of the layout main.xml */
         btn = (Button)v1.findViewById(R.id.btnAdd);
         btnSubmit= (Button)v1.findViewById(R.id.profile);

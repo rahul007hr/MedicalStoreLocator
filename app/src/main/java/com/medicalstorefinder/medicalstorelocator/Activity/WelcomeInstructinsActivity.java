@@ -1,145 +1,149 @@
 package com.medicalstorefinder.medicalstorelocator.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.medicalstorefinder.medicalstorelocator.Adapter.SliderAdapter;
+import com.medicalstorefinder.medicalstorelocator.Adapter.MyPagerAdapter;
+import com.medicalstorefinder.medicalstorelocator.Constants.Constants;
 import com.medicalstorefinder.medicalstorelocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstorelocator.R;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class WelcomeInstructinsActivity extends AppCompatActivity {
-
-    private ViewPager mSlideViewPager;
-    private LinearLayout mDotLayout;
-    private TextView[] mDots;
-    private Button mNextBtn;
-    private Button mBackBtn;
-    private SliderAdapter sliderAdapter;
-    private int mCurrentPage;
+    SharedPreference sharedPreference;
+    Activity context = this;
+    private ViewPager viewPager;
+    private LinearLayout layoutDot;
+    private TextView[]dotstv;
+    private int[]layouts;
+    private Button btnSkip;
+    private Button btnNext;
+    private MyPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!isFirstTimeStartApp()){
+
+        sharedPreference = new SharedPreference();
+
+        if (sharedPreference.isSPKeyExits(context, Constants.PREF_IS_FIRST_TIME, Constants.PREF_IS_FIRST_TIME)){
+
             Intent intent = new Intent(WelcomeInstructinsActivity.this,SplashScreenActivity.class);
             startActivity(intent);
             finish();
         }
 
+        setStatusBarTransparent();
+
         setContentView(R.layout.activity_welcome_instructins);
 
-        mSlideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
-        mDotLayout = (LinearLayout) findViewById(R.id.dotsLayout);
-        mNextBtn=(Button)findViewById(R.id.nextBtn);
-        mBackBtn=(Button)findViewById(R.id.prevBtn);
+        viewPager = findViewById(R.id.view_pager);
+        layoutDot = findViewById(R.id.dotLayout);
+        btnNext = findViewById(R.id.btn_next);
+        btnSkip = findViewById(R.id.btn_skip);
 
-        mSlideViewPager.setAdapter(sliderAdapter);
-        addDotsIndicator(0);
-
-        mSlideViewPager.addOnPageChangeListener(viewListener);
-
-        mNextBtn.setOnClickListener(new View.OnClickListener() {
+        //When user press skip, start Main Activity
+        btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( mCurrentPage < mDots.length){
-                    mSlideViewPager.setCurrentItem(mCurrentPage + 1);
-                }else{
-                    setFirstTimeStartStatus(true);
+                setFirstTimeStartStatus();
+                Intent intent = new Intent(WelcomeInstructinsActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int currentPage = viewPager.getCurrentItem()+1;
+                if(currentPage < layouts.length) {
+                    //move to next page
+                    viewPager.setCurrentItem(currentPage);
+                } else {
+                    setFirstTimeStartStatus();
                     Intent intent = new Intent(WelcomeInstructinsActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
         });
+        layouts = new int[]{R.layout.slider_1,R.layout.slider_2, R.layout.slider_3, R.layout.slider_4};
+        pagerAdapter = new MyPagerAdapter(layouts,getApplicationContext());
+        viewPager.setAdapter(pagerAdapter);
 
-        mBackBtn.setOnClickListener(new View.OnClickListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View view) {
-                mSlideViewPager.setCurrentItem(mCurrentPage - 1);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if(position == layouts.length-1){
+                    //LAST PAGE
+                    btnNext.setText("START");
+                    btnSkip.setVisibility(View.GONE);
+                }else {
+                    btnNext.setText("NEXT");
+                    btnSkip.setVisibility(View.VISIBLE);
+                }
+                setDotStatus(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
-
+        setDotStatus(0);
     }
 
-    public  void addDotsIndicator(int position){
-        mDots=new TextView[3];
-        for(int i=0;i<mDots.length;i++) {
-            mDots[i] = new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226;"));
-            mDots[i].setTextSize(35);
-            mDots[i].setTextColor(getResources().getColor(R.color.color_transperant_white));
-            mDotLayout.addView(mDots[i]);
+    private void setDotStatus(int page){
+        layoutDot.removeAllViews();
+        dotstv =new TextView[layouts.length];
+        for (int i = 0; i < dotstv.length; i++) {
+            dotstv[i] = new TextView(this);
+            dotstv[i].setText(Html.fromHtml("&#8226;"));
+            dotstv[i].setTextSize(30);
+            dotstv[i].setTextColor(Color.parseColor("#a9b4bb"));
+            layoutDot.addView(dotstv[i]);
         }
-
-        if(mDots.length>0) {
-            mDots[position].setTextColor(getResources().getColor(R.color.color_white));
-        }
-
-        }
-ViewPager.OnPageChangeListener viewListener= new ViewPager.OnPageChangeListener() {
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        addDotsIndicator(position);
-        mCurrentPage=position;
-
-        if(position==0){
-            mNextBtn.setEnabled(true);
-            mBackBtn.setEnabled(false);
-            mBackBtn.setVisibility(View.INVISIBLE);
-
-            mNextBtn.setText("Next");
-            mBackBtn.setText("");
-        }else if(position==mDots.length - 1){
-            mNextBtn.setEnabled(true);
-            mBackBtn.setEnabled(true);
-            mBackBtn.setVisibility(View.VISIBLE);
-
-            mNextBtn.setText("Finish");
-            mBackBtn.setText("Back");
-        }else{
-            mNextBtn.setEnabled(true);
-            mBackBtn.setEnabled(true);
-            mBackBtn.setVisibility(View.VISIBLE);
-
-            mNextBtn.setText("Next");
-            mBackBtn.setText("Back");
+        //Set current dot active
+        if(dotstv.length>0){
+            dotstv[page].setTextColor(Color.parseColor("#ffffff"));
         }
     }
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    private void setStatusBarTransparent(){
+        if (Build.VERSION.SDK_INT >= 21){
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
-};
 
-private boolean isFirstTimeStartApp(){
-    SharedPreferences ref = getApplicationContext().getSharedPreferences("IntriSliderApp", Context.MODE_PRIVATE);
-    return ref.getBoolean("FirstTimeStartFlag",true);
-}
+private void setFirstTimeStartStatus(){
 
-private void setFirstTimeStartStatus(boolean stt){
-    SharedPreferences ref = getApplicationContext().getSharedPreferences("IntriSliderApp", Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor= ref.edit();
-    editor.putBoolean("FirstTimeStartFlag",stt);
-    editor.commit();
+    sharedPreference = new SharedPreference();
+
+    sharedPreference.clearSharedPreference(context, Constants.PREF_IS_FIRST_TIME);
+    sharedPreference.createSharedPreference(context, Constants.PREF_IS_FIRST_TIME);
+    sharedPreference.putValue(context, Constants.PREF_IS_FIRST_TIME, Constants.PREF_IS_FIRST_TIME,Constants.PREF_IS_FIRST_TIME);
 }
 
 }

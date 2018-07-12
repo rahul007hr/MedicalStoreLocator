@@ -8,10 +8,11 @@
         android:layout_height="153dp"
         android:id="@+id/img_rep_not_found"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="-5dp"
+        android:layout_marginTop="35dp"
         android:layout_marginLeft="80dp"
+        android:src="@drawable/logo"
         />
-    <!--android:src="@drawable/leaf"-->
+
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="fill_parent"
@@ -25,13 +26,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="login"
+            android:text="Login"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/login_emailid"
+            android:id="@+id/login_mobile_no"
              android:singleLine="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -39,13 +40,15 @@
             android:background="@android:color/transparent"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:hint="email"
-            android:inputType="textEmailAddress"
+            android:hint="Please Enter Mobile No"
+            android:inputType="phone"
             android:padding="10dp"
+            android:maxLength="10"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
+            android:drawableLeft="@drawable/ic_action_user"
             android:textSize="16sp" />
-        <!--android:drawableLeft="@drawable/ic_prof_email"-->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
@@ -57,16 +60,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:hint="passowrd"
+            android:hint="Please Enter Passowrd"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
+            android:drawableLeft="@drawable/ic_action_pass"
             android:textSize="16sp" />
-        <!--android:drawableLeft="@drawable/passw"-->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
@@ -83,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="show_pwd"
+                android:text="Show Password"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -94,7 +97,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:padding="5dp"
-                android:text="forgot"
+                android:text="Forgot Password"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -108,8 +111,9 @@
             android:text="login"
             android:textColor="#8BC34A"
             android:textSize="17sp"
+            android:background="@drawable/loginbutton_selector"
             android:textStyle="bold" />
-        <!--android:background="@drawable/loginbutton_selector"-->
+
     </LinearLayout>
 
     <TextView
@@ -121,7 +125,7 @@
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:padding="5dp"
-        android:text="newUser"
+        android:text="Create New Account"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
