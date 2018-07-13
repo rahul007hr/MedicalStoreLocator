@@ -8,8 +8,8 @@
         android:layout_height="153dp"
         android:id="@+id/img_rep_not_found"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="35dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="75dp"
         android:src="@drawable/logo"
         />
 
@@ -52,7 +52,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="#FF4081" />
+            android:background="#f9ba29" />
 
         <EditText
             android:id="@+id/login_password"
@@ -73,7 +73,7 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="2px"
-            android:background="#FF4081" />
+            android:background="#f9ba29" />
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             android:layout_marginTop="3dp"
             android:padding="3dp"
             android:text="login"
-            android:textColor="#8BC34A"
+            android:textColor="#f9ba29"
             android:textSize="17sp"
             android:background="@drawable/loginbutton_selector"
             android:textStyle="bold" />

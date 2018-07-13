@@ -8,6 +8,12 @@ public final class Constants {
     public static final String PREF_KEY_USER_ID = "PrefUserID";
     public static final String PREF_KEY_USER_PHONE = "PrefPhone";
     public static final String PREF_KEY_USER_PASS = "PrefUserPass";
+    public static final String PREF_KEY_USER_SHOP_NAME = "PrefShopName";
+    public static final String PREF_KEY_USER_FIRST_NAME = "PrefFirstName";
+    public static final String PREF_KEY_USER_LAST_NAME = "PrefLastName";
+    public static final String PREF_KEY_USER_Address = "PrefAddress";
+
+
 
 
 
@@ -23,8 +29,8 @@ public final class Constants {
 
 
     public static final String API_CHECK_STABLE_VERSION = DOMAIN_NAME + "emedical/api/checkversion";
-
-
+    public static final String API_SIGN_UP = DOMAIN_NAME + "emedical/api/medicalregister";
+    public static final String API_LOGIN = DOMAIN_NAME + "emedical/api/medicallogin";
 
 
 

@@ -1,14 +1,8 @@
 package com.medicalstorefinder.medicalstorelocator.Fragments;
 
 import android.app.ProgressDialog;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -16,13 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,28 +24,17 @@ import com.medicalstorefinder.medicalstorelocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstorelocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstorelocator.R;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.sauronsoftware.ftp4j.FTPAbortedException;
-import it.sauronsoftware.ftp4j.FTPClient;
-import it.sauronsoftware.ftp4j.FTPDataTransferException;
-import it.sauronsoftware.ftp4j.FTPDataTransferListener;
-import it.sauronsoftware.ftp4j.FTPException;
-import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
-
 public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private static View view;
-	private static EditText fullName, emailId, lastName,mobileNumber, location,
+	private static EditText firstName,lastName, emailId, mobileNumber, shopName,address,
 			password, confirmPassword;
 	private static TextView login;
 	private static Button signUpButton;
@@ -66,7 +45,6 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	ApiUser user = new ApiUser();
 	String date;
 	public String res="";
-	String name;
 
 	ProgressDialog progressDialog;
 
@@ -92,11 +70,12 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 
 	// Initialize all views
 	private void initViews() {
-		fullName = (EditText) view.findViewById(R.id.firstName);
+		firstName = (EditText) view.findViewById(R.id.firstName);
+		lastName = (EditText) view.findViewById(R.id.lastName);
 		emailId = (EditText) view.findViewById(R.id.userEmailId);
 		mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
-		lastName = (EditText) view.findViewById(R.id.lastName);
-		location = (EditText) view.findViewById(R.id.shop_name);
+		shopName = (EditText) view.findViewById(R.id.shop_name);
+		address = (EditText) view.findViewById(R.id.address);
 		password = (EditText) view.findViewById(R.id.password);
 		confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
 		signUpButton = (Button) view.findViewById(R.id.signUpBtn);
@@ -119,15 +98,13 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 // Call checkValidation method
 			checkValidation();
 
-			user.setFull_Name(fullName.getText().toString());
+			user.setFirst_Name(firstName.getText().toString());
+			user.setLast_Name(lastName.getText().toString());
+			user.setShop_Name(shopName.getText().toString());
 			user.setEmail(emailId.getText().toString());
 			user.setRegMobile(mobileNumber.getText().toString());
-			user.setLocation(location.getText().toString());
+			user.setAddress(address.getText().toString());
 			user.setPasswords(password.getText().toString());
-
-			user.setcStatus("Online");
-			user.setProfilePicUrl("null");
-			user.setAdhar_Card_Number(lastName.getText().toString());
 			break;
 
 		case R.id.already_user:
@@ -143,24 +120,25 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private void checkValidation() {
 
 		// Get all edittext texts
-		String getFullName = fullName.getText().toString();
+		String getFirstName = firstName.getText().toString();
+		String getLastName = lastName.getText().toString();
 		String getEmailId = emailId.getText().toString();
 		String getMobileNumber = mobileNumber.getText().toString();
-		String getLocation = location.getText().toString();
+		String getAddress = address.getText().toString();
+		String getShopName = shopName.getText().toString();
 		String getPassword = password.getText().toString();
 		String getConfirmPassword = confirmPassword.getText().toString();
-		String getLastName=lastName.getText().toString();
-		name=getEmailId;
 		// Pattern match for email id
 		Pattern p = Pattern.compile(Utils1.regEx);
 		Matcher m = p.matcher(getEmailId);
 
 		// Check if all strings are null or not
-		if (getFullName.equals("") || getFullName.length() == 0
+		if (getFirstName.equals("") || getFirstName.length() == 0
+				|| getLastName.equals("") || getLastName.length() == 0
 				|| getEmailId.equals("") || getEmailId.length() == 0
-				|| getLastName.equals("") || getEmailId.length() == 0
 				|| getMobileNumber.equals("") || getMobileNumber.length() == 0
-				|| getLocation.equals("") || getLocation.length() == 0
+				|| getAddress.equals("") || getAddress.length() == 0
+				|| getShopName.equals("") || getShopName.length() == 0
 				|| getPassword.equals("") || getPassword.length() == 0
 				|| getConfirmPassword.equals("")
 				|| getConfirmPassword.length() == 0)
@@ -185,10 +163,6 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 
 		// Else do signup or do your stuff
 		else
-//			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT)
-//					.show();
-
-
 		new SetSignup().execute();
 
 
@@ -197,65 +171,39 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 
 	public final class SetSignup extends AsyncTask<String,String,String>
 	{
-
-
-
 		protected void onPreExecute() {
-			try {
-
 				progressDialog.show();
-
-
-			} catch (Exception e1) {
-
-//                Toast.makeText( getContext(), "Something went wrong config 1", Toast.LENGTH_LONG).show();
-
-			}
-			finally {
-
-			}
-
 		}
 
 		@Override
 		protected String doInBackground(String... urls) {
-			StringBuilder URL_SETUSERINFO = new StringBuilder( Constants.API_SetUserInfo );
-//            Log.d(String.valueOf(URL_SETCONFIGURATIONINFO), "doInBackground: ");
 
-			URL_SETUSERINFO.append("?Id=1");
-			URL_SETUSERINFO.append("&Full_Name=" +user.getFull_Name());
-			URL_SETUSERINFO.append("&Email_Id=" +user.getEmail());
-			URL_SETUSERINFO.append("&Mobile_Number=" +user.getRegMobile());
-			URL_SETUSERINFO.append("&Location=" +user.getLocation());
-			URL_SETUSERINFO.append("&Passwords=" +user.getPasswords());
-			URL_SETUSERINFO.append("&cType=" +user.getcType());
-			URL_SETUSERINFO.append("&Type_of_Service=" +user.getType_of_Service());
-			URL_SETUSERINFO.append("&cStatus=" +user.getcStatus());
-			URL_SETUSERINFO.append("&Activated=" +user.getActivated());
-			URL_SETUSERINFO.append("&photo=" +user.getProfilePicUrl());
-			URL_SETUSERINFO.append("&Adhar_Card_Number=" +user.getAdhar_Card_Number());
-			URL_SETUSERINFO.append("&Created_Date=" +date);
+			Utilities utilities = new Utilities(getContext());
 
-			Log.d(String.valueOf(URL_SETUSERINFO), "doInBackground: ");
+			String address = Constants.API_SIGN_UP;
+			Map<String, String> params = new HashMap<>();
+			params.put("firstname", user.getFirst_Name());
+			params.put("lastname", user.getLast_Name());
+			params.put("shopname", user.getShop_Name());
+			params.put("email", user.getEmail());
+			params.put("password", user.getPasswords());
+			params.put("mobile", user.getRegMobile());
+			params.put("address", user.getAddress());
 
-			Utilities utilities = new Utilities( getContext() );
-			return utilities.apiCall( URL_SETUSERINFO.toString());
-
-//			return null;
+			return utilities.apiCalls(address,params);
 		}
 
 		public void onPostExecute(String response) {
 
 			try {
 
-				if(response.equals("ERROR") ) {
+				if(response.equalsIgnoreCase("ERROR") ) {
 //                    Toast.makeText(getContext(), "Something went wrong config 2", Toast.LENGTH_LONG).show();
 				}else if(response.equals("false") ) {
-                    Toast.makeText(getContext(), "Email ID Already Exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Mobile No Already Exist", Toast.LENGTH_LONG).show();
 				}
 				else {
-					Log.d(response, "onPostExecute:hey hi ");
-//                    Toast.makeText(getContext(), "Settings Saved", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Registered Successfully", Toast.LENGTH_LONG).show();
 					fragmentManager = getActivity().getSupportFragmentManager();
 
 					fragmentManager

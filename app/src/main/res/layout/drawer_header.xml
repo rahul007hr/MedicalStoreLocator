@@ -6,8 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/drawer_header"
+    android:background="@drawable/nav_drw_head_bg_img"
     android:weightSum="1">
-    <!--android:background="@drawable/nav_drw_head_bg_img"-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
@@ -16,16 +17,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-
-
-
         <TextView
             android:id="@+id/user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="26dp"
             android:textColor="#ffffff"
-            android:text="ISAD"
+            android:text="user name"
             android:textSize="14sp"
             android:textStyle="bold|normal"
             />
@@ -66,8 +64,9 @@
         app:civ_border_width="2dp"
         android:elevation="10dp"
         android:fadingEdgeLength="5dp"
+        android:src="@drawable/movies"
         />
-    <!--android:src="@drawable/profile_pic"-->
+
 </RelativeLayout>
 
 

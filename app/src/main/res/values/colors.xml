@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#0068ff</color>
+    <color name="colorPrimaryDark">#f8a222</color>
+    <color name="colorAccent">#f9ba29</color>
 
     <color name="black_overlay">#66000000</color>
 
@@ -19,12 +19,12 @@
     <color name="color_transperant_white">#cccccc</color>
 
     <!--navigation drawer selector-->
-    <color name="colorHighlight">#c5cae9</color>
+    <color name="colorHighlight">#a0aaed</color>
 
-    <color name="primary">#8BC34A</color>
-    <color name="primary_dark">#689F38</color>
-    <color name="primary_light">#DCEDC8</color>
-    <color name="accent">#4CAF50</color>
+    <color name="primary">#0068ff</color>
+    <color name="primary_dark">#f8a222</color>
+    <color name="primary_light">#d9b76a</color>
+    <color name="accent">#f9ba29</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#212121</color>

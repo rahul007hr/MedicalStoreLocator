@@ -3,56 +3,51 @@ package com.medicalstorefinder.medicalstorelocator.Models;
 public class ApiUser {
 
     public int ID;
-    public String RegMobile,Permission;
+    public String RegMobile;
     public String Email;
     public String ProfilePicUrl;
-    public String Full_Name;
-    public String Location;
+    public String First_Name;
+    public String Last_Name;
+    public String Address;
     public String Passwords;
-    public String cType;
-    public String Type_of_Service;
-    public String cStatus;
-    public String Activated;
-    public String Adhar_Card_Number,Created_Date,Activated_Date;
+
+    public String Shop_Name;
 
     public ApiUser() {
         this.ID = -1;
         RegMobile = "";
         Email = "";
         ProfilePicUrl = "";
-        Full_Name="";
-        Location="";
+        First_Name="";
+        Address="";
         Passwords="";
-        cType="";
-        Type_of_Service="";
-        cStatus="";
-        Activated="";
-        Adhar_Card_Number="";
-
+        Shop_Name="";
     }
 
-    public String getPermission() {
-        return Permission;
+
+
+    public String getFirst_Name() {
+        return First_Name;
     }
 
-    public void setPermission(String permission) {
-        Permission = permission;
+    public void setFirst_Name(String first_Name) {
+        First_Name = first_Name;
     }
 
-    public String getFull_Name() {
-        return Full_Name;
+    public String getLast_Name() {
+        return Last_Name;
     }
 
-    public void setFull_Name(String full_Name) {
-        Full_Name = full_Name;
+    public void setLast_Name(String larst_Name) {
+        Last_Name = larst_Name;
     }
 
-    public String getLocation() {
-        return Location;
+    public String getAddress() {
+        return Address;
     }
 
-    public void setLocation(String location) {
-        Location = location;
+    public void setAddress(String address) {
+        Address = address;
     }
 
     public String getPasswords() {
@@ -63,60 +58,12 @@ public class ApiUser {
         Passwords = passwords;
     }
 
-    public String getcType() {
-        return cType;
+    public String getShop_Name() {
+        return Shop_Name;
     }
 
-    public void setcType(String ccType) {
-        cType = ccType;
-    }
-
-    public String getType_of_Service() {
-        return Type_of_Service;
-    }
-
-    public void setType_of_Service(String type_of_Service) {
-        Type_of_Service = type_of_Service;
-    }
-
-    public String getcStatus() {
-        return cStatus;
-    }
-
-    public void setcStatus(String ccStatus) {
-        cStatus = ccStatus;
-    }
-
-    public String getActivated() {
-        return Activated;
-    }
-
-    public void setActivated(String activated) {
-        Activated = activated;
-    }
-
-    public String getAdhar_Card_Number() {
-        return Adhar_Card_Number;
-    }
-
-    public void setAdhar_Card_Number(String adhar_Card_Number) {
-        Adhar_Card_Number = adhar_Card_Number;
-    }
-
-    public String getCreated_Date() {
-        return Created_Date;
-    }
-
-    public void setCreated_Date(String created_Date) {
-        Created_Date = created_Date;
-    }
-
-    public String getActivated_Date() {
-        return Activated_Date;
-    }
-
-    public void setActivated_Date(String activated_Date) {
-        Activated_Date = activated_Date;
+    public void setShop_Name(String shop_Name) {
+        Shop_Name = shop_Name;
     }
 
     public String getRegMobile() {

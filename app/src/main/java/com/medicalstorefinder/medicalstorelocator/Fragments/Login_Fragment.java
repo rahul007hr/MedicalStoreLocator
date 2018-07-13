@@ -37,15 +37,18 @@ import com.medicalstorefinder.medicalstorelocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstorelocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstorelocator.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login_Fragment extends Fragment implements OnClickListener {
 	private static View view;
 
-	private static EditText emailid, password;
+	private static EditText mobile, password;
 	private static Button loginButton;
 	private static TextView forgotPassword, signUp;
 	private static CheckBox show_hide_password;
@@ -53,7 +56,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private static Animation shakeAnimation;
 	private static FragmentManager fragmentManager;
 
-	String getEmailId,getPassword;
+	String getMobileNo,getPassword;
 	ApiUser apiUser;
 	SharedPreference sharedPreference;
 	ProgressDialog progressDialog;
@@ -74,7 +77,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		progressDialog.setCanceledOnTouchOutside(false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			ActivityCompat.requestPermissions(getActivity(),
-					new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PRIVILEGED, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
+					new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PRIVILEGED, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION},
 					1);
 		}
 		return view;
@@ -107,7 +110,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private void initViews() {
 		fragmentManager = getActivity().getSupportFragmentManager();
 
-		emailid = (EditText) view.findViewById(R.id.login_mobile_no);
+		mobile = (EditText) view.findViewById(R.id.login_mobile_no);
 		password = (EditText) view.findViewById(R.id.login_password);
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
 		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
@@ -187,14 +190,22 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 		protected String doInBackground(Void... urls) {
 
-			Utilities utilities = new Utilities(   getContext() );
+			Utilities utilities = new Utilities(getContext());
 
-			StringBuilder URL_IS_AUTHORISED = new StringBuilder(Constants.API_Account_IsAuthorised);
-			URL_IS_AUTHORISED.append("?Id=1");
-			URL_IS_AUTHORISED.append("&pppUserName=" + getEmailId );
-			URL_IS_AUTHORISED.append("&pppPassword=" + getPassword );
+			String address = Constants.API_LOGIN;
+			Map<String, String> params = new HashMap<>();
+			params.put("username", getMobileNo);
+			params.put("password", getPassword);
 
-			return utilities.apiCall( URL_IS_AUTHORISED.toString());
+			return utilities.apiCalls(address,params);
+
+//			{"Content":"
+			// {\"status\":\"success\",
+			// \"result\":
+			// 		{\"id\":\"11\",\"firstname\":\"Rahul\",\"lastname\":\"Sapkale\",\"shopname\":\"Abc\",\"email\":\"rahul007hr@gmail.com\",\"password\":\"123\",\"mobile\":\"9923651772\",\"address\":\"Nashik\",\"role\":\"medical\",\"regdate\":\"2018-07-13 15:22:40\",\"deletestatus\":\"0\",\"otp\":\"0\"
+			// 		}
+			// }",
+			// "Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
 		}
 
 		protected void onPostExecute(String response) {
@@ -213,18 +224,22 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						Toast.makeText(getContext(), "Login failed, Please enter correct credentials.", Toast.LENGTH_LONG).show();
 					}
 					else {
-						JSONObject jsonObject = new JSONObject(response);
+						JSONObject jsonObject1 = new JSONObject(response);
+						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+						JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
+//						JSONObject jsonObject = jsonarray.getJSONObject(1);
 
 						apiUser = new ApiUser();
 
-						apiUser.setID(jsonObject.getInt("Id"));
-						apiUser.setFull_Name(jsonObject.getString("Full_Name"));
-						apiUser.setRegMobile(jsonObject.getString("Mobile_Number"));
-						apiUser.setEmail(jsonObject.getString("Email_Id"));
-						apiUser.setcStatus(jsonObject.getString("cStatus"));
-						apiUser.setcType(jsonObject.getString("cType"));
-						apiUser.setPasswords(jsonObject.getString("Passwords"));
-						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
+						apiUser.setID(jsonObject.getInt("id"));
+						apiUser.setFirst_Name(jsonObject.getString("firstname"));
+						apiUser.setLast_Name(jsonObject.getString("lastname"));
+						apiUser.setRegMobile(jsonObject.getString("mobile"));
+						apiUser.setAddress(jsonObject.getString("address"));
+						apiUser.setShop_Name(jsonObject.getString("shopname"));
+						apiUser.setEmail(jsonObject.getString("email"));
+						apiUser.setPasswords(jsonObject.getString("password"));
+//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
 
 							sharedPreference = new SharedPreference();
 
@@ -232,23 +247,21 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 							sharedPreference.createSharedPreference(getActivity(), Constants.PREF_ISAD);
 
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email, getEmailId);
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_PASS, getPassword);
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile, apiUser.getRegMobile());
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME, apiUser.getFull_Name());
-							sharedPreference.putValue(getContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, getPassword);
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
+						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
+						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
+//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
-//							Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT).show();
-
-							if (apiUser.getcType().equals("User")) {
+							Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
 
 								Intent myIntent = new Intent(getActivity(), UserActivity.class);
 								getActivity().startActivity(myIntent);
-
-							}
-							getActivity().finish();
+								getActivity().finish();
 					}
 				}
 
@@ -265,24 +278,20 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 	private void checkValidation() {
 
-		getEmailId = emailid.getText().toString();
+		getMobileNo = mobile.getText().toString();
 		getPassword = password.getText().toString();
 
-		Pattern p = Pattern.compile(Utils1.regEx);
-
-		Matcher m = p.matcher(getEmailId);
-
-		if (getEmailId.equals("") || getEmailId.length() == 0
+		if (getMobileNo.equals("") || getMobileNo.length() == 0
 				|| getPassword.equals("") || getPassword.length() == 0) {
 			loginLayout.startAnimation(shakeAnimation);
 			new CustomToast().Show_Toast(getActivity(), view,"Enter both credentials.");
 		}
 		else {
 
-//			new AuthoriseUser().execute();
-			Intent myIntent = new Intent(getActivity(), UserActivity.class);
+			new AuthoriseUser().execute();
+			/*Intent myIntent = new Intent(getActivity(), UserActivity.class);
 			getActivity().startActivity(myIntent);
-			getActivity().finish();
+			getActivity().finish();*/
 		}
 	}
 }

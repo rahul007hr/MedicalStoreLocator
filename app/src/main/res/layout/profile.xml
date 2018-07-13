@@ -14,11 +14,12 @@
             android:id="@+id/collapsing_toolbar_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
+            android:background="@drawable/nav_drw_head_bg_img"
             >
-            <!--android:background="@drawable/nav_drw_head_bg_img"-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,8 +36,9 @@
                     app:civ_border_width="3dp"
                     android:elevation="10dp"
                     android:fadingEdgeLength="5dp"
+                    android:src="@drawable/movies"
                     />
-                <!--android:src="@drawable/profile_pic"-->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -111,14 +113,30 @@
                         android:textSize="15sp"
                         android:id="@+id/fullname"
                         android:textColor="@color/black"
-                        android:text="Full Name"
+                        android:text="First Name"
                         android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/user"
                         />
-                    <!--android:drawableLeft="@drawable/ic_prof_email"-->
+
 
                     <View style="@style/Divider"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="15sp"
+                        android:id="@+id/adhar_card_number"
+                        android:textColor="@color/black"
+                        android:drawableLeft="@drawable/user"
+                        android:text="Last Name"
+                        android:drawablePadding="10dp"
+                        />
 
+                    <View style="@style/Divider"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -132,25 +150,12 @@
                         android:textColor="@color/black"
                         android:text="Email"
                         android:drawablePadding="10dp"
+                        android:drawableLeft="@drawable/ic_prof_email"
                         />
-                    <!--android:drawableLeft="@drawable/ic_prof_email"-->
+
 
                     <View style="@style/Divider"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="15sp"
-                        android:id="@+id/adhar_card_number"
-                        android:textColor="@color/black"
-                        android:text="Adhar Card Number"
-                        android:drawablePadding="10dp"
-                        />
-                    <!--android:drawableLeft="@drawable/ic_prof_email"-->
-                    <View style="@style/Divider"/>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -162,9 +167,10 @@
                         android:textSize="15sp"
                         android:id="@+id/regmobile"
                         android:textColor="@color/black"
+                        android:drawableLeft="@drawable/ic_action_user"
                         android:text="Mobile No"
                         android:drawablePadding="10dp"/>
-                    <!--android:drawableLeft="@drawable/ic_phone_call"-->
+
 
                     <View style="@style/Divider"/>
 
@@ -178,9 +184,10 @@
                         android:textSize="15sp"
                         android:id="@+id/shop_name"
                         android:textColor="@color/black"
-                        android:text="Location"
+                        android:drawableLeft="@drawable/ic_prof_company"
+                        android:text="Address"
                         android:drawablePadding="10dp"/>
-                    <!--android:drawableLeft="@drawable/ic_prof_adress"-->
+
 
                     <View style="@style/Divider"/>
                     <TextView
@@ -191,73 +198,11 @@
                         android:layout_marginLeft="20dp"
                         android:textSize="15sp"
                         android:id="@+id/ctype"
+                        android:drawableLeft="@drawable/ic_prof_company"
                         android:textColor="@color/black"
-                        android:text="Customer Type"
+                        android:text="Shop Name"
                         android:drawablePadding="10dp"/>
-                    <!--android:drawableLeft="@drawable/ic_prof_city"-->
 
-                    <View style="@style/Divider"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="15sp"
-                        android:id="@+id/cstatus"
-                        android:textColor="@color/black"
-                        android:text="Status"
-                        android:drawablePadding="10dp"/>
-                    <!--android:drawableLeft="@drawable/ic_prof_comm_type"-->
-
-                    <View style="@style/Divider"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="15sp"
-                        android:id="@+id/activated"
-                        android:textColor="@color/black"
-                        android:text="Activated"
-                        android:drawablePadding="10dp"/>
-                    <!--android:drawableLeft="@drawable/ic_prof_created_since"-->
-
-                    <View style="@style/Divider"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="15sp"
-                        android:id="@+id/created_date"
-                        android:textColor="@color/black"
-                        android:text="Created Date"
-                        android:drawablePadding="10dp"
-                        />
-                    <!--android:drawableLeft="@drawable/ic_prof_email"-->
-
-                    <View style="@style/Divider"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="15sp"
-                        android:id="@+id/activated_date"
-                        android:textColor="@color/black"
-                        android:text="Activated Date"
-                        android:drawablePadding="10dp"
-                        />
-                    <!--android:drawableLeft="@drawable/ic_prof_email"-->
 
                     <View style="@style/Divider"/>
 

@@ -180,7 +180,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setServiceTypeName(json.getString("cType"));
                         serviceProviderDetails.setLocation(json.getString("Location"));
                         serviceProviderDetails.setPassword(json.getString("Passwords"));
-                        serviceProviderDetails.setImage_link("http://www.paanwalapro.com/uploads/"+json.getString("Email_Id")+".jpg");
+                        serviceProviderDetails.setImage_link("http://www.emedical.com/uploads/"+json.getString("Email_Id")+".jpg");
 
 
 

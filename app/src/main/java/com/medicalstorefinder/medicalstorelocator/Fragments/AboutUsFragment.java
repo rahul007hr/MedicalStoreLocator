@@ -27,7 +27,8 @@ public class AboutUsFragment extends Fragment  {
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_about);
         collapsingToolbar.setTitle("About Us");
 
-        String htmlAsString = getString(R.string.html_about_us1);
+        String htmlAsString ="about us intro";
+//        String htmlAsString = getString(R.string.html_about_us1);
 
         WebView webView = (WebView) v.findViewById(R.id.webview_about_us);
         webView.loadDataWithBaseURL(null, htmlAsString, "text/html", "utf-8", null);

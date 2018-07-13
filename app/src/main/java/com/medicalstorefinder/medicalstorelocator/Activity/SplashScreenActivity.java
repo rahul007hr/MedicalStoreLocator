@@ -83,17 +83,18 @@ public class SplashScreenActivity extends AppCompatActivity {
             try {
                 sharedPreference = new SharedPreference();
 
-                if (sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID) &&
+                if (sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email) &&
                         sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE) &&
                         sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS)) {
+
                     Utilities utilities = new Utilities(getApplicationContext());
 
-                    StringBuilder URL_IS_AUTHORISED = new StringBuilder(Constants.API_Account_IsAuthorised);
-                    URL_IS_AUTHORISED.append("?Id=1");
-                    URL_IS_AUTHORISED.append("&pppUserName=" + sharedPreference.getValue( context, Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email ) );
-                    URL_IS_AUTHORISED.append("&pppPassword=" + sharedPreference.getValue(context, Constants.PREF_ISAD, Constants.PREF_KEY_USER_PASS));
+                    String address = Constants.API_LOGIN;
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", sharedPreference.getValue( context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+                    params.put("password", sharedPreference.getValue(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS));
 
-                    return utilities.apiCall(URL_IS_AUTHORISED.toString());
+                    return utilities.apiCalls(address,params);
                 } else {
                     return "ERROR";
                 }
@@ -122,14 +123,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         finish();
                     } else {
                         JSONObject jsonObject = new JSONObject(response);
-
-                        apiUser = new ApiUser();
-
-                        apiUser.setID(jsonObject.getInt("Id"));
-                        apiUser.setRegMobile(jsonObject.getString("Mobile_Number"));
-                        apiUser.setEmail(jsonObject.getString("Email_Id"));
-                        apiUser.setcType(jsonObject.getString("cType"));
-
                         Intent splashIntent = new Intent(getApplicationContext(), UserActivity.class);
                         startActivity(splashIntent);
                         finish();

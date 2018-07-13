@@ -33,13 +33,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends android.support.v4.app.Fragment {
 
     UserProfile userProfile;
-    TextView txtvuserId,txtvuserName,txtvFullName,txtvEmailID,txtvAdharCardNumber,txtvMobileNumber,txtvLocation,txtvcType,txtvcStatus,txtvActivated,txtvCreatedDate,txtvActivatedDate;
+    TextView txtvuserId,txtvuserName,txtvFullName,txtvEmailID,txtvAdharCardNumber,txtvMobileNumber,txtvLocation,txtvcType;
     CircleImageView profileImage;
     Bitmap bitmap12;
     String newpic;
     Bitmap bitmap;
     ProgressDialog progressDialog;
     SharedPreference sharedPreference;
+
+    public ProfileFragment() {
+
+    }
 
     @Nullable
     @Override
@@ -62,10 +66,6 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         txtvMobileNumber=(TextView)v.findViewById(R.id.regmobile);
         txtvLocation=(TextView)v.findViewById(R.id.shop_name);
         txtvcType=(TextView)v.findViewById(R.id.ctype);
-        txtvcStatus=(TextView)v.findViewById(R.id.cstatus);
-        txtvActivated=(TextView)v.findViewById(R.id.activated);
-        txtvCreatedDate=(TextView)v.findViewById(R.id.created_date);
-        txtvActivatedDate=(TextView)v.findViewById(R.id.activated_date);
 
         txtvuserId.setText(sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
         txtvuserName.setText(sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
@@ -153,11 +153,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     txtvMobileNumber.setText(txtvMobileNumber.getText() + " : " + userProfile.getRegMobile());
                     txtvLocation.setText(txtvLocation.getText() + " : " + userProfile.getLocation());
                     txtvcType.setText(txtvcType.getText() + " : " + userProfile.getcType());
-                    txtvcStatus.setText(txtvcStatus.getText() + " : " + userProfile.getcStatus());
-                    txtvActivated.setText(txtvActivated.getText() + " : " + userProfile.getActivated());
                     txtvAdharCardNumber.setText(txtvAdharCardNumber.getText() + " : " + userProfile.getAdhar_Card_Number());
-                    txtvCreatedDate.setText(txtvCreatedDate.getText() + " : " + userProfile.getCreated_Date());
-                    txtvActivatedDate.setText(txtvActivatedDate.getText() + " : " + userProfile.getActivated_Date());
 
                     new LoadProfileImage().execute(userProfile.getProfilePicUrl().replace("~", Constants.DOMAIN_NAME) );
                 }

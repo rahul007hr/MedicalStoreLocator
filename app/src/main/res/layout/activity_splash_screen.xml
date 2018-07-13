@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/color_white"
     tools:context=".Activity.SplashScreenActivity">
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_height="153dp"
         android:id="@+id/img_rep_not_found"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="145dp"
         android:layout_marginLeft="110dp"
         android:src="@drawable/logo"
         />
@@ -23,8 +23,8 @@
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/splash_screen_welcome"
-        android:textColor="@color/text_color"
-        android:textSize="50sp"
+        android:textColor="@color/primary"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <FrameLayout

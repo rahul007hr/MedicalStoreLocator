@@ -14,8 +14,9 @@
             android:id="@+id/collapsing_toolbar_contact_us"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:background="@drawable/nav_drw_head_bg_img"
             >
 
             <android.support.v7.widget.AppCompatImageView
@@ -95,7 +96,7 @@
                             <android.support.v7.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="9767295079"
+                                android:text="1234567"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
                                 android:layout_weight="0.1"
@@ -108,10 +109,11 @@
                                 android:id="@+id/btn_call1"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
+                                android:background="@drawable/ic_action_user"
+                                android:backgroundTint="@color/colorPrimary"
                                 android:layout_weight="0.02"
                                 />
-                            <!--android:background="@drawable/ic_phone_call"
-                             android:backgroundTint="@color/green"-->
+
                         </TableRow>
                         <View
                             android:id="@+id/line1"
@@ -120,73 +122,8 @@
                             android:layout_weight="1"
                             android:background="#FF909090"
                             android:padding="2dip" />
-                        <!--<TableRow-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="0dp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:gravity="center_vertical">-->
 
-                            <!--<android.support.v7.widget.AppCompatTextView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="020-6070 5050  "-->
-                                <!--android:layout_weight="0.1"-->
-                                <!--android:layout_margin="5dp"-->
-                                <!--android:padding="5dp"-->
-                                <!--android:textColor="@color/black"-->
-                                <!--android:textSize="20dp"-->
-                                <!--/>-->
 
-                            <!--<android.support.v7.widget.AppCompatImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:background="@drawable/ic_phone_call"-->
-                                <!--android:id="@+id/btn_call2"-->
-                                <!--android:layout_margin="5dp"-->
-                                <!--android:padding="5dp"-->
-                                <!--android:layout_weight="0.02"-->
-                                <!--android:backgroundTint="@color/green" />-->
-                        <!--</TableRow>-->
-                        <View
-                            android:id="@+id/line2"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dip"
-                            android:layout_weight="1"
-                            android:background="#FF909090"
-                            android:padding="2dip" />
-                        <!--<TableRow-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="0dp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:gravity="center_vertical"-->
-                            <!--&gt;-->
-                            <!--<android.support.v7.widget.AppCompatTextView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="020-2729 1805  "-->
-                                <!--android:layout_weight="0.1"-->
-                                <!--android:layout_margin="5dp"-->
-                                <!--android:padding="5dp"-->
-                                <!--android:textColor="@color/black"-->
-                                <!--android:textSize="20dp"/>-->
-
-                            <!--<android.support.v7.widget.AppCompatImageView-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:background="@drawable/ic_phone_call"-->
-                                <!--android:id="@+id/btn_call3"-->
-                                <!--android:layout_margin="5dp"-->
-                                <!--android:padding="5dp"-->
-                                <!--android:layout_weight="0.02"-->
-                                <!--android:backgroundTint="@color/green"/>-->
-                        <!--</TableRow>-->
-                        <View
-                            android:id="@+id/line3"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dip"
-                            android:layout_weight="1"
-                            android:background="#FF909090"
-                            android:padding="2dip" />
                     </TableLayout>
 
                 </LinearLayout>

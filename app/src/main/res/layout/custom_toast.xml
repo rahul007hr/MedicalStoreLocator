@@ -14,7 +14,8 @@
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:padding="5dp"
+        android:drawableLeft="@drawable/alert_dialog_warning"
         android:textColor="#c0392b"
         android:textSize="15sp" />
-    <!--android:drawableLeft="@drawable/error"-->
+
 </RelativeLayout>

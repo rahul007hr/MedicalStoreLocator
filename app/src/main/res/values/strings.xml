@@ -55,10 +55,10 @@ needs and wants.</p></li>
     <string name="html_contact_us">
               <![CDATA[
             <p> <i> We love hearing from you! If you have any feedback,concerns or inquiries, feel free to contact us. <i> <br />
-             <b>Office Address : </b> Karve Nagar Pune<br />
+             <b>Office Address : </b> <br />
 
              Pune- 411 052, Maharashtra, India.<br />
-             <b> E-mail : </b> <a href="mailto:support@paanwalapro.com"> support@paanwalapro.com </a> </p>
+             <b> E-mail : </b> <a href="mailto:support@emedical.com"> support@emedical.com </a> </p>
             ]]>
        </string>
 

@@ -36,7 +36,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
 
 
 
@@ -61,7 +61,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
     <EditText
         android:id="@+id/shop_name"
         android:layout_width="fill_parent"
@@ -83,7 +83,30 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_prof_company"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Address"
+        android:inputType="textCapWords"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#f9ba29" />
+
 
     <EditText
         android:id="@+id/userEmailId"
@@ -106,7 +129,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
 
     <EditText
         android:id="@+id/mobileNumber"
@@ -129,7 +152,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
 
 
 
@@ -154,7 +177,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
 
     <EditText
         android:id="@+id/confirmPassword"
@@ -177,7 +200,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
-        android:background="#8BC34A" />
+        android:background="#f9ba29" />
 
 
     <CheckBox
@@ -197,7 +220,7 @@
         android:padding="3dp"
         android:background="@drawable/loginbutton_selector"
         android:text="Register"
-        android:textColor="#8BC34A"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="17sp"
         android:textStyle="bold" />
     <TextView

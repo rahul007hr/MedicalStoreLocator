@@ -46,7 +46,7 @@ try {
         v.findViewById(R.id.btn_call1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                alertDialog.setMessage("9767295079");
+                alertDialog.setMessage("1234567");
 
                 alertDialog.setNegativeButton("No",
                         new DialogInterface.OnClickListener() {
@@ -59,11 +59,11 @@ try {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (currentapiVersion <= android.os.Build.VERSION_CODES.LOLLIPOP){
                                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                    callIntent.setData(Uri.parse("tel:9767295079"));
+                                    callIntent.setData(Uri.parse("tel:1234567"));
                                     startActivity(callIntent);
                                 } else {
                                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                                    callIntent.setData(Uri.parse("tel:9767295079"));
+                                    callIntent.setData(Uri.parse("tel:1234567"));
                                     startActivity(callIntent);
                                 }
                             }

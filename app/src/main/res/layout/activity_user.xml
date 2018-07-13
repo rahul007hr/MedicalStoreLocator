@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/color_white"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        app:title="Paanwala"
+        android:background="@color/colorPrimary"
+        app:title="e-Medical"
         android:id="@+id/toolbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/Theme.Design.NoActionBar"
         />
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,12 +37,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="#7fa4ea"
             app:headerLayout="@layout/drawer_header"
             android:layout_gravity="start"
             android:id="@+id/nav"
             app:menu="@menu/drawermenuuser"
             android:layout_marginTop="-24dp"
-            app:itemTextColor="@color/black"
             />
 
 
