@@ -228,21 +228,24 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		protected void onPostExecute(String response) {
 			try {
 
+				JSONObject jsonObject1 = new JSONObject(response);
+				JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+
 				if(response.equals("NO_INTERNET")) {
 					Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
 				}
-				else if(response.equals("ERROR")) {
-					Toast.makeText(getContext(), "Login failed, Please enter correct credentials.", Toast.LENGTH_LONG).show();
+				else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+					Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 				}
 				else
 				{
-					if(response.equals("false"))
-					{
-						Toast.makeText(getContext(), "Login failed, Please enter correct credentials.", Toast.LENGTH_LONG).show();
+					if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
-					else {
-						JSONObject jsonObject1 = new JSONObject(response);
-						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+					else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+
 						JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 //						JSONObject jsonObject = jsonarray.getJSONObject(1);
 
@@ -274,8 +277,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "ServiceProvider", apiUser.getUserRole());
 //							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
-
-							Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
 
 								Intent myIntent = new Intent(getActivity(), UserActivity.class);
 								getActivity().startActivity(myIntent);
@@ -347,26 +348,24 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 		protected void onPostExecute(String response) {
 			try {
-				sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
-				Intent myIntent1 = new Intent(getActivity(), OtpVerificationActivity.class);
-				getActivity().startActivity(myIntent1);
-				getActivity().finish();
+
+				JSONObject jsonObject1 = new JSONObject(response);
+				JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
 				if(response.equals("NO_INTERNET")) {
 					Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
 				}
-				else if(response.equals("ERROR")) {
-					Toast.makeText(getContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+				else if(jsonObject2.getString("status").equalsIgnoreCase("error"))
+				{
+					Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 				}
 				else
 				{
-					if(response.equals("false"))
+					if(jsonObject2.getString("status").equalsIgnoreCase("error"))
 					{
-						Toast.makeText(getContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
 					else {
-						JSONObject jsonObject1 = new JSONObject(response);
-						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 						String s = jsonObject2.getString("status");
 					if(s.equalsIgnoreCase("success")){
 						Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);

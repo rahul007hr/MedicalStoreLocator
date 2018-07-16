@@ -113,30 +113,30 @@ public class ForgotPassword_Fragment extends Fragment implements OnClickListener
 		}
 
 		public void onPostExecute(String response) {
+			try {
+			JSONObject jsonObject1 = new JSONObject(response);
+			JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
 			if (response.equals("NO_INTERNET")) {
 				Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-			} else if (response.equals("ERROR")) {
-				Toast.makeText(getContext(), "Login failed, Please enter correct credentials.", Toast.LENGTH_LONG).show();
+			} else if (jsonObject2.getString("status").equalsIgnoreCase("error")){
+				Toast.makeText(getActivity(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 			} else {
-				if (response.equals("false")) {
-					Toast.makeText(getContext(), "Login failed, Please enter correct credentials.", Toast.LENGTH_LONG).show();
+				if (jsonObject2.getString("status").equalsIgnoreCase("error")){
+					Toast.makeText(getActivity(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 				} else {
-					try {
-                        JSONObject jsonObject1 = new JSONObject(response);
-                        JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
-//						JSONObject jsonObject = new JSONObject(jsonObject2.getString("status"));
+
                         if (jsonObject2.getString("status").equalsIgnoreCase("success")){
-                            Toast.makeText(getActivity(), jsonObject2.getString("result"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
                             new MainActivity().replaceLoginFragment();
                     }
                     else
-                        Toast.makeText(getActivity(), jsonObject2.getString("message"), Toast.LENGTH_SHORT).show();
-					} catch (JSONException e1) {
-						Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
-						e1.printStackTrace();
+                        Toast.makeText(getActivity(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
 				}
+			}catch (JSONException e1) {
+				Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
+				e1.printStackTrace();
 			}
 		}
 	}

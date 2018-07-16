@@ -25,6 +25,8 @@ import com.medicalstorefinder.medicalstorelocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstorelocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstorelocator.R;
 
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -200,14 +202,17 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		public void onPostExecute(String response) {
 
 			try {
+				JSONObject jsonObject1 = new JSONObject(response);
+				JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+
 
 				if(response.equalsIgnoreCase("ERROR") ) {
 //                    Toast.makeText(getContext(), "Something went wrong config 2", Toast.LENGTH_LONG).show();
-				}else if(response.equals("false") ) {
-                    Toast.makeText(getContext(), "Mobile No Already Exist", Toast.LENGTH_LONG).show();
+				}else if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
 				}
-				else {
-                    Toast.makeText(getContext(), "Registered Successfully", Toast.LENGTH_LONG).show();
+				else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                    Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					fragmentManager = getActivity().getSupportFragmentManager();
 
 					fragmentManager

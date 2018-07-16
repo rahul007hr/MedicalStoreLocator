@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Service Type ">
+        <menu>
+
+
+            <item android:title="Make Order"
+                android:id="@+id/makeOrder"
+                android:icon="@drawable/user"
+                android:iconTint="@color/primary"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+            <item android:title="Renew Order"
+                android:id="@+id/renewOrder"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Monthly Report"
+                android:id="@+id/monthlyReport"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+        </menu>
+    </item>
+
+
+    <item android:title="Account">
+        <menu>
+
+            <item
+                android:title="Logout"
+                android:id="@+id/logout"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+        </menu>
+    </item>
+
+
+    <item android:title="Help">
+        <menu>
+            <item
+                android:title="About us"
+                android:id="@+id/about_us"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item
+                android:title="Contact us"
+                android:id="@+id/contact_us"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+        </menu>
+    </item>
+</menu>

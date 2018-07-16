@@ -33,6 +33,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_otp_verification);
 
         Button verifyOTP = (Button)findViewById(R.id.otpVerifyBtn);
+        Button resendOTP = (Button)findViewById(R.id.otpResendBtn);
         pinEntry = (PinEntryEditText) findViewById(R.id.txt_pin_entry);
 
       /*  progressDialog = new ProgressDialog(getApplicationContext());
@@ -50,6 +51,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
                     pinEntry.setText(null);
                 }
 
+            }
+        });
+
+        resendOTP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AuthoriseCustomer().execute();
             }
         });
 
@@ -160,6 +168,60 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
         }
     }
+    class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
 
+        protected void onPreExecute() {
+
+        }
+
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getBaseContext());
+
+            String address = Constants.API_CUSTOMER_LOGIN;
+            Map<String, String> params = new HashMap<>();
+            params.put("mobile", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(response.equals("ERROR")) {
+                    Toast.makeText(getBaseContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(response.equals("false"))
+                    {
+                        Toast.makeText(getBaseContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        JSONObject jsonObject1 = new JSONObject(response);
+                        JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+                        String s = jsonObject2.getString("status");
+                        if(s.equalsIgnoreCase("success")){
+                            Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getBaseContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+
+            }
+
+        }
+    }
 
 }

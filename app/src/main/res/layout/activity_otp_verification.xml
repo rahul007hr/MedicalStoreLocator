@@ -40,8 +40,24 @@
         android:padding="3dp"
         android:text="verify"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="-60dp"
         android:textColor="#f9ba29"
         android:textSize="17sp"
         android:background="@drawable/loginbutton_selector"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/otpResendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-50dp"
+        android:layout_marginLeft="60dp"
+        android:padding="3dp"
+        android:text="Resend OTP"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#f9ba29"
+        android:textSize="17sp"
+        android:background="@drawable/loginbutton_selector"
+        android:textStyle="bold" />
+
 </LinearLayout>

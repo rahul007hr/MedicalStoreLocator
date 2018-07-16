@@ -252,11 +252,6 @@ public class CustomerActivity extends AppCompatActivity {
                             fragmentClass1 = ProfileFragment.class;
                             return true;*/
 //
-                    case R.id.change_password:
-                        xfragmentTransaction.replace(R.id.containerView, new ChangePassword_Fragment()).commit();
-                        fragmentClass1 = ChangePassword_Fragment.class;
-                        return true;
-//
                     case R.id.about_us:
                         xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment()).commit();
                         fragmentClass1 = AboutUsFragment.class;

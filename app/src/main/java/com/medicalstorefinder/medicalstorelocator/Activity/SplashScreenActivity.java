@@ -115,12 +115,19 @@ public class SplashScreenActivity extends AppCompatActivity {
             } else {
                 try {
 
-                    if (response.equals("false")) {
-                        Toast.makeText(getBaseContext(), "Login failed, Please enter correct credentials...", Toast.LENGTH_LONG).show();
+                    JSONObject jsonObject1 = new JSONObject(response);
+                    JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+//
+
+
+                    if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
                         Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(i);
                         finish();
-                    } else {
+                    } else  if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
+
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
                         JSONObject jsonObject = new JSONObject(response);
                         Intent splashIntent = new Intent(getApplicationContext(), UserActivity.class);
                         startActivity(splashIntent);
