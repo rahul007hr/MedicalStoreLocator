@@ -244,7 +244,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
 					else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
-						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+						Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
 						JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 //						JSONObject jsonObject = jsonarray.getJSONObject(1);
