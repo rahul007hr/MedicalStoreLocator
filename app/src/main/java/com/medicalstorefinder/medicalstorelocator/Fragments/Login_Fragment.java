@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.medicalstorefinder.medicalstorelocator.Activity.OtpVerificationActivity;
 import com.medicalstorefinder.medicalstorelocator.Activity.UserActivity;
 import com.medicalstorefinder.medicalstorelocator.Constants.Constants;
 import com.medicalstorefinder.medicalstorelocator.Constants.CustomToast;
@@ -37,13 +38,10 @@ import com.medicalstorefinder.medicalstorelocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstorelocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstorelocator.R;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Login_Fragment extends Fragment implements OnClickListener {
 	private static View view;
@@ -69,6 +67,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.login_layout, container, false);
+		sharedPreference = new SharedPreference();
 		initViews();
 		setListeners();
 		progressDialog = new ProgressDialog(getContext());
@@ -121,6 +120,20 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 		shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
 				R.anim.shake);
+		if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
+			loginButton.setText("Send OTP");
+			forgotPassword.setVisibility(View.GONE);
+			show_hide_password.setVisibility(View.GONE);
+			password.setVisibility(View.GONE);
+			signUp.setVisibility(View.GONE);
+		}else{
+			loginButton.setText("LOGIN");
+			forgotPassword.setVisibility(View.VISIBLE);
+			show_hide_password.setVisibility(View.VISIBLE);
+			password.setVisibility(View.VISIBLE);
+			signUp.setVisibility(View.VISIBLE);
+		}
+
 	}
 
 	private void setListeners() {
@@ -158,8 +171,19 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.loginBtn:
+			if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
 
-			checkValidation();
+				checkValidationForCustomer();
+
+				/*Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
+				getActivity().startActivity(myIntent);
+				getActivity().finish();
+*/
+			}else{
+				checkValidation();
+			}
+
+
 			break;
 
 		case R.id.forgot_password:
@@ -192,20 +216,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 			Utilities utilities = new Utilities(getContext());
 
-			String address = Constants.API_LOGIN;
+			String address = Constants.API_MEDICAL_LOGIN;
 			Map<String, String> params = new HashMap<>();
 			params.put("username", getMobileNo);
 			params.put("password", getPassword);
 
 			return utilities.apiCalls(address,params);
 
-//			{"Content":"
-			// {\"status\":\"success\",
-			// \"result\":
-			// 		{\"id\":\"11\",\"firstname\":\"Rahul\",\"lastname\":\"Sapkale\",\"shopname\":\"Abc\",\"email\":\"rahul007hr@gmail.com\",\"password\":\"123\",\"mobile\":\"9923651772\",\"address\":\"Nashik\",\"role\":\"medical\",\"regdate\":\"2018-07-13 15:22:40\",\"deletestatus\":\"0\",\"otp\":\"0\"
-			// 		}
-			// }",
-			// "Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
 		}
 
 		protected void onPostExecute(String response) {
@@ -239,13 +256,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						apiUser.setShop_Name(jsonObject.getString("shopname"));
 						apiUser.setEmail(jsonObject.getString("email"));
 						apiUser.setPasswords(jsonObject.getString("password"));
+						apiUser.setUserRole(jsonObject.getString("role"));
 //						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
 
-							sharedPreference = new SharedPreference();
 
-							sharedPreference.clearSharedPreference(getContext(), Constants.PREF_ISAD);
 
-							sharedPreference.createSharedPreference(getActivity(), Constants.PREF_ISAD);
+							sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
+							sharedPreference.createSharedPreference(getActivity(), Constants.PREF_IS_USER);
 
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
@@ -253,8 +270,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
-						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
-						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "ServiceProvider", apiUser.getUserRole());
 //							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
 							Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
@@ -289,9 +307,87 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		else {
 
 			new AuthoriseUser().execute();
-			/*Intent myIntent = new Intent(getActivity(), UserActivity.class);
-			getActivity().startActivity(myIntent);
-			getActivity().finish();*/
+
 		}
 	}
+
+	private void checkValidationForCustomer() {
+
+		getMobileNo = mobile.getText().toString();
+
+		if (getMobileNo.equals("") || getMobileNo.length() == 0) {
+			loginLayout.startAnimation(shakeAnimation);
+			new CustomToast().Show_Toast(getActivity(), view,"Enter Mobile Number");
+		}
+		else {
+
+			new AuthoriseCustomer().execute();
+
+		}
+	}
+
+
+	class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
+
+		protected void onPreExecute() {
+			progressDialog.show();
+		}
+
+		protected String doInBackground(Void... urls) {
+
+			Utilities utilities = new Utilities(getContext());
+
+			String address = Constants.API_CUSTOMER_LOGIN;
+			Map<String, String> params = new HashMap<>();
+			params.put("mobile", getMobileNo);
+
+			return utilities.apiCalls(address,params);
+
+		}
+
+		protected void onPostExecute(String response) {
+			try {
+				sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+				Intent myIntent1 = new Intent(getActivity(), OtpVerificationActivity.class);
+				getActivity().startActivity(myIntent1);
+				getActivity().finish();
+
+				if(response.equals("NO_INTERNET")) {
+					Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+				}
+				else if(response.equals("ERROR")) {
+					Toast.makeText(getContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+				}
+				else
+				{
+					if(response.equals("false"))
+					{
+						Toast.makeText(getContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+					}
+					else {
+						JSONObject jsonObject1 = new JSONObject(response);
+						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+						String s = jsonObject2.getString("status");
+					if(s.equalsIgnoreCase("success")){
+						Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
+						getActivity().startActivity(myIntent);
+						getActivity().finish();
+						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+					}
+
+					}
+				}
+
+			} catch (Exception e) {
+				Toast.makeText( getContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			}
+			finally {
+				progressDialog.dismiss();
+			}
+
+		}
+	}
+
 }

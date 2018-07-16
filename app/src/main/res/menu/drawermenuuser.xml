@@ -5,16 +5,22 @@
         <menu>
 
 
-            <item android:title="Home"
-                android:id="@+id/home"
+            <item android:title="Make Order"
+                android:id="@+id/makeOrder"
                 android:icon="@drawable/user"
                 android:iconTint="@color/primary"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
 
-            <item android:title="Medical"
-                android:id="@+id/medical"
+            <item android:title="Renew Order"
+                android:id="@+id/renewOrder"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="Monthly Report"
+                android:id="@+id/monthlyReport"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
@@ -25,18 +31,6 @@
 
     <item android:title="Account">
         <menu>
-
-            <item android:title="Histry"
-                android:id="@+id/histry"
-                android:icon="@drawable/user"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
-
-            <item android:title="Profile"
-                android:id="@+id/profile"
-                android:icon="@drawable/user"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
 
             <item
                 android:title="Change Password"

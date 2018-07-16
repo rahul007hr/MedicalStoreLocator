@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends android.support.v4.app.Fragment {
 
     UserProfile userProfile;
-    TextView txtvuserId,txtvuserName,txtvFullName,txtvEmailID,txtvAdharCardNumber,txtvMobileNumber,txtvLocation,txtvcType;
+    TextView txtvuserId,txtvuserName,txtvFullName,txtvEmailID,txtvAdharCardNumber,txtvMobileNumber,txtvLocation,txtvShopName;
     CircleImageView profileImage;
     Bitmap bitmap12;
     String newpic;
@@ -65,7 +65,13 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
         txtvAdharCardNumber=(TextView)v.findViewById(R.id.adhar_card_number);
         txtvMobileNumber=(TextView)v.findViewById(R.id.regmobile);
         txtvLocation=(TextView)v.findViewById(R.id.shop_name);
-        txtvcType=(TextView)v.findViewById(R.id.ctype);
+        txtvShopName=(TextView)v.findViewById(R.id.shopName);
+
+        if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
+            txtvShopName.setVisibility(View.GONE);
+        }else{
+            txtvShopName.setVisibility(View.VISIBLE);
+        }
 
         txtvuserId.setText(sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
         txtvuserName.setText(sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
@@ -152,7 +158,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     txtvEmailID.setText(txtvEmailID.getText() + " - " + userProfile.getEmail());
                     txtvMobileNumber.setText(txtvMobileNumber.getText() + " : " + userProfile.getRegMobile());
                     txtvLocation.setText(txtvLocation.getText() + " : " + userProfile.getLocation());
-                    txtvcType.setText(txtvcType.getText() + " : " + userProfile.getcType());
+                    txtvShopName.setText(txtvShopName.getText() + " : " + userProfile.getcType());
                     txtvAdharCardNumber.setText(txtvAdharCardNumber.getText() + " : " + userProfile.getAdhar_Card_Number());
 
                     new LoadProfileImage().execute(userProfile.getProfilePicUrl().replace("~", Constants.DOMAIN_NAME) );

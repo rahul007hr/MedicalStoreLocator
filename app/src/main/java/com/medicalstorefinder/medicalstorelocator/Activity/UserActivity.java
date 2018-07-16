@@ -186,9 +186,9 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 //            }
 //        });
 
-            navigationView.getMenu().findItem(R.id.home).setChecked(true);
+            navigationView.getMenu().findItem(R.id.makeOrder).setChecked(true);
 
-            MainFragment fragobj = new MainFragment();
+//            MainFragment fragobj = new MainFragment();
             Fragment fragment = null;
             Class fragmentClass1 = null;
             Intent intent = null;
@@ -197,12 +197,12 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
             drawerLayout.closeDrawers();
             FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
 
-            myMessage = "User";
-            bundle.putString("message", myMessage );
-            fragobj.setArguments(bundle);
+//            myMessage = "User";
+//            bundle.putString("message", myMessage );
+//            fragobj.setArguments(bundle);
 
-            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-            fragmentClass1 = MainFragment.class;
+//            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
+//            fragmentClass1 = MainFragment.class;
 
 
 
@@ -213,59 +213,53 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                     if (menuItem.getItemId()>0) {
-                        navigationView.getMenu().findItem(R.id.home).setChecked(false);
+                        navigationView.getMenu().findItem(R.id.makeOrder).setChecked(false);
                     }
 
-                    ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
+//                    ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
                     Fragment fragment = null;
                     Class fragmentClass1 = null;
                     Intent intent = null;
                     Bundle bundle = new Bundle();
-                    String myMessage;
+//                    String myMessage;
                     drawerLayout.closeDrawers();
                     FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
 
                     switch (menuItem.getItemId()) {
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-                        case R.id.home:
+                        case R.id.makeOrder:
 
-                            MainFragment fragobj1 = new MainFragment();
-                            myMessage = "User";
-                            bundle.putString("message", myMessage );
-                            fragobj1.setArguments(bundle);
+//                            MainFragment fragobj1 = new MainFragment();
+//                            myMessage = "User";
+//                            bundle.putString("message", myMessage );
+//                            fragobj1.setArguments(bundle);
 
 
-                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
-                            fragmentClass1 = MainFragment.class;
+//                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
+//                            fragmentClass1 = MainFragment.class;
+                            return true;
+
+                        case R.id.renewOrder:
+//                            myMessage = "medical";
+//                            bundle.putString("message", myMessage );
+//                            fragobj.setArguments(bundle);
+
+
+//                            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
+//                            fragmentClass1 = ServiceProviderListFragment.class;
                             return true;
 
 
-
-
-
-
-
-                        case R.id.medical:
-                            myMessage = "medical";
-                            bundle.putString("message", myMessage );
-                            fragobj.setArguments(bundle);
-
-
-                            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                            fragmentClass1 = ServiceProviderListFragment.class;
+                        case R.id.monthlyReport:
+//                            xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
+//                            fragmentClass1 = UserHistryFragment.class;
                             return true;
 
-
-                       /* case R.id.histry:
-                            xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
-                            fragmentClass1 = UserHistryFragment.class;
-                            return true;*/
-
-                        case R.id.profile:
+                        /*case R.id.profile:
                             xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
                             fragmentClass1 = ProfileFragment.class;
-                            return true;
+                            return true;*/
 //
                         case R.id.change_password:
                             xfragmentTransaction.replace(R.id.containerView, new ChangePassword_Fragment()).commit();

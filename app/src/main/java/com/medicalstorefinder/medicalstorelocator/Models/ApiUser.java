@@ -12,6 +12,7 @@ public class ApiUser {
     public String Passwords;
 
     public String Shop_Name;
+    public String User_Role;
 
     public ApiUser() {
         this.ID = -1;
@@ -22,6 +23,7 @@ public class ApiUser {
         Address="";
         Passwords="";
         Shop_Name="";
+        User_Role="";
     }
 
 
@@ -88,6 +90,14 @@ public class ApiUser {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public String getUserRole() {
+        return User_Role;
+    }
+
+    public void setUserRole(String userRole) {
+        User_Role = userRole;
     }
 
     public String getProfilePicUrl() {

@@ -36,7 +36,7 @@
     <color name="white_greyish">#EEEEEE</color>
     <color name="button_selectorcolor">#9E9E9E</color>
     <color name="green">#8BC34A</color>
-
+    <color name="default_role_selector_color">#FFBB33</color>
     <color name="btn_alertdialog">#FFFF00</color>
 
      <!--App SubTitle-->

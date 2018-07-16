@@ -61,7 +61,7 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setFirstTimeStartStatus();
-                Intent intent = new Intent(WelcomeInstructinsActivity.this,MainActivity.class);
+                Intent intent = new Intent(WelcomeInstructinsActivity.this,RoleSelectorActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -76,7 +76,7 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(currentPage);
                 } else {
                     setFirstTimeStartStatus();
-                    Intent intent = new Intent(WelcomeInstructinsActivity.this,MainActivity.class);
+                    Intent intent = new Intent(WelcomeInstructinsActivity.this,RoleSelectorActivity.class);
                     startActivity(intent);
                     finish();
                 }

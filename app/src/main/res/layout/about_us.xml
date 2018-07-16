@@ -8,14 +8,14 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_about"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
             android:background="@drawable/nav_drw_head_bg_img"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
 

@@ -32,8 +32,8 @@ public class MainFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        Bundle bundle = this.getArguments();
-        myValue = bundle.getString("message");
+//        Bundle bundle = this.getArguments();
+//        myValue = bundle.getString("message");
 
 
         GridView gridView = (GridView)v.findViewById(R.id.gridview);
@@ -44,7 +44,7 @@ public class MainFragment extends Fragment
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                if(myValue.equals("User")){
+                /*if(myValue.equals("User")){
 
                     ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
                     Fragment fragment = null;
@@ -69,17 +69,17 @@ public class MainFragment extends Fragment
                             break;
 
 
-                       /* case 17:
+                       *//* case 17:
                             xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
                             fragmentClass1 = UserHistryFragment.class;
-                            break;*/
+                            break;*//*
                     }
                     try {
                         fragment = (Fragment) fragmentClass1.newInstance();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
+                }*/
             }
         });
 
@@ -133,14 +133,14 @@ public class MainFragment extends Fragment
                 v.setTag(R.id.text, v.findViewById(R.id.text));*/
             }
 
-            picture = (ImageView)v.getTag(R.id.profile);
-            name = (TextView)v.getTag(R.id.text);
+//            picture = (ImageView)v.getTag(R.id.profile);
+//            name = (TextView)v.getTag(R.id.text);
 
             item = (Item)getItem(i);
 
-            picture.setImageResource(item.drawableId);
-            imageUri=picture.toString();
-            name.setText(item.name);
+//            picture.setImageResource(item.drawableId);
+//            imageUri=picture.toString();
+//            name.setText(item.name);
 
             return v;
         }

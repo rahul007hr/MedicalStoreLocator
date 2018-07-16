@@ -60,7 +60,7 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
     View v1=inflater.inflate(R.layout.slider_1, container, false);
         /** Reference to the button of the layout main.xml */
         btn = (Button)v1.findViewById(R.id.btnAdd);
-        btnSubmit= (Button)v1.findViewById(R.id.profile);
+//        btnSubmit= (Button)v1.findViewById(R.id.profile);
         edit = (EditText) v1.findViewById(R.id.txtItem);
         editCost = (EditText) v1.findViewById(R.id.txtItemCost);
 
@@ -136,7 +136,7 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
 
                 break;
 
-            case R.id.profile:
+           /* case R.id.profile:
 
                 String itemname1,itemname2,itemname3,itemname4,itemname5,itemname6,itemname7,itemname8,itemname9,itemname10;
             if(adapter.getCount()>=1) {
@@ -209,7 +209,7 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
                 Toast.makeText(getContext(), "Please Add Item", Toast.LENGTH_SHORT).show();
 
             }
-                break;
+                break;*/
         }
     }
 

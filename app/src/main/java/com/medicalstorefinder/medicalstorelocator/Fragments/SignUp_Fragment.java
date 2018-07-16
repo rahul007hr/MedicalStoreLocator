@@ -19,12 +19,12 @@ import android.widget.Toast;
 import com.medicalstorefinder.medicalstorelocator.Activity.MainActivity;
 import com.medicalstorefinder.medicalstorelocator.Constants.Constants;
 import com.medicalstorefinder.medicalstorelocator.Constants.CustomToast;
+import com.medicalstorefinder.medicalstorelocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstorelocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstorelocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstorelocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstorelocator.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -43,7 +43,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private static FragmentManager fragmentManager;
 	int pos;
 	ApiUser user = new ApiUser();
-	String date;
+
 	public String res="";
 
 	ProgressDialog progressDialog;
@@ -57,7 +57,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.signup_layout, container, false);
 		initViews();
-		date= new SimpleDateFormat("dd/MM/yyyy kk:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+
 
 		progressDialog = new ProgressDialog(getActivity());
 		progressDialog.setMessage("Loading...");
@@ -81,6 +81,10 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		signUpButton = (Button) view.findViewById(R.id.signUpBtn);
 		login = (TextView) view.findViewById(R.id.already_user);
 		terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
+
+
+
+
 
 	}
 
@@ -119,52 +123,52 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	// Check Validation Method
 	private void checkValidation() {
 
-		// Get all edittext texts
-		String getFirstName = firstName.getText().toString();
-		String getLastName = lastName.getText().toString();
-		String getEmailId = emailId.getText().toString();
-		String getMobileNumber = mobileNumber.getText().toString();
-		String getAddress = address.getText().toString();
-		String getShopName = shopName.getText().toString();
-		String getPassword = password.getText().toString();
-		String getConfirmPassword = confirmPassword.getText().toString();
-		// Pattern match for email id
-		Pattern p = Pattern.compile(Utils1.regEx);
-		Matcher m = p.matcher(getEmailId);
 
-		// Check if all strings are null or not
-		if (getFirstName.equals("") || getFirstName.length() == 0
-				|| getLastName.equals("") || getLastName.length() == 0
-				|| getEmailId.equals("") || getEmailId.length() == 0
-				|| getMobileNumber.equals("") || getMobileNumber.length() == 0
-				|| getAddress.equals("") || getAddress.length() == 0
-				|| getShopName.equals("") || getShopName.length() == 0
-				|| getPassword.equals("") || getPassword.length() == 0
-				|| getConfirmPassword.equals("")
-				|| getConfirmPassword.length() == 0)
+			// Get all edittext texts
+			String getFirstName = firstName.getText().toString();
+			String getLastName = lastName.getText().toString();
+			String getEmailId = emailId.getText().toString();
+			String getMobileNumber = mobileNumber.getText().toString();
+			String getAddress = address.getText().toString();
+			String getShopName = shopName.getText().toString();
+			String getPassword = password.getText().toString();
+			String getConfirmPassword = confirmPassword.getText().toString();
+			// Pattern match for email id
+			Pattern p = Pattern.compile(Utils1.regEx);
+			Matcher m = p.matcher(getEmailId);
 
-			new CustomToast().Show_Toast(getActivity(), view,
-					"All fields are required.");
+			// Check if all strings are null or not
+			if (getFirstName.equals("") || getFirstName.length() == 0
+					|| getLastName.equals("") || getLastName.length() == 0
+					|| getEmailId.equals("") || getEmailId.length() == 0
+					|| getMobileNumber.equals("") || getMobileNumber.length() == 0
+					|| getAddress.equals("") || getAddress.length() == 0
+					|| getShopName.equals("") || getShopName.length() == 0
+					|| getPassword.equals("") || getPassword.length() == 0
+					|| getConfirmPassword.equals("")
+					|| getConfirmPassword.length() == 0)
 
-		// Check if email id valid or not
-		else if (!m.find())
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Your Email Id is Invalid.");
+				new CustomToast().Show_Toast(getActivity(), view,
+						"All fields are required.");
 
-		// Check if both password should be equal
-		else if (!getConfirmPassword.equals(getPassword))
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Both password doesn't match.");
+				// Check if email id valid or not
+			else if (!m.find())
+				new CustomToast().Show_Toast(getActivity(), view,
+						"Your Email Id is Invalid.");
 
-		// Make sure user should check Terms and Conditions checkbox
-		else if (!terms_conditions.isChecked())
-			new CustomToast().Show_Toast(getActivity(), view,
-					"Please select Terms and Conditions.");
+				// Check if both password should be equal
+			else if (!getConfirmPassword.equals(getPassword))
+				new CustomToast().Show_Toast(getActivity(), view,
+						"Both password doesn't match.");
 
-		// Else do signup or do your stuff
-		else
-		new SetSignup().execute();
+				// Make sure user should check Terms and Conditions checkbox
+			else if (!terms_conditions.isChecked())
+				new CustomToast().Show_Toast(getActivity(), view,
+						"Please select Terms and Conditions.");
 
+				// Else do signup or do your stuff
+			else
+				new SetSignup().execute();
 
 	}
 

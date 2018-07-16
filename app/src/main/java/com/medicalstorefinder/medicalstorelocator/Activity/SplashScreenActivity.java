@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.medicalstorefinder.medicalstorelocator.Constants.Constants;
@@ -89,7 +88,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     Utilities utilities = new Utilities(getApplicationContext());
 
-                    String address = Constants.API_LOGIN;
+                    String address = Constants.API_MEDICAL_LOGIN;
                     Map<String, String> params = new HashMap<>();
                     params.put("username", sharedPreference.getValue( context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
                     params.put("password", sharedPreference.getValue(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS));

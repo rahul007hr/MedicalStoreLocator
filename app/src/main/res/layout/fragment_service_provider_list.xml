@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/Theme.Design.NoActionBar"
             app:title="Service Providers"
             />
         <!--android:background="@color/app_sub_title"

@@ -83,7 +83,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
         Toolbar toolbar=(Toolbar)v.findViewById(R.id.toolbar);
 
-        imageView=(ImageView)v.findViewById(R.id.profile);
+//        imageView=(ImageView)v.findViewById(R.id.profile);
 
 
         btnReportLoad=(Button) v.findViewById(R.id.report_load_btn);
@@ -303,15 +303,15 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 super(itemView);
 
                 final View view = itemView;
-                vtxtFullName = (TextView) itemView.findViewById(R.id.profile);
-                vtxtCustomerNo = (TextView) itemView.findViewById(R.id.profile);
+//                vtxtFullName = (TextView) itemView.findViewById(R.id.profile);
+//                vtxtCustomerNo = (TextView) itemView.findViewById(R.id.profile);
                 vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email);
-                vtxtServiceType = (TextView) itemView.findViewById(R.id.profile);
+//                vtxtServiceType = (TextView) itemView.findViewById(R.id.profile);
                 vtxtLocation = (TextView) itemView.findViewById(R.id.shop_name);
-                vtxtStatus = (TextView) itemView.findViewById(R.id.profile);
-                imageViews=(ImageView)itemView.findViewById(R.id.profile);
+//                vtxtStatus = (TextView) itemView.findViewById(R.id.profile);
+//                imageViews=(ImageView)itemView.findViewById(R.id.profile);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
-                cardViewTxCardItem = (CardView) itemView.findViewById(R.id.profile);
+//                cardViewTxCardItem = (CardView) itemView.findViewById(R.id.profile);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

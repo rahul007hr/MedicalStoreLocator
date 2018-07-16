@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.OtpVerificationActivity">
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="200dp"
+        android:text="Please Enter OTP"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <com.alimuzaffar.lib.pin.PinEntryEditText
+        android:id="@+id/txt_pin_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cursorVisible="false"
+        android:digits="1234567890"
+        android:inputType="number"
+        android:maxLength="6"
+        android:layout_marginTop="20dp"
+        android:textIsSelectable="false"
+        android:textSize="20sp"
+        app:pinAnimationType="popIn" />
+
+    <Button
+        android:id="@+id/otpVerifyBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:padding="3dp"
+        android:text="verify"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#f9ba29"
+        android:textSize="17sp"
+        android:background="@drawable/loginbutton_selector"
+        android:textStyle="bold" />
+</LinearLayout>
