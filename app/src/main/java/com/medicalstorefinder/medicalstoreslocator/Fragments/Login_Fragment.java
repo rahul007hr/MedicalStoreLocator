@@ -220,6 +220,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			Map<String, String> params = new HashMap<>();
 			params.put("username", getMobileNo);
 			params.put("password", getPassword);
+			params.put("loginstatus", "1");
 
 			return utilities.apiCalls(address,params);
 

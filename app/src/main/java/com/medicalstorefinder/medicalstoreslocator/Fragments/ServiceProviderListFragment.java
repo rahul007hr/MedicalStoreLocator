@@ -83,7 +83,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
         Toolbar toolbar=(Toolbar)v.findViewById(R.id.toolbar);
 
-//        imageView=(ImageView)v.findViewById(R.id.profile);
+        imageView=(ImageView)v.findViewById(R.id.image_View);
 
 
         btnReportLoad=(Button) v.findViewById(R.id.report_load_btn);
@@ -93,9 +93,9 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         imgRepNotFound.setVisibility(View.GONE);
 
         Bundle bundle = this.getArguments();
-        myValue = bundle.getString("message");
-        cap = myValue.substring(0, 1).toUpperCase() + myValue.substring(1);
-        toolbar.setTitle(cap);
+//        myValue = bundle.getString("message");
+//        cap = myValue.substring(0, 1).toUpperCase() + myValue.substring(1);
+//        toolbar.setTitle(cap);
 
 //        String strtext = getArguments().getString("Paanwala");
 
@@ -148,7 +148,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                 if (response.equals("NO_INTERNET")) {
                     Toast.makeText(getActivity().getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                } else if (response.equals("ERROR")) {
+                } /*else if (response.equals("ERROR")) {
                     imgRepNotFound.setVisibility(View.VISIBLE);
 
                     final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
@@ -156,22 +156,22 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                     btnReportLoad.setVisibility(View.GONE);
                     Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
-                } else {
+                } else {*/
 
 
-                    JSONArray jsonarray = new JSONArray(response);
+                   /* JSONArray jsonarray = new JSONArray(response);
 
                     if (jsonarray.length() <= 0) {
                         btnReportLoad.setVisibility(View.GONE);
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
 
-                    for (int i = 0; i < jsonarray.length(); i++) {
+                    for (int i = 0; i < 6; i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
-                        JSONObject json = jsonarray.getJSONObject(i);
+//                        JSONObject json = jsonarray.getJSONObject(i);
 
-                        serviceProviderDetails.setID(json.getInt("Id"));
+                       /* serviceProviderDetails.setID(json.getInt("Id"));
                         serviceProviderDetails.setEmailId(json.getString("Email_Id"));
                         serviceProviderDetails.setCustomerNo(json.getString("Mobile_Number"));
                         serviceProviderDetails.setFullName(json.getString("Full_Name"));
@@ -180,9 +180,19 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setServiceTypeName(json.getString("cType"));
                         serviceProviderDetails.setLocation(json.getString("Location"));
                         serviceProviderDetails.setPassword(json.getString("Passwords"));
-                        serviceProviderDetails.setImage_link("http://www.emedical.com/uploads/"+json.getString("Email_Id")+".jpg");
+                        serviceProviderDetails.setImage_link("http://www.paanwalapro.com/uploads/"+json.getString("Email_Id")+".jpg");
+*/
 
+                        serviceProviderDetails.setID(i);
+                        serviceProviderDetails.setEmailId(("Email_Id"));
+                        serviceProviderDetails.setCustomerNo(("Mobile_Number"));
+                        serviceProviderDetails.setFullName(("Full_Name"));
 
+                        serviceProviderDetails.setStatus(("cStatus"));
+                        serviceProviderDetails.setServiceTypeName(("cType"));
+                        serviceProviderDetails.setLocation(("Location"));
+                        serviceProviderDetails.setPassword(("Passwords"));
+                        serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
 
 
                         listDetails.add(serviceProviderDetails);
@@ -205,7 +215,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                     adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
                     recyclerView.setAdapter(adapter);
-                }
+//                }
             }
 
             catch (Exception e1) {
@@ -225,7 +235,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
         ServiceProviderReportCardAdapter serviceProviderReportCardAdapter = this;
         private Context context;
-        private RetrieveFeedTask1 context1;
+        private ServiceProviderListFragment.RetrieveFeedTask1 context1;
 
         List<ServiceProviderDetailsModel> listServiceProviderDetails;
 
@@ -238,7 +248,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.slider_1, parent, false);
+                    .inflate(R.layout.service_provider_card_item, parent, false);
             ViewHolder viewHolder = new ViewHolder(v);
 
             final Animation anim_record_item = AnimationUtils.loadAnimation(parent.getContext(), R.anim.swipe_down);
@@ -303,15 +313,15 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 super(itemView);
 
                 final View view = itemView;
-//                vtxtFullName = (TextView) itemView.findViewById(R.id.profile);
-//                vtxtCustomerNo = (TextView) itemView.findViewById(R.id.profile);
-                vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email);
-//                vtxtServiceType = (TextView) itemView.findViewById(R.id.profile);
-                vtxtLocation = (TextView) itemView.findViewById(R.id.shop_name);
-//                vtxtStatus = (TextView) itemView.findViewById(R.id.profile);
-//                imageViews=(ImageView)itemView.findViewById(R.id.profile);
+                vtxtFullName = (TextView) itemView.findViewById(R.id.full_name);
+                vtxtCustomerNo = (TextView) itemView.findViewById(R.id.customer_no);
+                vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email_id);
+                vtxtServiceType = (TextView) itemView.findViewById(R.id.service_type);
+                vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtStatus = (TextView) itemView.findViewById(R.id.status);
+                imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
-//                cardViewTxCardItem = (CardView) itemView.findViewById(R.id.profile);
+                cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -339,7 +349,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         alertDialogBuilder.setTitle("Transaction Details : ");
                         alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
-                                        "Email Id : " + tr.getEmailId() +
+                                "Email Id : " + tr.getEmailId() +
                                         "\n\nMobile No. : " + tr.getCustomerNo() +
                                         "\n\nDelivery_Date : " + tr.getDeliveryDate() +
                                         "\n\nService Type : " + tr.getServiceTypeName() +
@@ -352,17 +362,17 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                         if(lStatus.equals("ONLINE")){
 
-                        alertDialogBuilder.setPositiveButton("Purchase",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                       /* ServiceProviderSpinnerFragment ldf = new ServiceProviderSpinnerFragment ();
-                                        Bundle args = new Bundle();
-                                        args.putString("YourKey", s);
-                                        args.putString("YourKey1", s1);
-                                        ldf.setArguments(args);
-                                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();*/
-                                    }
-                                });
+                           /* alertDialogBuilder.setPositiveButton("Purchase",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ServiceProviderSpinnerFragment ldf = new ServiceProviderSpinnerFragment ();
+                                            Bundle args = new Bundle();
+                                            args.putString("YourKey", s);
+                                            args.putString("YourKey1", s1);
+                                            ldf.setArguments(args);
+                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();
+                                        }
+                                    });*/
                         }
                         alertDialogBuilder.show();
                     }

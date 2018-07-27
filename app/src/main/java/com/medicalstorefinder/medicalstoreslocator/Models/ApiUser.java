@@ -10,7 +10,8 @@ public class ApiUser {
     public String Last_Name;
     public String Address;
     public String Passwords;
-
+    public String Latitude;
+    public String Longitude;
     public String Shop_Name;
     public String User_Role;
 
@@ -24,6 +25,9 @@ public class ApiUser {
         Passwords="";
         Shop_Name="";
         User_Role="";
+        Latitude="";
+        Longitude="";
+
     }
 
 
@@ -107,5 +111,23 @@ public class ApiUser {
     public void setProfilePicUrl(String profilePicUrl) {
         ProfilePicUrl = profilePicUrl;
     }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
+
+    public String getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        Longitude = longitude;
+    }
+
 
 }

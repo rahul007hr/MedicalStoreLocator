@@ -43,8 +43,12 @@ import com.medicalstorefinder.medicalstoreslocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.AboutUsFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ContactUsFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.MainFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.ServiceProviderListFragment;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -54,6 +58,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -220,14 +226,11 @@ public class CustomerActivity extends AppCompatActivity {
 
                     case R.id.makeOrder:
 
-//                            MainFragment fragobj1 = new MainFragment();
-//                            myMessage = "User";
-//                            bundle.putString("message", myMessage );
-//                            fragobj1.setArguments(bundle);
+                            MainFragment fragobj1 = new MainFragment();
 
 
-//                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
-//                            fragmentClass1 = MainFragment.class;
+                            xfragmentTransaction.replace(R.id.containerView,  new ServiceProviderListFragment()).commit();
+                            fragmentClass1 = ServiceProviderListFragment.class;
                         return true;
 
                     case R.id.renewOrder:
@@ -264,7 +267,7 @@ public class CustomerActivity extends AppCompatActivity {
                     case R.id.logout:
 
 
-                        //  new Logout().execute();
+                          new Logout().execute();
 
                         SharedPreference sharedPreference = new SharedPreference();
                         sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
@@ -401,36 +404,47 @@ public class CustomerActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            Utilities utilities = new Utilities( getApplicationContext() );
+            Utilities utilities = new Utilities(getBaseContext());
 
+            String address = Constants.API_MEDICAL_LOGIN;
+            Map<String, String> params = new HashMap<>();
+            params.put("username", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+            params.put("role", sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ));
+            params.put("loginstatus", "0");
 
-            StringBuilder URL_ACCOUNT_GETPROFILEINFO = new StringBuilder( Constants.API_Account_Logout );
-            URL_ACCOUNT_GETPROFILEINFO.append("?Id=1");
-            URL_ACCOUNT_GETPROFILEINFO.append("&pUserName=" + username);
-
-            return utilities.apiCall( URL_ACCOUNT_GETPROFILEINFO.toString());
+            return utilities.apiCalls(address,params);
         }
 
         public void onPostExecute(String response) {
 
-            try {
+            try{
+
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
 
                 if(response.equals("NO_INTERNET")) {
-                    Toast.makeText( getApplicationContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
                 }
-                else if(response.equals("ERROR") ) {
-                    Toast.makeText( getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    } else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+                    }
                 }
 
-
-            } catch (Exception e1) {
-                Toast.makeText( getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText( getBaseContext(), "Something went wrong...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
-
 
         }
     }
-
     /*******  Used to file upload and show progress  **********/
 
     class uploadTask extends AsyncTask<String, Void, String> {

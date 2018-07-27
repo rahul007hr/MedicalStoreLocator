@@ -92,6 +92,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     params.put("username", sharedPreference.getValue( context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
                     params.put("password", sharedPreference.getValue(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS));
+                    params.put("loginstatus", "1");
 
                     return utilities.apiCalls(address,params);
                 } else {
@@ -127,7 +128,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         finish();
                     } else  if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
 
-                        Toast.makeText(getBaseContext(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
                         JSONObject jsonObject = new JSONObject(response);
                         Intent splashIntent = new Intent(getApplicationContext(), UserActivity.class);
                         startActivity(splashIntent);

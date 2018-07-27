@@ -1,9 +1,10 @@
-package com.medicalstorefinder.medicalstorelocator.Constants;
+package com.medicalstorefinder.medicalstoreslocator.Constants;
 
 
 public final class Constants {
 
     public static final String PREF_IS_FIRST_TIME = "PrefIsFirstTime";
+    public static final String PREF_USER_ROLE = "customer";
     public static final String PREF_IS_USER = "PrefISUser";
     public static final String PREF_KEY_USER_ID = "PrefUserID";
     public static final String PREF_KEY_USER_PHONE = "PrefPhone";
@@ -25,14 +26,17 @@ public final class Constants {
     public static final String PREF_KEY_USER_ProfilePic = "PrefProfilePic";
 
     //    public static final String DOMAIN_NAME = "http://192.168.0.102/";
-    public static final String DOMAIN_NAME = "https://www.kiranbachhav.com/";
+//    public static final String DOMAIN_NAME = "https://www.kiranbachhav.com/";
+    public static final String DOMAIN_NAME = "http://www.allegoryweb.com/";
 
 
     public static final String API_CHECK_STABLE_VERSION = DOMAIN_NAME + "emedical/api/checkversion";
     public static final String API_SIGN_UP = DOMAIN_NAME + "emedical/api/medicalregister";
-    public static final String API_LOGIN = DOMAIN_NAME + "emedical/api/medicallogin";
-
-
+    public static final String API_MEDICAL_LOGIN = DOMAIN_NAME + "emedical/api/medicallogin";
+    public static final String API_Account_Logout = DOMAIN_NAME + "emedical/api/logout";
+    public static final String API_CUSTOMER_LOGIN = DOMAIN_NAME + "emedical/api/customerlogin";
+    public static final String API_VERIFY_OTP = DOMAIN_NAME + "emedical/api/verifyotp";
+    public static final String API_MEDICAL_FORGOT_PASSWORD = DOMAIN_NAME + "emedical/api/medicalforgotpass";
 
 
 
@@ -44,7 +48,7 @@ public final class Constants {
 
     public static final String API_Account_IsAuthorised = DOMAIN_NAME + "api/Users/IsAuthorised";//.....
     public static final String API_SetUserInfo = DOMAIN_NAME + "api/Users/PostUser";//.........
-    public static final String API_Account_Logout = DOMAIN_NAME + "api/Users/Logout";//.....
+//    public static final String API_Account_Logout = DOMAIN_NAME + "api/Users/Logout";//.....
     public static final String API_Account_Activation = DOMAIN_NAME + "api/Users/Activation";//.....
     public static final String API_ChangePassword = DOMAIN_NAME + "api/Users/ChangePassword";//.....
     public static final String API_Account_ForgotPassword = DOMAIN_NAME + "api/Users/ForgotPassword";//.....

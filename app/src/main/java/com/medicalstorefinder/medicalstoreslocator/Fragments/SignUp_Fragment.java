@@ -74,7 +74,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 
 
 	private static View view;
-	private static EditText firstName,lastName, emailId, mobileNumber, shopName,address,
+	private static EditText firstName,lastName, emailId, mobileNumber, shopName,address,latitude,langitude,
 			password, confirmPassword;
 	private static TextView login;
 	private static Button signUpButton;
@@ -204,7 +204,15 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString();
 			String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString();
 
-            user.setAddress(title +","+address+"_"+latLongitude);
+			String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
+			String[] s = answer.split(",");
+			String lat = s[0];
+			String longi = s[1];
+
+			user.setLatitude(lat);
+			user.setLongitude(longi);
+
+            user.setAddress(title +","+address);
 			user.setPasswords(password.getText().toString());
 			break;
 
@@ -230,7 +238,15 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString();
 			String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString();
 
-			String getAddress =title +","+address+"_"+latLongitude;
+			String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
+			String[] s = answer.split(",");
+			String lat = s[0];
+			String longi = s[1];
+
+			String getLatitude =lat;
+			String getLongitude =longi;
+
+			String getAddress =title +","+address;
 			String getShopName = shopName.getText().toString();
 			String getPassword = password.getText().toString();
 			String getConfirmPassword = confirmPassword.getText().toString();
@@ -356,6 +372,8 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			params.put("password", user.getPasswords());
 			params.put("mobile", user.getRegMobile());
 			params.put("address", user.getAddress());
+			params.put("latitude", user.getLatitude());
+			params.put("longitude", user.getLongitude());
 
 			return utilities.apiCalls(address,params);
 		}
