@@ -128,7 +128,6 @@ public class ServiceProviderListFragment extends Fragment  {
         }
 
         protected void onPostExecute(String response) {
-
             try {
                 JSONObject jsonObject1 = new JSONObject(response);
                 JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
