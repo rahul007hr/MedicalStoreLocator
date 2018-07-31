@@ -11,14 +11,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+      <!--  <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
             android:theme="@style/Theme.Design.NoActionBar"
             app:title="Service Providers"
-            />
+            />-->
         <!--android:background="@color/app_sub_title"
         app:navigationIcon="@drawable/ic_transaction_history"-->
         <ImageView
@@ -27,8 +27,8 @@
             android:id="@+id/img_rep_not_found"
             android:layout_gravity="center|bottom"
             android:layout_marginTop="15dp"
+            android:src="@drawable/record_not_found"
             />
-        <!--android:src="@drawable/record_not_found"-->
 
 
         <android.support.v7.widget.RecyclerView
@@ -42,14 +42,14 @@
             >
         </android.support.v7.widget.RecyclerView>
 
-        <android.support.v7.widget.AppCompatButton
+        <!--<android.support.v7.widget.AppCompatButton
             android:id="@+id/report_load_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             android:layout_margin="15dp"
-            android:text="Load more ... "/>
+            android:text="Load more ... "/>-->
         <!--android:background="@drawable/loginbutton_selector"-->
 
     </LinearLayout>

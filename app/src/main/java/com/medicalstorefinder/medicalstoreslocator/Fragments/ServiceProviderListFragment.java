@@ -34,13 +34,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.DOMAIN_NAME;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ServiceProviderListFragment extends Fragment implements View.OnClickListener  {
+public class ServiceProviderListFragment extends Fragment  {
 
     int _PageNo = 1;
 
@@ -50,7 +54,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
 
-    private Button btnReportLoad;
+//    private Button btnReportLoad;
     private ImageView imgRepNotFound;
     String myValue;
     StringBuilder URL_Report;
@@ -61,9 +65,6 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
     String cap;
     int _TransactionId = -1;
     ImageView imageView;
-
-//    LinearLayout linearLayoutTxCardItem;
-
 
     @Nullable
     @Override
@@ -81,23 +82,10 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        Toolbar toolbar=(Toolbar)v.findViewById(R.id.toolbar);
-
         imageView=(ImageView)v.findViewById(R.id.image_View);
-
-
-        btnReportLoad=(Button) v.findViewById(R.id.report_load_btn);
-        btnReportLoad.setOnClickListener(this);
 
         imgRepNotFound = (ImageView) v.findViewById(R.id.img_rep_not_found);
         imgRepNotFound.setVisibility(View.GONE);
-
-        Bundle bundle = this.getArguments();
-//        myValue = bundle.getString("message");
-//        cap = myValue.substring(0, 1).toUpperCase() + myValue.substring(1);
-//        toolbar.setTitle(cap);
-
-//        String strtext = getArguments().getString("Paanwala");
 
         new RetrieveFeedTask1().execute();
 
@@ -105,7 +93,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
     }
 
 
-    @Override
+   /* @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -115,7 +103,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                 break;
         }
-    }
+    }*/
 
 
     class RetrieveFeedTask1 extends AsyncTask<Void, Void, String> {
@@ -127,63 +115,60 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         @Override
         protected String doInBackground(Void... urls) {
 
-            Utilities utilities = new Utilities(  getActivity().getApplicationContext() );
-            SharedPreference sharedPreference = new SharedPreference();
+            Utilities utilities = new Utilities(getContext());
 
-            URL_Report= new StringBuilder(Constants.API_GetServiceProviders);
-            URL_Report.append("?Id=1");
-            URL_Report.append("&pUserId=" + sharedPreference.getValue(getActivity().getBaseContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
-            URL_Report.append("&pKey=" + sharedPreference.getValue(getActivity().getBaseContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_PASS));
-            URL_Report.append("&cType=" + cap );
-            URL_Report.append("&page=" + _PageNo );
+            String address = Constants.API_GET_NEARBY;
+            Map<String, String> params = new HashMap<>();
+            params.put("latitude", "18.6079083");
+            params.put("longitude", "73.821156");
+            params.put("radius", "1");
+            params.put("userid", "6");
 
-            return utilities.apiCall(URL_Report.toString());
+            return utilities.apiCalls(address,params);
         }
 
         protected void onPostExecute(String response) {
 
             try {
-
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
                 imgRepNotFound.setVisibility(View.GONE);
 
                 if (response.equals("NO_INTERNET")) {
                     Toast.makeText(getActivity().getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                } /*else if (response.equals("ERROR")) {
+                } else if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                     imgRepNotFound.setVisibility(View.VISIBLE);
 
                     final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                     imgRepNotFound.startAnimation(animImgRecordNotFound);
 
-                    btnReportLoad.setVisibility(View.GONE);
-                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
-                } else {*/
+//                    btnReportLoad.setVisibility(View.GONE);
+//                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
+                } else {
 
 
-                   /* JSONArray jsonarray = new JSONArray(response);
 
+
+
+                    JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
-                        btnReportLoad.setVisibility(View.GONE);
+//                        btnReportLoad.setVisibility(View.GONE);
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
-                    }*/
+                    }
 
 
-                    for (int i = 0; i < 6; i++) {
+                    for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
-//                        JSONObject json = jsonarray.getJSONObject(i);
+                        JSONObject jsonObject = jsonarray.getJSONObject(i);
+//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
+//                        serviceProviderDetails.setID(json.getInt("Id"));
+//                        jsonObject.getString("firstname")
+                        serviceProviderDetails.setStatus(jsonObject.getString("loginstatus"));
+                        serviceProviderDetails.setLocation(jsonObject.getString("distance"));
+                        serviceProviderDetails.setImage_link(DOMAIN_NAME+jsonObject.getString("profilepic"));
 
-                       /* serviceProviderDetails.setID(json.getInt("Id"));
-                        serviceProviderDetails.setEmailId(json.getString("Email_Id"));
-                        serviceProviderDetails.setCustomerNo(json.getString("Mobile_Number"));
-                        serviceProviderDetails.setFullName(json.getString("Full_Name"));
 
-                        serviceProviderDetails.setStatus(json.getString("cStatus"));
-                        serviceProviderDetails.setServiceTypeName(json.getString("cType"));
-                        serviceProviderDetails.setLocation(json.getString("Location"));
-                        serviceProviderDetails.setPassword(json.getString("Passwords"));
-                        serviceProviderDetails.setImage_link("http://www.paanwalapro.com/uploads/"+json.getString("Email_Id")+".jpg");
-*/
-
-                        serviceProviderDetails.setID(i);
+                       /* serviceProviderDetails.setID(i);
                         serviceProviderDetails.setEmailId(("Email_Id"));
                         serviceProviderDetails.setCustomerNo(("Mobile_Number"));
                         serviceProviderDetails.setFullName(("Full_Name"));
@@ -193,7 +178,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setLocation(("Location"));
                         serviceProviderDetails.setPassword(("Passwords"));
                         serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
-
+*/
 
                         listDetails.add(serviceProviderDetails);
                     }
@@ -204,18 +189,12 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                         imgRepNotFound.startAnimation(animImgRecordNotFound);
 
-                        btnReportLoad.setVisibility(View.GONE);
+//                        btnReportLoad.setVisibility(View.GONE);
                     }
-
-                    if (listDetails.size() % 5 != 0) {
-                        btnReportLoad.setVisibility(View.GONE);
-                    }
-
-                    _PageNo++;
 
                     adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
                     recyclerView.setAdapter(adapter);
-//                }
+                }
             }
 
             catch (Exception e1) {
@@ -226,8 +205,6 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             }
         }
     }
-
-//.......................
 
 //*************  Adapter Class*************//
 
@@ -264,11 +241,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             try {
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
-                holder.vtxtEmail_Id.setText("Email : "+tr.getEmailId());
                 holder.vtxtLocation.setText("Location : "+tr.getLocation());
-                holder.vtxtCustomerNo.setText("Mobile No : "+tr.getCustomerNo());
-                holder.vtxtFullName.setText("Name : "+tr.getFullName());
-                holder.vtxtServiceType.setText("Type : "+tr.getServiceTypeName());
                 Glide.with(context).load(tr.getImage_link()).into(holder.imageViews);
 
                 switch (tr.getStatus()) {
@@ -296,13 +269,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView vtxtFullName;
-            public TextView vtxtEmail_Id;
             public TextView vtxtLocation;
-            public TextView vtxtCustomerNo;
-            public TextView vtxtServiceType;
             public TextView vtxtStatus;
-            public TextView vtxtViewDetails;
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public String s,s1;
@@ -313,10 +281,6 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 super(itemView);
 
                 final View view = itemView;
-                vtxtFullName = (TextView) itemView.findViewById(R.id.full_name);
-                vtxtCustomerNo = (TextView) itemView.findViewById(R.id.customer_no);
-                vtxtEmail_Id = (TextView) itemView.findViewById(R.id.email_id);
-                vtxtServiceType = (TextView) itemView.findViewById(R.id.service_type);
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);

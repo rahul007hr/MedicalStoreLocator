@@ -42,6 +42,7 @@ import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.AboutUsFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.ChooseOrderTypeFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ContactUsFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.MainFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ServiceProviderListFragment;
@@ -229,18 +230,18 @@ public class CustomerActivity extends AppCompatActivity {
                             MainFragment fragobj1 = new MainFragment();
 
 
-                            xfragmentTransaction.replace(R.id.containerView,  new ServiceProviderListFragment()).commit();
-                            fragmentClass1 = ServiceProviderListFragment.class;
+                            xfragmentTransaction.replace(R.id.containerView,  new ChooseOrderTypeFragment()).commit();
+                            fragmentClass1 = ChooseOrderTypeFragment.class;
                         return true;
 
                     case R.id.renewOrder:
-//                            myMessage = "medical";
-//                            bundle.putString("message", myMessage );
-//                            fragobj.setArguments(bundle);
+
+                        MainFragment fragobj2 = new MainFragment();
 
 
-//                            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-//                            fragmentClass1 = ServiceProviderListFragment.class;
+                        xfragmentTransaction.replace(R.id.containerView,  new ServiceProviderListFragment()).commit();
+                        fragmentClass1 = ServiceProviderListFragment.class;
+
                         return true;
 
 

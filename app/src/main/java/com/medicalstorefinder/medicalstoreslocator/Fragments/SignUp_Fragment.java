@@ -152,12 +152,12 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 		login.setOnClickListener(this);
 	}
 
-	/*@Override
-	public void onPause() {
-		super.onPause();
+	@Override
+	public void onStop() {
+		super.onStop();
 		mClient.stopAutoManage(getActivity());
 		mClient.disconnect();
-	}*/
+	}
 
 
 	@Override
@@ -218,6 +218,10 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 
 		case R.id.already_user:
 			// Replace login fragment
+
+			mClient.stopAutoManage(getActivity());
+			mClient.disconnect();
+
 			new MainActivity().replaceLoginFragment();
 			break;
 		}

@@ -112,7 +112,7 @@
             android:layout_marginTop="3dp"
             android:padding="3dp"
             android:text="login"
-            android:textColor="#f9ba29"
+            android:textColor="@color/white"
             android:textSize="17sp"
             android:background="@drawable/loginbutton_selector"
             android:textStyle="bold" />

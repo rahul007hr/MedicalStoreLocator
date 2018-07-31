@@ -11,12 +11,12 @@
         android:gravity="center"
         android:layout_marginTop="140dp"
         android:text="Please Select Registration Type"
-        android:textColor="@color/black"
+        android:textColor="@color/primary"
         android:textSize="25sp"
         android:textStyle="bold" />
 
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,7 +43,7 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <LinearLayout
@@ -53,7 +53,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+       <!-- <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userSelected"
             android:layout_width="124dp"
             android:layout_height="124dip"
@@ -61,10 +61,46 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="8dip"
             android:background="@drawable/customer"
-            />
+            />-->
+        <Button
+            android:id="@+id/userSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-15dp"
+            android:padding="3dp"
+            android:background="@drawable/loginbutton_selector"
+            android:text="Customer"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+    </LinearLayout>
+
+
+
+    <LinearLayout
+
+        android:layout_gravity="bottom|center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="180dp">
+
+        <Button
+            android:id="@+id/serviceProviderSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-35dp"
+            android:padding="3dp"
+            android:background="@drawable/loginbutton_selector"
+            android:text="Medical User"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/serviceProviderSelected"
             android:layout_width="124dip"
             android:layout_height="124dip"
@@ -74,16 +110,9 @@
             android:layout_marginLeft="60dp"
             android:background="@drawable/medical"
              />
+-->
 
-    </LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|center"
-    android:layout_marginBottom="140dp"
-    >
-
-    <Button
+ <!--   <Button
         android:id="@+id/startBtn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -93,7 +122,7 @@
         android:text="Start"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="17sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" />-->
 
 </LinearLayout>
 

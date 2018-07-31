@@ -16,7 +16,7 @@ import com.medicalstorefinder.medicalstoreslocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
 public class RoleSelectorActivity extends AppCompatActivity {
-    static int count=0;
+//    static int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,21 +38,9 @@ public class RoleSelectorActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_user_role_selector, container, false);
 
-            Button startBtn = (Button)rootView.findViewById(R.id.startBtn);
+            Button serviceProviderBtn = (Button)rootView.findViewById(R.id.serviceProviderSelected);
+            Button userBtn = (Button)rootView.findViewById(R.id.userSelected);
 
-
-            startBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(count!=0) {
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    }else{
-                        Toast.makeText(getActivity(), "Please select atleast one type", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 
             sharedPreference = new SharedPreference();
 
@@ -60,8 +48,40 @@ public class RoleSelectorActivity extends AppCompatActivity {
             sharedPreference.createSharedPreference(getActivity(), Constants.PREF_USER_ROLE);
 
 
+            serviceProviderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    if(count!=0) {
+                    sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"medical");
 
-            rootView.findViewById(R.id.userSelected).setOnClickListener(new View.OnClickListener() {
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                   /* }else{
+                        Toast.makeText(getActivity(), "Please select atleast one type", Toast.LENGTH_SHORT).show();
+                    }*/
+                }
+            });
+
+            userBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    if(count!=0) {
+
+                    sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"Customer");
+
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                   /* }else{
+                        Toast.makeText(getActivity(), "Please select atleast one type", Toast.LENGTH_SHORT).show();
+                    }*/
+                }
+            });
+
+
+
+           /* rootView.findViewById(R.id.userSelected).setOnClickListener(new View.OnClickListener() {
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onClick(View view) {
@@ -84,7 +104,7 @@ public class RoleSelectorActivity extends AppCompatActivity {
 
                             count=1;
                         }
-                    });
+                    });*/
 
             return rootView;
         }

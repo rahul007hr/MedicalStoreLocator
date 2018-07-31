@@ -37,7 +37,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new CheckIsStableVersion().execute();
+
+                Intent i = new Intent(getApplicationContext(), CustomerActivity.class);
+                startActivity(i);
+                finish();
+
+//                new CheckIsStableVersion().execute();
 
             }
         },SPLASH_SCREEN_TIMEOUT);
