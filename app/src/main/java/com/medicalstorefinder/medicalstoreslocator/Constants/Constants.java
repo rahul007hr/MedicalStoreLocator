@@ -25,19 +25,7 @@ public final class Constants {
     public static final String PREF_KEY_USER_Email = "PrefEmail";
     public static final String PREF_KEY_USER_ProfilePic = "PrefProfilePic";
 
-    //    public static final String DOMAIN_NAME = "http://192.168.0.102/";
-//    public static final String DOMAIN_NAME = "https://www.kiranbachhav.com/";
-    public static final String DOMAIN_NAME = "http://www.allegoryweb.com/";
-
-
-    public static final String API_CHECK_STABLE_VERSION = DOMAIN_NAME + "emedical/api/checkversion";
-    public static final String API_SIGN_UP = DOMAIN_NAME + "emedical/api/medicalregister";
-    public static final String API_MEDICAL_LOGIN = DOMAIN_NAME + "emedical/api/medicallogin";
-    public static final String API_Account_Logout = DOMAIN_NAME + "emedical/api/logout";
-    public static final String API_CUSTOMER_LOGIN = DOMAIN_NAME + "emedical/api/customerlogin";
-    public static final String API_VERIFY_OTP = DOMAIN_NAME + "emedical/api/verifyotp";
-    public static final String API_MEDICAL_FORGOT_PASSWORD = DOMAIN_NAME + "emedical/api/medicalforgotpass";
-
+        public static final String DOMAIN_NAME = "http://192.168.0.102/";
 
 
 
