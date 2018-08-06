@@ -2,21 +2,47 @@ package com.medicalstorefinder.medicalstoreslocator.Fragments;
 
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.medicalstorefinder.medicalstoreslocator.Activity.MainActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utility;
+import com.medicalstorefinder.medicalstoreslocator.Geofencing;
+import com.medicalstorefinder.medicalstoreslocator.PlaceListAdapter;
+import com.medicalstorefinder.medicalstoreslocator.Provider.PlaceContract;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
 import java.io.ByteArrayOutputStream;
@@ -24,16 +50,29 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostOrderFragment extends Fragment implements View.OnClickListener {
+public class PostOrderFragment extends Fragment implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener  {
 
     private ImageView profile_img;
     private ImageView camera;
     private String userChoosenTask;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 2;
+    private static final int PLACE_PICKER_REQUEST = 1;
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+    private PlaceListAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private GoogleApiClient mClient;
+    private Geofencing mGeofencing;
+    private static Button addLocationBtn;
 
     public PostOrderFragment() {
         // Required empty public constructor
@@ -49,11 +88,31 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener 
 //            setContentView(R.layout.activity_main);
             profile_img = (ImageView) view.findViewById(R.id.imageView);
             camera = (ImageView) view.findViewById(R.id.imageView1);
+
+            profile_img.setOnClickListener(this);
             camera.setOnClickListener(this);
 //            setUITEXT();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.address);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter = new PlaceListAdapter(getActivity(), null);
+        mRecyclerView.setAdapter(mAdapter);
+        addLocationBtn=(Button)view.findViewById(R.id.addLocationBtn);
+        addLocationBtn.setOnClickListener(this);
+
+        mClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(getActivity(), this)
+                .build();
+
+        mGeofencing = new Geofencing(getActivity(), mClient);
+        mGeofencing.registerAllGeofences();
 
         return view;
     }
@@ -64,7 +123,116 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener 
             case R.id.imageView1:
                 selectImage();
                 break;
+
+            case R.id.imageView:
+                selectImage();
+                break;
+
+            case R.id.addLocationBtn:
+
+                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                    Intent i = builder.build(getActivity());
+                    startActivityForResult(i, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e(TAG, String.format("GooglePlayServices Not Available [%s]", e.getMessage()));
+                } catch (Exception e) {
+                    Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
+                }
+
+
+
+                break;
+
+
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mClient.stopAutoManage(getActivity());
+        mClient.disconnect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle connectionHint) {
+        refreshPlacesData();
+        Log.i(TAG, "API Client Connection Successful!");
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        Log.i(TAG, "API Client Connection Suspended!");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.e(TAG, "API Client Connection Failed!");
+    }
+
+    public void refreshPlacesData() {
+        Uri uri = PlaceContract.PlaceEntry.CONTENT_URI;
+        Cursor data = getActivity().getContentResolver().query(
+                uri,
+                null,
+                null,
+                null,
+                null);
+
+        if (data == null || data.getCount() == 0) return;
+        List<String> guids = new ArrayList<String>();
+        while (data.moveToNext()) {
+            guids.add(data.getString(data.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_ID)));
+        }
+
+        PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mClient,
+                guids.toArray(new String[guids.size()]));
+        placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+            @Override
+            public void onResult(@NonNull PlaceBuffer places) {
+                mAdapter.swapPlaces(places);
+                mGeofencing.updateGeofencesList(places);
+                mGeofencing.registerAllGeofences();
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(getContext(), data);
+            if (place == null) {
+                Log.i(TAG, "No place selected");
+                return;
+            }
+
+            String placeID = place.getId();
+
+            // Insert a new place into DB
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PlaceContract.PlaceEntry.COLUMN_PLACE_ID, placeID);
+            getActivity().getContentResolver().delete(PlaceContract.PlaceEntry.CONTENT_URI,null,null);
+            getActivity().getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, contentValues);
+            // Get live data information
+            refreshPlacesData();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+
     }
 
     private void selectImage() {
@@ -119,16 +287,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-    }
+
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");

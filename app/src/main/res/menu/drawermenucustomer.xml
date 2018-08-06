@@ -29,20 +29,6 @@
     </item>
 
 
-    <item android:title="Account">
-        <menu>
-
-            <item
-                android:title="Logout"
-                android:id="@+id/logout"
-                android:icon="@drawable/user"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
-
-        </menu>
-    </item>
-
-
     <item android:title="Help">
         <menu>
             <item
@@ -55,6 +41,13 @@
             <item
                 android:title="Contact us"
                 android:id="@+id/contact_us"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item
+                android:title="Logout"
+                android:id="@+id/logout"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>

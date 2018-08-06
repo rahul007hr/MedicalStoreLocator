@@ -99,13 +99,13 @@ public class CustomerActivity extends AppCompatActivity {
     Uri selectedImage;
 
     /*********  work only for Dedicated IP ***********/
-    static final String FTP_HOST= "103.21.58.98";
+    static final String FTP_HOST= "allegoryweb.com";
 
     /*********  FTP USERNAME ***********/
-    static final String FTP_USER = "paanwsqw";
+    static final String FTP_USER = "emedical@allegoryweb.com";
 
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="RahuL007#";
+    static final String FTP_PASS  ="11QCOX&3vzX";
 
     String ff="";
     String picturePath="";
@@ -451,7 +451,7 @@ public class CustomerActivity extends AppCompatActivity {
     class uploadTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            FTPClient client = new FTPClient();
+/*            FTPClient client = new FTPClient();
             FileInputStream fis = null;
 
             try {
@@ -462,7 +462,7 @@ public class CustomerActivity extends AppCompatActivity {
                     client.setType(FTPClient.TYPE_BINARY);
                     client.setPassive(true);
                     client.noop();
-                    client.changeDirectory("/httpdocs/uploads/");
+                    client.changeDirectory("/public_html/emedical/images/");
                     try {
                         client.upload(f, new MyTransferListener());
 
@@ -485,7 +485,7 @@ public class CustomerActivity extends AppCompatActivity {
             }
 
 
-            String fileToDelete = "/httpdocs/uploads/"+name + ".jpg";
+            String fileToDelete = "/public_html/emedical/images/"+"name" + ".jpg";
             try {
                 client.deleteFile(fileToDelete);
             } catch (IOException e) {
@@ -498,14 +498,14 @@ public class CustomerActivity extends AppCompatActivity {
 
 
             try {
-                client.rename("/httpdocs/uploads/"+ff, "/httpdocs/uploads/"+name + ".jpg");
+                client.rename("/public_html/emedical/images/"+"ff", "/public_html/emedical/images/"+"name" + ".jpg");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (FTPIllegalReplyException e) {
                 e.printStackTrace();
             } catch (FTPException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             return null;
         }
