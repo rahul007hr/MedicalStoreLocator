@@ -8,97 +8,83 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:orientation="vertical"
-        android:layout_margin="10dp"
-        android:layout_weight="3">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            >
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="500dp"
-                android:layout_height="200dp"
-                android:background="@color/black_overlay"
-                android:src="@drawable/movies" />
-
-            <ImageButton
-                android:id="@+id/imageView1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_action_user"
-                android:layout_alignBottom="@+id/imageView"
-                android:layout_alignRight="@+id/imageView"
-                />
-
-        </RelativeLayout>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="1dp"
-            android:weightSum="5"
-            android:layout_weight="7">
+            >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/black_overlay"
+            android:layout_margin="10dp"
+            android:src="@drawable/movies" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:hint="Email"
+                android:hint="Description"
+                android:id="@+id/description"
                 android:layout_margin="10dp"
                 />
 
-        </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:id="@+id/addLocationBtn"
+                android:layout_margin="10dp"
+                android:background="@drawable/loginbutton_selector"
+                android:textColor="@color/white"
+                android:text="@string/add_new_location"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                />
 
-    </LinearLayout>
+           <!-- <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_margin="10dp"
+                android:text="@string/location_list"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                 />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:layout_weight="2">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                 />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                 />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:id="@+id/addLocationBtn"
+            android:id="@+id/postOrderBtn"
+            android:layout_margin="10dp"
             android:background="@drawable/loginbutton_selector"
             android:textColor="@color/white"
-            android:text="@string/add_new_location"
+            android:text="Post Order"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/location_list"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2px"
-            android:background="#f9ba29" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2px"
-            android:background="#f9ba29" />
-    </LinearLayout>
+        </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

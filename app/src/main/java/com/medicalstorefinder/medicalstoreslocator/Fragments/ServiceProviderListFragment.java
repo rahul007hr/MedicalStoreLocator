@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,13 +47,14 @@ import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.DO
  */
 public class ServiceProviderListFragment extends Fragment  {
 
-    int _PageNo = 1;
+//    int _PageNo = 1;
 
     ProgressDialog progressDialog;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
+    private SeekBar volumeControl = null;
 
 //    private Button btnReportLoad;
     private ImageView imgRepNotFound;
@@ -86,6 +88,27 @@ public class ServiceProviderListFragment extends Fragment  {
 
         imgRepNotFound = (ImageView) v.findViewById(R.id.img_rep_not_found);
         imgRepNotFound.setVisibility(View.GONE);
+
+
+        volumeControl = (SeekBar) v.findViewById(R.id.volume_bar);
+
+        volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChanged = 0;
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                progressChanged = progress;
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(getContext(),"seek bar progress:"+progressChanged,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         new RetrieveFeedTask1().execute();
 
@@ -121,8 +144,8 @@ public class ServiceProviderListFragment extends Fragment  {
             Map<String, String> params = new HashMap<>();
             params.put("latitude", "18.6079083");
             params.put("longitude", "73.821156");
-            params.put("radius", "1");
-            params.put("userid", "6");
+            params.put("radius", "500");
+            params.put("userid", "19");
 
             return utilities.apiCalls(address,params);
         }
@@ -337,7 +360,7 @@ public class ServiceProviderListFragment extends Fragment  {
                                         }
                                     });*/
                         }
-                        alertDialogBuilder.show();
+//                        alertDialogBuilder.show();
                     }
 
                 });

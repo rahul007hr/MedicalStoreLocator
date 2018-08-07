@@ -132,10 +132,10 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
             //fragmentTransaction.replace(R.id.containerView,new RechargeTabFragment()).commit();
 
             v = navigationView.getHeaderView(0);
-            txtvUserName=(TextView) v.findViewById(R.id.user_id);
-            txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
+//            txtvUserName=(TextView) v.findViewById(R.id.user_id);
+//            txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
             txtvEmail=(TextView) v.findViewById(R.id.email);
-            profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
+//            profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
             SharedPreference sharedPreference = new SharedPreference();
 
             username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));

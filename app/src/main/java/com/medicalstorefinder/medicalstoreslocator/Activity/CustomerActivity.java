@@ -17,6 +17,8 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +47,7 @@ import com.medicalstorefinder.medicalstoreslocator.Fragments.AboutUsFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ChooseOrderTypeFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ContactUsFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.MainFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.PostOrderFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ServiceProviderListFragment;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
@@ -70,18 +73,18 @@ import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
-public class CustomerActivity extends AppCompatActivity {
+public class CustomerActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    TextView txtvUserName;
+   /* TextView txtvUserName;
     TextView txtvRegisteredMobileNo;
     TextView txtvEmail;
     CircleImageView profileImage;
-    String username;
+    String username;*/
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     //CircleImageView profileImage;
@@ -129,15 +132,21 @@ public class CustomerActivity extends AppCompatActivity {
         //fragmentTransaction.replace(R.id.containerView,new RechargeTabFragment()).commit();
 
         v = navigationView.getHeaderView(0);
-        txtvUserName=(TextView) v.findViewById(R.id.user_id);
+       /* txtvUserName=(TextView) v.findViewById(R.id.user_id);
         txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
         txtvEmail=(TextView) v.findViewById(R.id.email);
-        profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
+        profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);*/
         SharedPreference sharedPreference = new SharedPreference();
 
-        username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+        //loading the default fragment
+        loadFragment(new ServiceProviderListFragment());
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        //getting bottom navigation view and attaching the listener
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
+//        username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+
+      /*  profileImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -148,13 +157,13 @@ public class CustomerActivity extends AppCompatActivity {
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
-        });
+        });*/
 
-        name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
+//        name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
 
-        txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
-        txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
-        txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+//        txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
+//        txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
+//        txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
         String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
         new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
@@ -313,7 +322,7 @@ public class CustomerActivity extends AppCompatActivity {
 
             }
         };
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
 
@@ -393,7 +402,7 @@ public class CustomerActivity extends AppCompatActivity {
 
         protected void onPostExecute(Bitmap image) {
             if(image != null){
-                profileImage.setImageBitmap(image);
+//                profileImage.setImageBitmap(image);
             }
         }
     }
@@ -768,7 +777,7 @@ public class CustomerActivity extends AppCompatActivity {
 
             f = new File(picturePath);
 
-            profileImage.setImageBitmap(decodeBitmapFromPath(res));
+//            profileImage.setImageBitmap(decodeBitmapFromPath(res));
 
 
             new uploadTask().execute();
@@ -795,7 +804,42 @@ public class CustomerActivity extends AppCompatActivity {
         return image;
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = null;
 
+        switch (item.getItemId()) {
+            case R.id.NearbyServiceProviderList:
+                fragment = new ServiceProviderListFragment();
+                break;
+
+            case R.id.chooseOrderType:
+                fragment = new ChooseOrderTypeFragment();
+                break;
+
+            case R.id.postOrder:
+                fragment = new PostOrderFragment();
+                break;
+
+            case R.id.serviceProviderResponceList:
+//                fragment = new ProfileFragment();
+                break;
+        }
+
+        return loadFragment(fragment);
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.containerView, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
     //.....................................................................
 
 

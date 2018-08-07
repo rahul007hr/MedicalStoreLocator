@@ -51,4 +51,12 @@
     <color name="tx_PENDING">#E65100</color>
     <color name="tx_REVERSED">#0D47A1</color>
 
+    <color name="colorNavIcon">#dae9f6</color>
+    <color name="colorNavText">#01294b</color>
+
+    <color name="default_screen_bg">#f9f9f9</color>
+    <color name="rounded_container_bg">#222222</color>
+    <color name="rounded_container_border">#3b3f44</color>
+    <color name="light_gray_header_color">#646663</color>
+
 </resources>
