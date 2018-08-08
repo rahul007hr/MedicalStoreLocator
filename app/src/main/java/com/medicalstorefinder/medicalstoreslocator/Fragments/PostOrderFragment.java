@@ -44,17 +44,14 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.medicalstorefinder.medicalstoreslocator.Activity.MainActivity;
-import com.medicalstorefinder.medicalstoreslocator.Activity.UserActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocator.Constants.CustomToast;
 import com.medicalstorefinder.medicalstoreslocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utility;
-import com.medicalstorefinder.medicalstoreslocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstoreslocator.Geofencing;
-import com.medicalstorefinder.medicalstoreslocator.Models.ApiUser;
 import com.medicalstorefinder.medicalstoreslocator.Models.PostOrders;
-import com.medicalstorefinder.medicalstoreslocator.PlaceListAdapter;
+import com.medicalstorefinder.medicalstoreslocator.Adapter.PlaceListAdapter;
 import com.medicalstorefinder.medicalstoreslocator.Provider.PlaceContract;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
@@ -69,8 +66,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static android.app.Activity.RESULT_OK;
 

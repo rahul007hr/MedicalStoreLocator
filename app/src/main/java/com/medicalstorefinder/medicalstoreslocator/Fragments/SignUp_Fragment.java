@@ -44,7 +44,7 @@ import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utils1;
 import com.medicalstorefinder.medicalstoreslocator.Geofencing;
 import com.medicalstorefinder.medicalstoreslocator.Models.ApiUser;
-import com.medicalstorefinder.medicalstoreslocator.PlaceListAdapter;
+import com.medicalstorefinder.medicalstoreslocator.Adapter.PlaceListAdapter;
 import com.medicalstorefinder.medicalstoreslocator.Provider.PlaceContract;
 import com.medicalstorefinder.medicalstoreslocator.R;
 

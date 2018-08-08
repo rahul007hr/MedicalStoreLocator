@@ -166,7 +166,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 //        txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
         String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
-        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
+//        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
 
         // profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
 

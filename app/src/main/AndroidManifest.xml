@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <uses-permission
         android:name="android.permission.CALL_PRIVILEGED"
@@ -35,14 +38,22 @@
             android:authorities="com.medicalstorefinder.medicalstoreslocator"
             android:exported="false"/>
 
-        <activity android:name=".Activity.MainActivity">
+        <receiver android:name=".IncomingSms">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SplashScreenActivity">
+        <activity android:name=".Activity.SplashScreenActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,7 +62,8 @@
         </activity>
         <activity
             android:name=".Activity.WelcomeInstructinsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,15 +83,18 @@
         </activity>
         <activity
             android:name=".Activity.RoleSelectorActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.OtpVerificationActivity" />
-        <activity android:name=".Activity.CustomerActivity"></activity>
+        <activity android:name=".Activity.OtpVerificationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.CustomerActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
