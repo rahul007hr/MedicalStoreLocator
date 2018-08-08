@@ -407,9 +407,20 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     "All fields are required.");
 
             // Else do signup or do your stuff
-        else
-            new PostOrder().execute();
+        else {
 
+            if (sharedPreference.isSPKeyExits(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS)){
+                if(!sharedPreference.getValue( getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS ).equalsIgnoreCase("")){
+                    new PostOrder().execute();
+                }else{
+                    Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
+            }
+
+
+        }
     }
 
     class PostOrder extends AsyncTask<Void, Void, String> {

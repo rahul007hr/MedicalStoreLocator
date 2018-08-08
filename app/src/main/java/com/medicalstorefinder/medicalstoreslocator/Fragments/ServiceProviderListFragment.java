@@ -55,6 +55,8 @@ public class ServiceProviderListFragment extends Fragment  {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private SeekBar volumeControl = null;
+    TextView distanceTxt;
+    int progressChanged1 = 0;
 
 //    private Button btnReportLoad;
     private ImageView imgRepNotFound;
@@ -91,26 +93,36 @@ public class ServiceProviderListFragment extends Fragment  {
 
 
         volumeControl = (SeekBar) v.findViewById(R.id.volume_bar);
+        distanceTxt=(TextView)v.findViewById(R.id.distanceTxt);
 
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressChanged = 0;
+
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                int progressChanged = 0;
                 progressChanged = progress;
+                progressChanged=progressChanged/10;
+                progressChanged1=progressChanged;
+                distanceTxt.setText("Select Range of Medical Store : "+progressChanged+" Km");
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getContext(),"seek bar progress:"+progressChanged,
-                        Toast.LENGTH_SHORT).show();
+               /* int progressChanged = 0;
+                progressChanged=progressChanged/10;
+                progressChanged1=progressChanged;*/
+//                distanceTxt.setText("Select Range of Medical Store : "+progressChanged+" Km");
+                new RetrieveFeedTask1().execute();
+               /* Toast.makeText(getContext(),"seek bar progress:"+progressChanged,
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
 
 
-        new RetrieveFeedTask1().execute();
+
 
         return v;
     }
@@ -144,7 +156,7 @@ public class ServiceProviderListFragment extends Fragment  {
             Map<String, String> params = new HashMap<>();
             params.put("latitude", "18.6079083");
             params.put("longitude", "73.821156");
-            params.put("radius", "500");
+            params.put("radius", String.valueOf(progressChanged1));
             params.put("userid", "19");
 
             return utilities.apiCalls(address,params);
@@ -169,7 +181,9 @@ public class ServiceProviderListFragment extends Fragment  {
                 } else {
 
 
-
+                    if (listDetails.size() > 0) {
+                       listDetails.clear();
+                    }
 
 
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
@@ -178,6 +192,7 @@ public class ServiceProviderListFragment extends Fragment  {
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
                     }
 
+                    String listOfMedicalUsers="";
 
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
@@ -189,7 +204,11 @@ public class ServiceProviderListFragment extends Fragment  {
                         serviceProviderDetails.setLocation(jsonObject.getString("distance"));
                         serviceProviderDetails.setImage_link(DOMAIN_NAME+jsonObject.getString("profilepic"));
 
-
+                        if(listOfMedicalUsers.equalsIgnoreCase("")) {
+                            listOfMedicalUsers = jsonObject.getString("id");
+                        }else{
+                            listOfMedicalUsers += ","+jsonObject.getString("id");
+                        }
                        /* serviceProviderDetails.setID(i);
                         serviceProviderDetails.setEmailId(("Email_Id"));
                         serviceProviderDetails.setCustomerNo(("Mobile_Number"));
@@ -204,6 +223,12 @@ public class ServiceProviderListFragment extends Fragment  {
 
                         listDetails.add(serviceProviderDetails);
                     }
+
+
+
+                    sharedPreference.clearSharedPreference(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS);
+                    sharedPreference.createSharedPreference(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS);
+                    sharedPreference.putValue(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS,listOfMedicalUsers);
 
                     if (listDetails.size() <= 0) {
                         imgRepNotFound.setVisibility(View.VISIBLE);
