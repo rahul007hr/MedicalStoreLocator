@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +46,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.medicalstorefinder.medicalstoreslocator.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocator.Activity.MainActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocator.Constants.CustomToast;
@@ -73,7 +77,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class PostOrderFragment extends Fragment implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener  {
+        GoogleApiClient.OnConnectionFailedListener {
 
     PostOrders postOrders = new PostOrders();
     private ImageView profile_img;
@@ -107,14 +111,24 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         try {
 //            setContentView(R.layout.activity_main);
             profile_img = (ImageView) view.findViewById(R.id.imageView);
-            Button postOrderBtn=(Button)view.findViewById(R.id.postOrderBtn);
+//            Button postOrderBtn=(Button)view.findViewById(R.id.postOrderBtn);
             descriptionEdtxt=(EditText)view.findViewById(R.id.description);
 
-            postOrderBtn.setOnClickListener(this);
+            Button postOrderNextBtn=(Button)view.findViewById(R.id.postOrderNextBtn);
+
+//            postOrderBtn.setOnClickListener(this);
+
+            postOrderNextBtn.setOnClickListener(this);
             profile_img.setOnClickListener(this);
 
             fragmentManager = getActivity().getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
+            sharedPreference = new SharedPreference();
+
+            CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(true);
+            CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setChecked(true);
+
+            CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
 
 //            setUITEXT();
         } catch (Exception e) {
@@ -146,7 +160,29 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.postOrderBtn:
+          /*  case R.id.postOrderBtn:
+                checkValidation();
+
+
+
+                String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString();
+                String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString();
+                String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString();
+
+                String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
+                String[] s = answer.split(",");
+                String lat = s[0];
+                String longi = s[1];
+
+                postOrders.setPicUrl("This Field Temporary Blank");
+                postOrders.setDescription(descriptionEdtxt.getText().toString());
+                postOrders.setAddress(title +","+address);
+                postOrders.setLatitude(lat);
+                postOrders.setLongitude(longi);
+
+                break;*/
+
+            case R.id.postOrderNextBtn:
                 checkValidation();
 
 
@@ -167,7 +203,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 postOrders.setLongitude(longi);
 
                 break;
-
 
            case R.id.imageView:
                 selectImage();
@@ -404,7 +439,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             // Else do signup or do your stuff
         else {
 
-            if (sharedPreference.isSPKeyExits(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS)){
+           /* if (sharedPreference.isSPKeyExits(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS)){
                 if(!sharedPreference.getValue( getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS ).equalsIgnoreCase("")){
                     new PostOrder().execute();
                 }else{
@@ -412,11 +447,19 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 }
             }else{
                 Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
-            }
+            }*/
 
-
+            ServiceProviderListFragment fragment2 = new ServiceProviderListFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.containerView, fragment2);
+            fragmentTransaction.commit();
         }
     }
+
+
+
+
 
     class PostOrder extends AsyncTask<Void, Void, String> {
 
@@ -425,7 +468,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
 
         protected String doInBackground(Void... urls) {
-            sharedPreference = new SharedPreference();
+
             Utilities utilities = new Utilities(getContext());
 
             String address = Constants.API_POST_ORDER;
@@ -436,6 +479,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             params.put("address", postOrders.getAddress());
             params.put("description", postOrders.getDescription());
             params.put("imagepath", postOrders.getPicUrl());
+            params.put("medicalids", sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
 
             return utilities.apiCalls(address,params);
 

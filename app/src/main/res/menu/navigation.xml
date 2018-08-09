@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/NearbyServiceProviderList"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
-
-    <item
         android:id="@+id/chooseOrderType"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="@string/title_type" />
 
     <item
         android:id="@+id/postOrder"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_createOrder" />
+
+    <item
+        android:id="@+id/NearbyServiceProviderList"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_range" />
 
     <item
         android:id="@+id/serviceProviderResponceList"

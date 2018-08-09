@@ -80,9 +80,9 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
 
-        TextView txtvUserName;
-        TextView txtvRegisteredMobileNo;
-        TextView txtvEmail;
+//        TextView txtvUserName;
+//        TextView txtvRegisteredMobileNo;
+//        TextView txtvEmail;
         CircleImageView profileImage;
         String username;
 
@@ -101,14 +101,14 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
         public String res="";
         Uri selectedImage;
 
-        /*********  work only for Dedicated IP ***********/
-        static final String FTP_HOST= "103.21.58.98";
+    /*********  work only for Dedicated IP ***********/
+    static final String FTP_HOST= "allegoryweb.com";
 
-        /*********  FTP USERNAME ***********/
-        static final String FTP_USER = "paanwsqw";
+    /*********  FTP USERNAME ***********/
+    static final String FTP_USER = "emedical@allegoryweb.com";
 
-        /*********  FTP PASSWORD ***********/
-        static final String FTP_PASS  ="RahuL007#";
+    /*********  FTP PASSWORD ***********/
+    static final String FTP_PASS  ="11QCOX&3vzX!";
 
         String ff="";
         String picturePath="";
@@ -134,8 +134,8 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
             v = navigationView.getHeaderView(0);
 //            txtvUserName=(TextView) v.findViewById(R.id.user_id);
 //            txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
-            txtvEmail=(TextView) v.findViewById(R.id.email);
-//            profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
+//            txtvEmail=(TextView) v.findViewById(R.id.email);
+            profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
             SharedPreference sharedPreference = new SharedPreference();
 
             username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
@@ -153,11 +153,11 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                 }
             });
 
-            name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
+//            name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
 
-            txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
-            txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
-            txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+//            txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
+//            txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
+//            txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
             String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
             new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
@@ -474,7 +474,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                         client.setType(FTPClient.TYPE_BINARY);
                         client.setPassive(true);
                         client.noop();
-                        client.changeDirectory("/httpdocs/uploads/");
+                        client.changeDirectory("/public_html/emedical/images");
                         try {
                             client.upload(f, new MyTransferListener());
 
@@ -497,7 +497,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                 }
 
 
-                String fileToDelete = "/httpdocs/uploads/"+name + ".jpg";
+                String fileToDelete = "/public_html/emedical/images/"+name + ".jpg";
                 try {
                     client.deleteFile(fileToDelete);
                 } catch (IOException e) {
@@ -510,7 +510,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 
                 try {
-                    client.rename("/httpdocs/uploads/"+ff, "/httpdocs/uploads/"+name + ".jpg");
+                    client.rename("/public_html/emedical/images/"+ff, "/public_html/emedical/images/"+name + ".jpg");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (FTPIllegalReplyException e) {

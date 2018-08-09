@@ -83,9 +83,9 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
    /* TextView txtvUserName;
     TextView txtvRegisteredMobileNo;
     TextView txtvEmail;
-    CircleImageView profileImage;
-    String username;*/
 
+    String username;*/
+   CircleImageView profileImage;
     ActionBarDrawerToggle actionBarDrawerToggle;
     //CircleImageView profileImage;
 
@@ -100,6 +100,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
     private static int RESULT_LOAD_IMAGE = 1;
     public String res="";
     Uri selectedImage;
+    public static BottomNavigationView navigation;
 
     /*********  work only for Dedicated IP ***********/
     static final String FTP_HOST= "allegoryweb.com";
@@ -108,7 +109,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
     static final String FTP_USER = "emedical@allegoryweb.com";
 
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="11QCOX&3vzX";
+    static final String FTP_PASS  ="11QCOX&3vzX!";
 
     String ff="";
     String picturePath="";
@@ -134,15 +135,16 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         v = navigationView.getHeaderView(0);
        /* txtvUserName=(TextView) v.findViewById(R.id.user_id);
         txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
-        txtvEmail=(TextView) v.findViewById(R.id.email);
-        profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);*/
+        txtvEmail=(TextView) v.findViewById(R.id.email);*/
+        profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
+        profileImage.setVisibility(View.GONE);
         SharedPreference sharedPreference = new SharedPreference();
 
         //loading the default fragment
-        loadFragment(new ServiceProviderListFragment());
+        loadFragment(new ChooseOrderTypeFragment());
 
         //getting bottom navigation view and attaching the listener
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 //        username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
@@ -165,7 +167,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 //        txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
 //        txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
-        String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
+//        String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
 //        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
 
         // profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
@@ -809,9 +811,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         Fragment fragment = null;
 
         switch (item.getItemId()) {
-            case R.id.NearbyServiceProviderList:
-                fragment = new ServiceProviderListFragment();
-                break;
 
             case R.id.chooseOrderType:
                 fragment = new ChooseOrderTypeFragment();
@@ -819,6 +818,10 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 
             case R.id.postOrder:
                 fragment = new PostOrderFragment();
+                break;
+
+            case R.id.NearbyServiceProviderList:
+                fragment = new ServiceProviderListFragment();
                 break;
 
             case R.id.serviceProviderResponceList:
@@ -829,7 +832,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         return loadFragment(fragment);
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()

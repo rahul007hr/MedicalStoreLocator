@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.medicalstorefinder.medicalstoreslocator.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocator.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
@@ -94,6 +95,9 @@ public class ServiceProviderListFragment extends Fragment  {
 
         volumeControl = (SeekBar) v.findViewById(R.id.volume_bar);
         distanceTxt=(TextView)v.findViewById(R.id.distanceTxt);
+
+        CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(true);
+        CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setChecked(true);
 
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 

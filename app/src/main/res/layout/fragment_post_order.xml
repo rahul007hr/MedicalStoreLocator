@@ -36,26 +36,7 @@
                 android:layout_margin="10dp"
                 />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:id="@+id/addLocationBtn"
-                android:layout_margin="10dp"
-                android:background="@drawable/loginbutton_selector"
-                android:textColor="@color/white"
-                android:text="@string/add_new_location"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                />
 
-           <!-- <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_margin="10dp"
-                android:text="@string/location_list"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                 />-->
 
             <View
                 android:layout_width="fill_parent"
@@ -73,7 +54,7 @@
                 android:layout_height="2px"
                  />
 
-        <Button
+       <!-- <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -83,7 +64,37 @@
             android:textColor="@color/white"
             android:text="Post Order"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            />
+            />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:id="@+id/addLocationBtn"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/loginbutton_selector"
+                            android:textColor="@color/white"
+                            android:text="@string/add_new_location"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="12dp"
+                            android:id="@+id/postOrderNextBtn"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/loginbutton_selector"
+                            android:textColor="@color/white"
+                            android:text="Next"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                            />
+            </LinearLayout>
         </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 

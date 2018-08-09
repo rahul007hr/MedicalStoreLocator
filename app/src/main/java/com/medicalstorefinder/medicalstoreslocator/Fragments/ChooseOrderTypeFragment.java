@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.medicalstorefinder.medicalstoreslocator.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocator.Activity.MainActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocator.R;
@@ -36,6 +37,10 @@ public class ChooseOrderTypeFragment extends Fragment {
         Button newOrderBtn = (Button)view.findViewById(R.id.newOrder);
         Button oldOrderBtn = (Button)view.findViewById(R.id.oldOrder);
 
+        CustomerActivity.navigation.getMenu().findItem(R.id.chooseOrderType).setChecked(true);
+
+        CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(false);
+        CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
 
 
         newOrderBtn.setOnClickListener(new View.OnClickListener() {

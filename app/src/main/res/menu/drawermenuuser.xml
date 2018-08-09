@@ -5,7 +5,7 @@
         <menu>
 
 
-            <item android:title="Make Order"
+            <item android:title="Make Order1"
                 android:id="@+id/makeOrder"
                 android:icon="@drawable/user"
                 android:iconTint="@color/primary"

@@ -54,7 +54,7 @@
             />
     </LinearLayout>-->
 
-   <!-- <de.hdodenhof.circleimageview.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginLeft="16dp"
@@ -65,7 +65,7 @@
         android:elevation="10dp"
         android:fadingEdgeLength="5dp"
         android:src="@drawable/movies"
-        />-->
+        />
 
 </RelativeLayout>
 
