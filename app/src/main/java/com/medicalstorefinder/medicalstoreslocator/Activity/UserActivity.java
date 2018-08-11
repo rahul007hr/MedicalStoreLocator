@@ -474,7 +474,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                         client.setType(FTPClient.TYPE_BINARY);
                         client.setPassive(true);
                         client.noop();
-                        client.changeDirectory("/public_html/emedical/images");
+                        client.changeDirectory("/images");
                         try {
                             client.upload(f, new MyTransferListener());
 
@@ -497,7 +497,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                 }
 
 
-                String fileToDelete = "/public_html/emedical/images/"+name + ".jpg";
+                String fileToDelete = "/images/"+name + ".jpg";
                 try {
                     client.deleteFile(fileToDelete);
                 } catch (IOException e) {
@@ -510,7 +510,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 
                 try {
-                    client.rename("/public_html/emedical/images/"+ff, "/public_html/emedical/images/"+name + ".jpg");
+                    client.rename("/images/"+ff, "/images/"+name + ".jpg");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (FTPIllegalReplyException e) {
