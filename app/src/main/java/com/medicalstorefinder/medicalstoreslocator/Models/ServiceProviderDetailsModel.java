@@ -25,6 +25,18 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String Itemname10,image_link;
 
 
+    public String orderid;
+    public String description;
+    public String imagepath;
+    public String address;
+    public String latitude;
+    public String longitude;
+    public String mobile;
+    public String createddate;
+    public String orderstatus;
+
+
+
     public String getImage_link() {
         return image_link;
     }
@@ -122,22 +134,77 @@ public class ServiceProviderDetailsModel implements Serializable {
     }
 
 
+    public String getOrderid() {
+        return orderid;
+    }
 
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public String getImagepath() {
+        return imagepath;
+    }
 
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
+    }
 
+    public String getAddress() {
+        return address;
+    }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
+    public String getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
 
+    public String getLongitude() {
+        return longitude;
+    }
 
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 
+    public String getMobile() {
+        return mobile;
+    }
 
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
+    public String getCreateddate() {
+        return createddate;
+    }
 
+    public void setCreateddate(String createddate) {
+        this.createddate = createddate;
+    }
 
+    public String getOrderstatus() {
+        return orderstatus;
+    }
+
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
+    }
 
     public String getLocation() {
         return Location;

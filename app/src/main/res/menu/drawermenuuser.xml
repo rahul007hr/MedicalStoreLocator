@@ -5,8 +5,8 @@
         <menu>
 
 
-            <item android:title="Make Order1"
-                android:id="@+id/makeOrder"
+            <item android:title="Received Order"
+                android:id="@+id/receivedOrder"
                 android:icon="@drawable/user"
                 android:iconTint="@color/primary"
                 android:background="@drawable/custom_bg"

@@ -418,7 +418,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         protected String doInBackground(String... urls) {
             Utilities utilities = new Utilities(getBaseContext());
 
-            String address = Constants.API_MEDICAL_LOGIN;
+            String address = Constants.API_Account_Logout;
             Map<String, String> params = new HashMap<>();
             params.put("username", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
             params.put("role", sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ));

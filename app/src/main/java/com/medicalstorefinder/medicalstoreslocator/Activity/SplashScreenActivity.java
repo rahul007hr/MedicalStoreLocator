@@ -38,11 +38,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent i = new Intent(getApplicationContext(), CustomerActivity.class);
+               /* Intent i = new Intent(getApplicationContext(), UserActivity.class);
                 startActivity(i);
-                finish();
+                finish();*/
 
-//                new CheckIsStableVersion().execute();
+                new CheckIsStableVersion().execute();
 
             }
         },SPLASH_SCREEN_TIMEOUT);

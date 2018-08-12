@@ -88,6 +88,8 @@ import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import static android.app.Activity.RESULT_OK;
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.DOMAIN_NAME;
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.IMAGE_PATH;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -235,7 +237,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 String lat = s[0];
                 String longi = s[1];
 
-                postOrders.setPicUrl("This Field Temporary Blank");
+                postOrders.setPicUrl("");
                 postOrders.setDescription(descriptionEdtxt.getText().toString());
                 postOrders.setAddress(title +","+address);
                 postOrders.setLatitude(lat);
@@ -498,7 +500,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
 
         // Get all edittext texts
-        String getImagePath = "This Field Temporary Blank";
+//        String getImagePath = "";
         String getDescription = descriptionEdtxt.getText().toString();
 
         String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString();
@@ -515,8 +517,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
         String getAddress =title +","+address;
         // Check if all strings are null or not
-        if (getImagePath.equals("") || getImagePath.length() == 0
-                || getDescription.equals("") || getDescription.length() == 0
+        if (getDescription.equals("") || getDescription.length() == 0
                 || getLatitude.equals("") || getLatitude.length() == 0
                 || getLongitude.equals("") || getLongitude.length() == 0
                 || getAddress.equals("") || getAddress.length() == 0)
@@ -536,6 +537,15 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             }else{
                 Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
             }*/
+
+//            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,getImagePath);
+            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Description, Constants.PREF_USER_ORDER_Description,getDescription);
+            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Latitude, Constants.PREF_USER_ORDER_Latitude,getLatitude);
+            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Longitude, Constants.PREF_USER_ORDER_Longitude,getLongitude);
+            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_getAddress, Constants.PREF_USER_ORDER_getAddress,getAddress);
+
+
+
 
             ServiceProviderListFragment fragment2 = new ServiceProviderListFragment();
             FragmentManager fragmentManager = getFragmentManager();
@@ -784,12 +794,13 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     client.setType(FTPClient.TYPE_BINARY);
                     client.setPassive(true);
                     client.noop();
-                    String p = sharedPreference.getValue( getActivity(), Constants.PREF_KEY_USER_ID, Constants.PREF_KEY_USER_ID );
+                    String p = sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     boolean exist = checkDirectoryExists("/images/"+p+"/");
                     if(!exist)
                     client.createDirectory("/images/"+p+"/");
                     else
                     client.changeDirectory("/images/"+p+"/");
+                    sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+IMAGE_PATH+String.valueOf("/images/"+p+"/"+ff));
                     try {
                         client.upload(f, new MyTransferListener());
 
@@ -899,7 +910,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dips, r.getDisplayMetrics());
     }
 
-    class PostOrder extends AsyncTask<Void, Void, String> {
+   /* class PostOrder extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
 
@@ -947,7 +958,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 //						JSONObject jsonObject = jsonarray.getJSONObject(1);
 
-                       /* apiUser = new ApiUser();
+                       *//* apiUser = new ApiUser();
 
                         apiUser.setID(jsonObject.getInt("id"));
                         apiUser.setFirst_Name(jsonObject.getString("firstname"));
@@ -957,12 +968,12 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                         apiUser.setShop_Name(jsonObject.getString("shopname"));
                         apiUser.setEmail(jsonObject.getString("email"));
                         apiUser.setPasswords(jsonObject.getString("password"));
-                        apiUser.setUserRole(jsonObject.getString("role"));*/
+                        apiUser.setUserRole(jsonObject.getString("role"));*//*
 //						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
 
 
 
-                       /* sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
+                       *//* sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
                         sharedPreference.createSharedPreference(getActivity(), Constants.PREF_IS_USER);
 
                         sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
@@ -975,10 +986,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                         sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
                         sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medica", apiUser.getUserRole());
 //							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
-*/
-                        /*Intent myIntent = new Intent(getActivity(), UserActivity.class);
+*//*
+                        *//*Intent myIntent = new Intent(getActivity(), UserActivity.class);
                         getActivity().startActivity(myIntent);
-                        getActivity().finish();*/
+                        getActivity().finish();*//*
+
+                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LATITUDE, postOrders.getLatitude());
+                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LONGITUDE, postOrders.getLongitude());
+
 
                         Fragment fragment = null;
                         Class fragmentClass1 = null;
@@ -998,7 +1013,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             }
 
         }
-    }
+    }*/
 
 
 

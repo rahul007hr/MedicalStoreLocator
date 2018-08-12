@@ -55,15 +55,9 @@
             android:secondaryProgress="0" />
     </LinearLayout>
 
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fitsSystemWindows="true"
-        >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
       <!--  <android.support.v7.widget.Toolbar
@@ -89,7 +83,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rep_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="9dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -106,22 +100,12 @@
             android:layout_margin="15dp"
             android:text="Load more ... "/>-->
         <!--android:background="@drawable/loginbutton_selector"-->
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:id="@+id/postOrderBtn"
-            android:layout_margin="10dp"
-            android:background="@drawable/loginbutton_selector"
-            android:textColor="@color/white"
-            android:text="Post Order"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            />
+
 
 
     </LinearLayout>
 
-    </ScrollView>
+
 
     </LinearLayout>
 <!--</ScrollView>-->

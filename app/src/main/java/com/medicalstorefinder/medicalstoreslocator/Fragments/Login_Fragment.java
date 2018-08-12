@@ -43,6 +43,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.PROFILE_IMAGE_PATH;
+
 public class Login_Fragment extends Fragment implements OnClickListener {
 	private static View view;
 
@@ -232,7 +234,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 				JSONObject jsonObject1 = new JSONObject(response);
 				JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
-
+//				{"Content":"{\"status\":\"success\",\"result\":{\"id\":\"28\",\"firstname\":\"Mangesh\",\"lastname\":\"Khalale\",\"shopname\":\"Mango\",\"email\":\"mangesh@gmail.com\",\"password\":\"111\",\"mobile\":\"8793377994\",\"address\":\"Pathardi Phata,Pathardi Phata, Nashik, Maharashtra, India\",\"latitude\":\"19.946922\",\"longitude\":\"73.7654367\",\"profilepic\":\"no_avatar.jpg\",\"role\":\"medical\",\"regdate\":\"2018-07-27 10:44:22\",\"status\":\"0\",\"deletestatus\":null,\"loginstatus\":\"1\",\"otp\":null}}","Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
 				if(response.equals("NO_INTERNET")) {
 					Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
 				}
@@ -261,7 +263,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						apiUser.setEmail(jsonObject.getString("email"));
 						apiUser.setPasswords(jsonObject.getString("password"));
 						apiUser.setUserRole(jsonObject.getString("role"));
-//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
+						String s = PROFILE_IMAGE_PATH+jsonObject.getInt("id")+"/"+jsonObject.getInt("id")+".jpg";
+
+						apiUser.setProfilePicUrl(s);
 
 
 
@@ -277,7 +281,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medica", apiUser.getUserRole());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
 								Intent myIntent = new Intent(getActivity(), UserActivity.class);
 								getActivity().startActivity(myIntent);
@@ -372,6 +376,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
 						getActivity().startActivity(myIntent);
 						getActivity().finish();
+//						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
 						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
 						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}

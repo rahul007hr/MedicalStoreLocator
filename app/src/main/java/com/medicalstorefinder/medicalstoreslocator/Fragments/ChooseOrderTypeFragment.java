@@ -61,7 +61,7 @@ public class ChooseOrderTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ServiceProviderListFragment fragment2 = new ServiceProviderListFragment();
+                ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerView, fragment2);

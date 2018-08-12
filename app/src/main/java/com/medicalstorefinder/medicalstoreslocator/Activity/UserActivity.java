@@ -44,6 +44,8 @@ import com.medicalstorefinder.medicalstoreslocator.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.AboutUsFragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ChangePassword_Fragment;
 import com.medicalstorefinder.medicalstoreslocator.Fragments.ContactUsFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.ReceivedOrderListFragment;
+import com.medicalstorefinder.medicalstoreslocator.Fragments.ServiceProviderListUsingOrderStatusFragment;
 import com.medicalstorefinder.medicalstoreslocator.R;
 
 import org.json.JSONObject;
@@ -66,6 +68,9 @@ import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.DOMAIN_NAME;
+import static com.medicalstorefinder.medicalstoreslocator.Constants.Constants.IMAGE_PATH;
 
 /**
  * Created by Rahul on 2/19/2017.
@@ -125,7 +130,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
             //Setup the DrawerLayout and NavigationView
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
             navigationView = (NavigationView) findViewById(R.id.nav) ;
-
+            sharedPreference = new SharedPreference();
             // inflating the TabFragment as the first Fragment
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
@@ -159,7 +164,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 //            txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
 //            txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
-            String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
+            String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic);
             new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
 
             // profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
@@ -186,7 +191,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 //            }
 //        });
 
-            navigationView.getMenu().findItem(R.id.makeOrder).setChecked(true);
+            navigationView.getMenu().findItem(R.id.receivedOrder).setChecked(true);
 
 //            MainFragment fragobj = new MainFragment();
             Fragment fragment = null;
@@ -213,7 +218,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                     if (menuItem.getItemId()>0) {
-                        navigationView.getMenu().findItem(R.id.makeOrder).setChecked(false);
+                        navigationView.getMenu().findItem(R.id.receivedOrder).setChecked(false);
                     }
 
 //                    ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
@@ -228,16 +233,16 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                     switch (menuItem.getItemId()) {
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-                        case R.id.makeOrder:
+                        case R.id.receivedOrder:
 
-//                            MainFragment fragobj1 = new MainFragment();
+                            ReceivedOrderListFragment fragobj1 = new ReceivedOrderListFragment();
 //                            myMessage = "User";
 //                            bundle.putString("message", myMessage );
 //                            fragobj1.setArguments(bundle);
 
 
-//                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
-//                            fragmentClass1 = MainFragment.class;
+                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
+                            fragmentClass1 = ServiceProviderListUsingOrderStatusFragment.class;
                             return true;
 
                         case R.id.renewOrder:
@@ -418,7 +423,7 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
             protected String doInBackground(String... urls) {
                 Utilities utilities = new Utilities(getBaseContext());
 
-                String address = Constants.API_MEDICAL_LOGIN;
+                String address = Constants.API_Account_Logout;
                 Map<String, String> params = new HashMap<>();
                 params.put("username", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
                 params.put("role", sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ));
@@ -457,13 +462,29 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
             }
         }
-
+    FTPClient client=null;
         /*******  Used to file upload and show progress  **********/
+        boolean checkDirectoryExists(String dirPath) throws IOException {
+            int returnCode = 1;
+            try {
+                client.changeDirectory(dirPath);
+            } catch (FTPIllegalReplyException e) {
+                e.printStackTrace();
+                returnCode = 0;
+            } catch (FTPException e) {
+                e.printStackTrace();
+                returnCode = 0;
+            }
 
+            if (returnCode == 0) {
+                return false;
+            }
+            return true;
+        }
         class uploadTask extends AsyncTask<String, Void, String> {
             @Override
             protected String doInBackground(String... params) {
-                FTPClient client = new FTPClient();
+                client = new FTPClient();
                 FileInputStream fis = null;
 
                 try {
@@ -474,7 +495,13 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                         client.setType(FTPClient.TYPE_BINARY);
                         client.setPassive(true);
                         client.noop();
-                        client.changeDirectory("/images");
+                        String p = sharedPreference.getValue( getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
+                        boolean exist = checkDirectoryExists("/images/"+p+"/");
+                        if(!exist)
+                            client.createDirectory("/images/"+p+"/");
+                        else
+                            client.changeDirectory("/images/"+p+"/");
+
                         try {
                             client.upload(f, new MyTransferListener());
 
@@ -496,8 +523,8 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
                     e.printStackTrace();
                 }
 
-
-                String fileToDelete = "/images/"+name + ".jpg";
+                String p = sharedPreference.getValue( getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
+                String fileToDelete =IMAGE_PATH + "/images/"+p+"/"+p+".jpg";
                 try {
                     client.deleteFile(fileToDelete);
                 } catch (IOException e) {
@@ -510,7 +537,9 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 
                 try {
-                    client.rename("/images/"+ff, "/images/"+name + ".jpg");
+
+
+                    client.rename("/images/"+p+"/"+ff, "/images/"+p+"/"+p+ ".jpg");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (FTPIllegalReplyException e) {
