@@ -62,7 +62,7 @@
             android:background="@android:color/transparent"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:hint="Please Enter Passowrd"
+            android:hint="Please Enter Password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"

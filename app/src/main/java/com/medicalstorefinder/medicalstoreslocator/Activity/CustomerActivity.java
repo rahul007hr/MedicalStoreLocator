@@ -138,7 +138,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         txtvEmail=(TextView) v.findViewById(R.id.email);*/
         profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
         profileImage.setVisibility(View.GONE);
-        SharedPreference sharedPreference = new SharedPreference();
+        sharedPreference = new SharedPreference();
 
         //loading the default fragment
         loadFragment(new ChooseOrderTypeFragment());
@@ -447,6 +447,12 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                         Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
                     } else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+
+
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, "");
+
+                        String pass = sharedPreference.getValue( getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS );
+                        Log.d(pass, "onPostExecute: ");
                     }
                 }
 

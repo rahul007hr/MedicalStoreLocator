@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.medicalstorefinder.medicalstoreslocator.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocator.Activity.OtpVerificationActivity;
 import com.medicalstorefinder.medicalstoreslocator.Activity.UserActivity;
 import com.medicalstorefinder.medicalstoreslocator.Constants.Constants;
@@ -311,27 +312,107 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			new CustomToast().Show_Toast(getActivity(), view,"Enter both credentials.");
 		}
 		else {
-
 			new AuthoriseUser().execute();
-
 		}
 	}
 
 	private void checkValidationForCustomer() {
 
 		getMobileNo = mobile.getText().toString();
+		getPassword = sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS);
 
 		if (getMobileNo.equals("") || getMobileNo.length() == 0) {
 			loginLayout.startAnimation(shakeAnimation);
 			new CustomToast().Show_Toast(getActivity(), view,"Enter Mobile Number");
-		}
-		else {
-
+		}else if (getPassword.equals("") || getPassword.length() == 0) {
 			new AuthoriseCustomer().execute();
+		}else {
+			new AuthoriseOTP().execute();
+		}
+	}
+	class AuthoriseOTP extends AsyncTask<Void, Void, String> {
+
+		protected void onPreExecute() {
+//            progressDialog.show();
+		}
+
+		protected String doInBackground(Void... urls) {
+
+			Utilities utilities = new Utilities(getActivity());
+
+			String address = Constants.API_VERIFY_OTP;
+			Map<String, String> params = new HashMap<>();
+			params.put("mobile", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+			params.put("otp", getPassword);
+
+			return utilities.apiCalls(address,params);
+
+		}
+
+		protected void onPostExecute(String response) {
+			try {
+
+				if(response.equals("NO_INTERNET")) {
+					Toast.makeText(getActivity(), "Check internet connection", Toast.LENGTH_LONG).show();
+				}
+				else if(response.equals("ERROR")) {
+					Toast.makeText(getActivity(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+				}
+				else
+				{
+					if(response.equals("false"))
+					{
+						Toast.makeText(getActivity(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+					}
+					else {
+						JSONObject jsonObject1 = new JSONObject(response);
+						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+						JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
+
+						apiUser = new ApiUser();
+
+						apiUser.setID(jsonObject.getInt("id"));
+						apiUser.setFirst_Name(jsonObject.getString("firstname"));
+						apiUser.setLast_Name(jsonObject.getString("lastname"));
+						apiUser.setRegMobile(jsonObject.getString("mobile"));
+						apiUser.setAddress(jsonObject.getString("address"));
+						apiUser.setShop_Name(jsonObject.getString("shopname"));
+						apiUser.setEmail(jsonObject.getString("email"));
+						apiUser.setUserRole(jsonObject.getString("role"));
+						apiUser.setPasswords( getPassword);
+//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
+
+//						sharedPreference = new SharedPreference();
+
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
+//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
+
+						Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
+
+						Intent myIntent = new Intent(getActivity(), CustomerActivity.class);
+						getActivity().startActivity(myIntent);
+						getActivity().finish();
+					}
+				}
+
+			} catch (Exception e) {
+				Toast.makeText( getActivity(), "Something went wrong...", Toast.LENGTH_LONG).show();
+				e.printStackTrace();
+			}
+			finally {
+//                progressDialog.dismiss();
+			}
 
 		}
 	}
-
 
 	class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
 

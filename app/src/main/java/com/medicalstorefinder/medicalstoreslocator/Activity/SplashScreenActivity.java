@@ -32,13 +32,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sharedPreference = new SharedPreference();
         setContentView(R.layout.activity_splash_screen);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
-               /* Intent i = new Intent(getApplicationContext(), UserActivity.class);
+/*                Intent i = new Intent(getApplicationContext(), CustomerActivity.class);
                 startActivity(i);
                 finish();*/
 
@@ -76,16 +76,112 @@ public class SplashScreenActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             } else {
-                        new LoginTask().execute();
+                String userRole = sharedPreference.getValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE);
+                if(userRole.equalsIgnoreCase("customer")){
+                    new AuthoriseOTP().execute();
+                }else{
+                    new LoginTask().execute();
+                }
+
+
+
             }
         }
     }
+
+    class AuthoriseOTP extends AsyncTask<Void, Void, String> {
+
+        protected void onPreExecute() {
+//            progressDialog.show();
+        }
+
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getApplication());
+            String pass = sharedPreference.getValue(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS);
+            String address = Constants.API_VERIFY_OTP;
+            Map<String, String> params = new HashMap<>();
+            params.put("mobile", sharedPreference.getValue( getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+            params.put("otp", pass);
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getApplication(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(response.equals("ERROR")) {
+                    Toast.makeText(getApplication(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(response.equals("false"))
+                    {
+                        Toast.makeText(getApplication(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        JSONObject jsonObject1 = new JSONObject(response);
+                        JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
+
+                        apiUser = new ApiUser();
+
+                        apiUser.setID(jsonObject.getInt("id"));
+                        apiUser.setFirst_Name(jsonObject.getString("firstname"));
+                        apiUser.setLast_Name(jsonObject.getString("lastname"));
+                        apiUser.setRegMobile(jsonObject.getString("mobile"));
+                        apiUser.setAddress(jsonObject.getString("address"));
+                        apiUser.setShop_Name(jsonObject.getString("shopname"));
+                        apiUser.setEmail(jsonObject.getString("email"));
+                        apiUser.setUserRole(jsonObject.getString("role"));
+//						apiUser.setPasswords( pinEntry.getText().toString());
+//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
+
+//						sharedPreference = new SharedPreference();
+
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
+                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
+//						sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
+//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
+
+                        Toast.makeText(getApplication(), "Login Success", Toast.LENGTH_SHORT).show();
+
+                        Intent myIntent = new Intent(getApplication(), CustomerActivity.class);
+                        getApplication().startActivity(myIntent);
+                        finish();
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getApplication(), "Please Login Again", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+                Intent myIntent = new Intent(getApplication(), MainActivity.class);
+                getApplication().startActivity(myIntent);
+                finish();
+            }
+            finally {
+//                progressDialog.dismiss();
+            }
+
+        }
+    }
+
 
     class LoginTask extends AsyncTask<String,String,String> {
         @Override
         protected String doInBackground(String... urls) {
             try {
-                sharedPreference = new SharedPreference();
+
 
                 if (sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email) &&
                         sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE) &&

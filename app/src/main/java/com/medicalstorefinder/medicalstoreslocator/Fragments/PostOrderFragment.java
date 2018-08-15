@@ -329,9 +329,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
-
-
 
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
             Place place = PlacePicker.getPlace(getContext(), data);
@@ -353,6 +350,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
 
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);

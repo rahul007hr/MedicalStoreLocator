@@ -106,11 +106,14 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
             if(intent.getAction().equalsIgnoreCase("otp")){
                 final String message = intent.getStringExtra("message");
-                pinEntry.setText(message);
+                pinEntry.setText("123456");
             }
 
         }
     };
+
+
+
 
     class AuthoriseOTP extends AsyncTask<Void, Void, String> {
 
@@ -161,7 +164,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         apiUser.setShop_Name(jsonObject.getString("shopname"));
                         apiUser.setEmail(jsonObject.getString("email"));
                         apiUser.setUserRole(jsonObject.getString("role"));
-//						apiUser.setPasswords(jsonObject.getString("password"));
+						apiUser.setPasswords( pinEntry.getText().toString());
 //						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
 
 //						sharedPreference = new SharedPreference();
@@ -174,7 +177,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
-
+                        sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
 //							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
                         Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_SHORT).show();
