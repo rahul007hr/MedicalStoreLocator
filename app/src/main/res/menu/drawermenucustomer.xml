@@ -13,8 +13,8 @@
                 android:checkable="true"/>
 
 
-            <item android:title="Renew Order"
-                android:id="@+id/renewOrder"
+            <item android:title="Order Response"
+                android:id="@+id/orderresponse"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>

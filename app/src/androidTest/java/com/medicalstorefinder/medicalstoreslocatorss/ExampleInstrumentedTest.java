@@ -1,4 +1,4 @@
-package com.medicalstorefinder.medicalstoreslocator;
+package com.medicalstorefinder.medicalstoreslocatorss;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.medicalstorefinder.medicalstoreslocator", appContext.getPackageName());
+        assertEquals("com.medicalstorefinder.medicalstoreslocatorss", appContext.getPackageName());
     }
 }

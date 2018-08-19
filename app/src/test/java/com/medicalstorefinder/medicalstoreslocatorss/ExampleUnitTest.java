@@ -1,4 +1,4 @@
-package com.medicalstorefinder.medicalstoreslocator;
+package com.medicalstorefinder.medicalstoreslocatorss;
 
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.medicalstorefinder.medicalstoreslocator">
+    package="com.medicalstorefinder.medicalstoreslocatorss">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission
         android:name="android.permission.CALL_PRIVILEGED"
         tools:ignore="ProtectedPermissions" />
@@ -28,11 +29,11 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAelk1g2Vw8qKFjOOTeiqBImmcz5GrVClA" />
+            android:value="AIzaSyDSSmL5P0bPxDDDuvb6vDnPw9IDDd0c94M" />
 
         <provider
             android:name=".Provider.PlaceContentProvider"
-            android:authorities="com.medicalstorefinder.medicalstoreslocator"
+            android:authorities="com.medicalstorefinder.medicalstoreslocatorss"
             android:exported="false" />
 
         <receiver android:name=".IncomingSms">
@@ -60,7 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.FirebaseMainActivity"
+            android:name=".Activity.WelcomeInstructinsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -69,7 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.WelcomeInstructinsActivity"></activity>
+        <activity android:name=".Activity.FirebaseMainActivity"></activity>
         <!-- ..................................................... -->
         <activity
             android:name=".Activity.UserActivity"

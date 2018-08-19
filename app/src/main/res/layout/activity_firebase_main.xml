@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/place_autocomplete_prediction_horizontal_margin"
     android:paddingRight="@dimen/place_autocomplete_prediction_horizontal_margin"
     android:paddingTop="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
-    tools:context="com.medicalstorefinder.medicalstoreslocator.Activity.FirebaseMainActivity">
+    tools:context="com.medicalstorefinder.medicalstoreslocatorss.Activity.FirebaseMainActivity">
     <TextView
         android:id="@+id/tvNotificationDetails"
         android:layout_width="wrap_content"

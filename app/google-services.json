@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:422560111867:android:3531558e068614bc",
         "android_client_info": {
-          "package_name": "com.medicalstorefinder.medicalstoreslocator"
+          "package_name": "com.medicalstorefinder.medicalstoreslocatorss"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "422560111867-e3o75n8ejp1lb9of2tatjuh9k21ev5dn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.medicalstorefinder.medicalstoreslocator",
+            "package_name": "com.medicalstorefinder.medicalstoreslocatorss",
             "certificate_hash": "d506ad77f5a0f862f2b7e9daab8ba050602bf649"
           }
         },
