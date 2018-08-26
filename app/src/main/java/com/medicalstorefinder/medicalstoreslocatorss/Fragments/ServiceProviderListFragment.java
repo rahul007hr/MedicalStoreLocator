@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,7 +56,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private SeekBar volumeControl = null;
-    TextView distanceTxt;
+    TextView distanceTxt,medicalStoreCntTxt;
     int progressChanged1 = 0;
 
 //    private Button btnReportLoad;
@@ -94,6 +96,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         volumeControl = (SeekBar) v.findViewById(R.id.volume_bar);
         distanceTxt=(TextView)v.findViewById(R.id.distanceTxt);
 
+        medicalStoreCntTxt =(TextView)v.findViewById(R.id.medicalStoreCntTxt);
+
         CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(true);
         CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setChecked(true);
 
@@ -106,6 +110,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 progressChanged=progressChanged/10;
                 progressChanged1=progressChanged;
                 distanceTxt.setText("Select Range of Medical Store : "+progressChanged+" Km");
+                medicalStoreCntTxt.setVisibility(View.VISIBLE);
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -205,7 +210,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
-//                        postOrderBtn.setVisibility(View.GONE);
+                        postOrderBtn.setVisibility(View.GONE);
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
                     }
 
@@ -237,7 +242,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setPassword(("Passwords"));
                         serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
 */
-
+                        medicalStoreCntTxt.setText("Medical Stores : "+i);
                         listDetails.add(serviceProviderDetails);
                     }
 
@@ -258,7 +263,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     }
 
                     adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
-                    recyclerView.setAdapter(adapter);
+//                    recyclerView.setAdapter(adapter);
                 }
             }
 
@@ -461,14 +466,18 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
-
+                        ChooseOrderTypeFragment fragment2 = new ChooseOrderTypeFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, fragment2);
+                        fragmentTransaction.commit();
 //                        {"status":"success","result":{"orderid":"ORD000019","message":"Your order has been succesfully created."}}
 
 
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 
 
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID,jsonObject2.getString("orderid"));
+                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID,jsonObject.getString("orderid"));
 
 //						JSONObject jsonObject = jsonarray.getJSONObject(1);
 

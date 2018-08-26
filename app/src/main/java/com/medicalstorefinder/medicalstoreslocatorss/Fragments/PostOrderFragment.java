@@ -98,6 +98,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     private static final int PLACE_PICKER_REQUEST = 1;
     public static final String TAG = MainActivity.class.getSimpleName();
     SharedPreference sharedPreference;
+    String ts="";
 
     private PlaceListAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -438,9 +439,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
+        Long tsLong = System.currentTimeMillis()/1000;
+        ts = tsLong.toString()+".jpg";
         File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
+                ts);
 
         FileOutputStream fo;
         try {
@@ -486,6 +488,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 s.trim();
 
                 f = new File(s);
+                ts = f.getName();
                 new uploadTask().execute();
             }
             } catch (IOException e) {
@@ -756,7 +759,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             ff=newstr;
 
             f = new File(picturePath);
-
+            ts = f.getName();
             profile_img.setImageBitmap(decodeBitmapFromPath(res));
 
 
@@ -820,7 +823,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     client.createDirectory("/images/"+p+"/");
                     else
                     client.changeDirectory("/images/"+p+"/");
-                    sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+IMAGE_PATH+String.valueOf("/images/"+p+"/"+ff));
+
+
+
+                    sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+IMAGE_PATH+String.valueOf("/images/"+p+"/"+ff+ts));
                     try {
                         client.upload(f, new MyTransferListener());
 

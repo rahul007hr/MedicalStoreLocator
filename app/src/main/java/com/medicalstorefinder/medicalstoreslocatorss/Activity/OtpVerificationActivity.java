@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
@@ -211,10 +212,17 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
             Utilities utilities = new Utilities(getBaseContext());
 
+
+            String token = FirebaseInstanceId.getInstance().getToken();
+            while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+            {
+                token = FirebaseInstanceId.getInstance().getToken();
+            }
+
             String address = Constants.API_CUSTOMER_LOGIN;
             Map<String, String> params = new HashMap<>();
             params.put("mobile", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
-
+            params.put("deviceid", token);
             return utilities.apiCalls(address,params);
 
         }

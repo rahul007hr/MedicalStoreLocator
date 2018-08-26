@@ -1,17 +1,26 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Fragments;
 
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +28,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +43,9 @@ import com.medicalstorefinder.medicalstoreslocatorss.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,24 +185,30 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     String listOfMedicalUsers="";
 
                     for (int i = 0; i < jsonarray.length(); i++) {
-
+                        ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//                        serviceProviderDetails.setID(json.getInt("Id"));
-//                        jsonObject.getString("firstname")
-
-//                        {"orderid":"11","latitude":"12.1516516541","longitude":"15.65656565","description":"test order","imagepath":"http:\/\/googel.com","address":"NAshik","mobile":"7412589630","ordstatus":"Pending","created_at":"2018-08-09 09:12:25"}
-
+//           {"userid":"28","mainorderid":"ORD000011","cost":null,
+// "medicalreply":null,"customerconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00",
+// "medicalconfirm":"1","orderid":"13","latitude":"18.5894527","longitude":"73.822031","description":"ddf",
+// "imagepath":"http:\/\/www.allegoryweb.com\/emedical\/\/images\/28\/1534096979745.jpg",
+// "address":"Yashoda Puram,Gokul Nagari, Pimple Gurav, Gokul Nagari, Pimple Gurav, Pimpri-Chinchwad, Maharashtra 411027, India",
+// "mobile":"8793377995","ordstatus":"Pending","created_at":"2018-08-12 11:04:23"}
                         String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
 
-                        if(!listOfOrderIds.contains((jsonObject.getString("orderid")).toString())) {
+                        if(!listOfOrderIds.contains((jsonObject.getString("orderid")).toString())
+                                &&( jsonObject.getString("cost").equalsIgnoreCase("")
+                                || jsonObject.getString("cost")==null || jsonObject.getString("cost").equalsIgnoreCase("null"))) {
 
+                            serviceProviderDetails1.setOrderMainId(jsonObject.getString("mainorderid"));
+                            serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost"));
+//                            serviceProviderDetails1.set(jsonObject.getString("customerconfirm"));
+//                            serviceProviderDetails1.setMedicalCost(jsonObject.getString("medicalconfirm"));
 
-                            serviceProviderDetails.setOrderid(jsonObject.getString("orderid"));
-                            serviceProviderDetails.setDescription(jsonObject.getString("description"));
-                            serviceProviderDetails.setImagepath(jsonObject.getString("imagepath"));
-                            serviceProviderDetails.setOrderstatus(jsonObject.getString("ordstatus"));
-                            serviceProviderDetails.setAddress(jsonObject.getString("address"));
+                            serviceProviderDetails1.setOrderid(jsonObject.getString("orderid"));
+                            serviceProviderDetails1.setDescription(jsonObject.getString("description"));
+                            serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
+                            serviceProviderDetails1.setOrderstatus(jsonObject.getString("ordstatus"));
+                            serviceProviderDetails1.setAddress(jsonObject.getString("address"));
 
 
                        /* serviceProviderDetails.setID(i);
@@ -204,7 +223,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
 */
 
-                            listDetails.add(serviceProviderDetails);
+                            listDetails.add(serviceProviderDetails1);
                         }
                     }
 
@@ -270,12 +289,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getAddress());
 
-                if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                /*if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
                     Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
                     holder.imageViews.setImageResource(android.R.color.transparent);
-                }else{
+                }else{*/
                     Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
-                }
+//                }
 
                 tr.setStatus("pending");
                 switch (tr.getStatus()) {
@@ -348,10 +367,61 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         alertDialogBuilder.setTitle("Transaction Details : ");
                         alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
-                                         "Order Id : " + tr.getOrderid() +
+                                         "Order Id : " + tr.getOrderMainId() +
                                         "\n\nDescription : " + tr.getDescription() +
-                                        "\n\nStatus : " + tr.getOrderstatus());
+                                        "\n\nStatus : " + tr.getOrderstatus()+
+                                        "\n\nDownload Prescription : " );
 
+                        LinearLayout lv = new LinearLayout(getActivity());
+                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                        lv.setLayoutParams(vp);
+                        ImageView image = new ImageView(getActivity());
+//                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                        image.setLayoutParams(vp);
+                        image.setMaxHeight(10);
+                        image.setMaxWidth(10);
+
+                        // other image settings
+                        image.setImageDrawable(getResources().getDrawable(R.drawable.alert_dialog_confirm));
+                        lv.addView(image);
+
+                        alertDialogBuilder.setView(lv);
+
+                        image.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+//                                Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
+                               /* File direct = new File(Environment.getExternalStorageDirectory()
+                                        + "/AnhsirkDasarp");
+
+                                if (!direct.exists()) {
+                                    direct.mkdirs();
+                                }
+
+                                DownloadManager mgr = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+
+                                Uri downloadUri = Uri.parse(tr.getImagepath());
+                                DownloadManager.Request request = new DownloadManager.Request(
+                                        downloadUri);
+
+                                request.setAllowedNetworkTypes(
+                                        DownloadManager.Request.NETWORK_WIFI
+                                                | DownloadManager.Request.NETWORK_MOBILE)
+                                        .setAllowedOverRoaming(false).setTitle("Demo")
+                                        .setDescription("Something useful. No, really.")
+                                        .setDestinationInExternalPublicDir("/AnhsirkDasarp", "fileName.jpg");
+
+                                mgr.enqueue(request);*/
+
+                               String[] s = {tr.getImagepath(),tr.getOrderid()};
+
+                                new DownloadImage().execute(s);
+
+
+
+                            }
+                        });
 
                         if(lStatus.equalsIgnoreCase("pending")){
 
@@ -403,7 +473,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                                             desc[0] = String.valueOf(userInput.getText());
                                             cost[0] = String.valueOf(userCost.getText());
-
+                                            serviceProviderDetails.setOrderid(tr.getOrderid());
                                             new SendCostToCustomer().execute();
 
 //                                            PostOrderFragment ldf = new PostOrderFragment ();
@@ -429,10 +499,69 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         }
     }
 
+    class DownloadImage extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Utilities utilities = new Utilities(getContext());
+
+            String s1,s2;
+
+            s1=urls[0];
+            s2=urls[1];
+
+            return utilities.downloadImagesToSdCard(s1,s2);
+        }
+
+        protected void onPostExecute(String response) {
+
+            viewimage(response);
+
+        }
+    }
+    public void viewimage(String fileName)
+    {
+//        String path = serialnumber+".png";
+        File mypath =null;
+        String selectedOutputPath = "";
+
+        File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "e-Medicine");
+        // Create a storage directory if it does not exist
+
+        // Create a media file name
+        selectedOutputPath = mediaStorageDir.getPath() + File.separator + fileName;
+        Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
+        mypath = new File(selectedOutputPath);
+
+
+        Bitmap b;
+        //            b = BitmapFactory.decodeStream(new FileInputStream(mypath));
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Uri apkURI = FileProvider.getUriForFile(
+                getContext(),
+                getContext().getApplicationContext()
+                        .getPackageName() + ".provider", mypath);
+        intent.setDataAndType(apkURI, "image/");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
+
+//            _context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.valueOf(mypath))));
+    }
+
+
     class SendCostToCustomer extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
-            progressDialog.show();
+//            progressDialog.show();
         }
 
         protected String doInBackground(Void... urls) {
@@ -492,10 +621,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 e.printStackTrace();
             }
             finally {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
             }
 
         }
     }
 
-}
+
+
+    }

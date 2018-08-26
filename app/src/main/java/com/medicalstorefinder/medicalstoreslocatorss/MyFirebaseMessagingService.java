@@ -32,43 +32,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         JSONObject object = new JSONObject(remoteMessage.getData());
-        try {
-            String title = object.getString("title");
-            String message = object.getString("message");
+        //            String title = object.getString("title");
+//            String message = object.getString("message");
 
-            Intent intent = new Intent(getBaseContext(), FirebaseMainActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(getBaseContext(), FirebaseMainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext());
+       /* NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext());
 
-            b.setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.logo)
-                    .setTicker("Ticker")
-                    .setContentTitle(title)
-                    .setContentText(message)
-                    .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                    .setContentIntent(contentIntent)
-                    .setContentInfo("Info");
+        b.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.logo)
+                .setTicker("Ticker")
+                    .setContentTitle("title")
+                    .setContentText(remoteMessage.getNotification().getBody())
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
+                .setContentIntent(contentIntent)
+                .setContentInfo("Info");*/
 
-            Random r = new Random();
-            int randomNo = r.nextInt(100000000 + 1);
+        Random r = new Random();
+        int randomNo = r.nextInt(100000000 + 1);
 
-            NotificationManager notificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(randomNo, b.build());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+       /* NotificationManager notificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(randomNo, b.build());*/
 
 
 // TODO(developer): Handle FCM messages here.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
+        sendNotification(remoteMessage.getNotification().getBody());
+       /* if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             sendNotification("text");
-        }
+        }*/
 // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
@@ -84,6 +81,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, FirebaseMainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("keys", messageBody);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

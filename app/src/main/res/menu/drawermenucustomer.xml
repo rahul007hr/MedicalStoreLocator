@@ -19,11 +19,11 @@
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
-            <item android:title="Monthly Report"
+           <!-- <item android:title="Monthly Report"
                 android:id="@+id/monthlyReport"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"/>-->
 
         </menu>
     </item>

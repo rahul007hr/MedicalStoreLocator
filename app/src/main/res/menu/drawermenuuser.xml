@@ -13,17 +13,23 @@
                 android:checkable="true"/>
 
 
-            <item android:title="Renew Order"
-                android:id="@+id/renewOrder"
+            <item android:title="Confirmed Order"
+                android:id="@+id/confirmedOrder"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
-            <item android:title="Monthly Report"
-                android:id="@+id/monthlyReport"
+            <item android:title="Pending Delivery"
+                android:id="@+id/pendingDelivery"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
+
+           <!-- <item android:title="Monthly Report"
+                android:id="@+id/monthlyReport"
+                android:icon="@drawable/user"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>-->
 
         </menu>
     </item>

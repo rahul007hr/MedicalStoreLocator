@@ -37,12 +37,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AboutUsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ChangePassword_Fragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ContactUsFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MainFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MedicalResponseOfCostListFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ReceivedOrderListFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ServiceProviderListUsingOrderStatusFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
@@ -243,20 +246,31 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             fragmentClass1 = ServiceProviderListUsingOrderStatusFragment.class;
                             return true;
 
-                        case R.id.renewOrder:
-//                            myMessage = "medical";
-//                            bundle.putString("message", myMessage );
-//                            fragobj.setArguments(bundle);
+                        case R.id.confirmedOrder:
+                            bundle = new Bundle();
+                            bundle.putString("key", "Confirmed Orders");
+                            // set Fragmentclass Arguments
+                            MedicalResponseOfCostListFragment fragobj2 = new MedicalResponseOfCostListFragment();
+                            fragobj2.setArguments(bundle);
 
-
-//                            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-//                            fragmentClass1 = ServiceProviderListFragment.class;
+                            xfragmentTransaction.replace(R.id.containerView,  fragobj2);
+                            xfragmentTransaction.commit();
+                            fragmentClass1 = MedicalResponseOfCostListFragment.class;
                             return true;
 
 
-                        case R.id.monthlyReport:
-//                            xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
-//                            fragmentClass1 = UserHistryFragment.class;
+                        case R.id.pendingDelivery:
+
+
+                            bundle = new Bundle();
+                            bundle.putString("key", "Pending Delivery");
+                            // set Fragmentclass Arguments
+                            MedicalResponseOfCostListFragment fragobj3 = new MedicalResponseOfCostListFragment();
+                            fragobj3.setArguments(bundle);
+
+                            xfragmentTransaction.replace(R.id.containerView,  fragobj3);
+                            xfragmentTransaction.commit();
+                            fragmentClass1 = MedicalResponseOfCostListFragment.class;
                             return true;
 
                         /*case R.id.profile:
@@ -420,6 +434,16 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             @Override
             protected String doInBackground(String... urls) {
                 Utilities utilities = new Utilities(getBaseContext());
+
+
+                try
+                {
+                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
 
                 String address = Constants.API_Account_Logout;
                 Map<String, String> params = new HashMap<>();

@@ -1,6 +1,7 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Activity;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
@@ -28,12 +30,22 @@ public class SplashScreenActivity extends AppCompatActivity {
     Activity context = this;
     ApiUser apiUser;
     FragmentManager fragmentManager;
-
+    String datas="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreference = new SharedPreference();
         setContentView(R.layout.activity_splash_screen);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.get("keys")!=null) {
+
+
+            //here can get notification message
+            datas = bundle.get("keys").toString();
+
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -77,11 +89,28 @@ public class SplashScreenActivity extends AppCompatActivity {
                 finish();
             } else {
                 String userRole = sharedPreference.getValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE);
-                if(userRole.equalsIgnoreCase("customer")){
-                    new AuthoriseOTP().execute();
+
+                if(!datas.equalsIgnoreCase("")){
+
+
+                    Intent intent = new Intent(getApplicationContext(), FirebaseMainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("keys", datas);
+                   /* PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 *//* Request code *//*, intent,
+                            PendingIntent.FLAG_ONE_SHOT);*/
+
+                    startActivity(intent);
+                    finish();
+
                 }else{
-                    new LoginTask().execute();
+                    if(userRole.equalsIgnoreCase("customer")){
+                        new AuthoriseOTP().execute();
+                    }else{
+                        new LoginTask().execute();
+                    }
                 }
+
+
 
 
 
@@ -103,6 +132,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Map<String, String> params = new HashMap<>();
             params.put("mobile", sharedPreference.getValue( getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
             params.put("otp", pass);
+//            params.put("deviceid", sharedPreference.getValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_FIREBASE_USER_TOKEN));
 
             return utilities.apiCalls(address,params);
 
@@ -189,11 +219,19 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     Utilities utilities = new Utilities(getApplicationContext());
 
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+                    {
+                        token = FirebaseInstanceId.getInstance().getToken();
+                    }
+
+
                     String address = Constants.API_MEDICAL_LOGIN;
                     Map<String, String> params = new HashMap<>();
                     params.put("username", sharedPreference.getValue( context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
                     params.put("password", sharedPreference.getValue(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS));
                     params.put("loginstatus", "1");
+                    params.put("deviceid", token);
 
                     return utilities.apiCalls(address,params);
                 } else {

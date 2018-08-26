@@ -6,6 +6,7 @@ public final class Constants {
     public static final String PREF_IS_FIRST_TIME = "PrefIsFirstTime";
     public static final String PREF_USER_ROLE = "customer";
     public static final String PREF_IS_USER = "PrefISUser";
+    public static final String PREF_FIREBASE_USER_TOKEN = "firebaseUserToken";
     public static final String PREF_KEY_USER_ID = "PrefUserID";
     public static final String PREF_KEY_ORDER_ID = "orderid";
     public static final String PREF_KEY_ORDER_ID_LIST = "orderidList";
@@ -42,7 +43,7 @@ public final class Constants {
     public static final String DOMAIN_NAME = "http://www.allegoryweb.com/";
     public static final String IMAGE_PATH = "emedical";
     public static final String PROFILE_IMAGE_PATH = "http://www.allegoryweb.com/emedical/images/";
-    public static final String NO_AVATAR_IMAGE_PATH = "http://www.allegoryweb.com/emedical/images/";
+    public static final String NO_AVATAR_IMAGE_PATH = "http://www.allegoryweb.com/emedical/images/";//45.127.106.101
 
     public static final String API_CHECK_STABLE_VERSION = DOMAIN_NAME + "emedical/api/checkversion";
     public static final String API_SIGN_UP = DOMAIN_NAME + "emedical/api/medicalregister";
@@ -57,6 +58,10 @@ public final class Constants {
     public static final String API_SERVICE_PROVIDER_LIST_USING_ORDER_STATUS = DOMAIN_NAME + "emedical/api/getcustomerorders";
     public static final String API_RECEIVED_ORDER_STATUS = DOMAIN_NAME + "emedical/api/getmedicalorders";
     public static final String API_MEDICAL_COST_RESPONCE_STATUS = DOMAIN_NAME + "emedical/api/customerconfirmation";
+    public static final String API_MEDICAL_FINAL_CONFIRMATION = DOMAIN_NAME + "emedical/api/medicalconfirmation";
+
+    public static final String API_MEDICAL_PROFILE_UPDATE = DOMAIN_NAME + "emedical/api/updatemedical";
+    public static final String API_MEDICAL_PROFILE_GET = DOMAIN_NAME + "emedical/api/getprofile";
 
 
 

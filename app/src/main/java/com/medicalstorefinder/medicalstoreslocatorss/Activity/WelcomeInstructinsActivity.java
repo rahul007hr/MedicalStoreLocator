@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,17 +31,35 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
     private Button btnSkip;
     private Button btnNext;
     private MyPagerAdapter pagerAdapter;
+    String datas = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle bundle = getIntent().getExtras();
+       /* String string = "Bundle{";
+        for (String key : bundle.keySet()) {
+            string += " " + key + " => " + bundle.get(key) + ";";
+        }
+        string += " }Bundle";
+
+        Log.d(string, "onCreate:string ");*/
+        if (bundle != null && bundle.get("keys")!=null) {
+
+
+            //here can get notification message
+           datas = bundle.get("keys").toString();
+
+        }
 
         sharedPreference = new SharedPreference();
 
         if (sharedPreference.isSPKeyExits(context, Constants.PREF_IS_FIRST_TIME, Constants.PREF_IS_FIRST_TIME)){
 
             Intent intent = new Intent(WelcomeInstructinsActivity.this,SplashScreenActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("keys", datas);
             startActivity(intent);
             finish();
         }

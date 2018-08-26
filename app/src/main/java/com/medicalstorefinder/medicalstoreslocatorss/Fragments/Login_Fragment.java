@@ -30,8 +30,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.OtpVerificationActivity;
+import com.medicalstorefinder.medicalstoreslocatorss.Activity.RoleSelectorActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.UserActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.CustomToast;
@@ -52,7 +54,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private static View view;
 
 	private static EditText mobile, password;
-	private static Button loginButton;
+	private static Button loginButton, changeRoleBtn;
 	private static TextView forgotPassword, signUp;
 	private static CheckBox show_hide_password;
 	private static LinearLayout loginLayout;
@@ -119,6 +121,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
 		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
 		signUp = (TextView) view.findViewById(R.id.createAccount);
+		changeRoleBtn=(Button) view.findViewById(R.id.changeRoleBtn);
 		show_hide_password = (CheckBox) view
 				.findViewById(R.id.show_hide_password);
 		loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
@@ -143,6 +146,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 	private void setListeners() {
 		loginButton.setOnClickListener(this);
+		changeRoleBtn.setOnClickListener(this);
 		forgotPassword.setOnClickListener(this);
 		signUp.setOnClickListener(this);
 
@@ -175,6 +179,17 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+
+		case R.id.changeRoleBtn:
+
+			sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, "");
+
+			Intent myIntent1 = new Intent(getActivity(), RoleSelectorActivity.class);
+			getActivity().startActivity(myIntent1);
+			getActivity().finish();
+
+			break;
+
 		case R.id.loginBtn:
 			if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
 
@@ -229,11 +244,21 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 			Utilities utilities = new Utilities(getContext());
 
+
+			String token = FirebaseInstanceId.getInstance().getToken();
+			while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+			{
+				token = FirebaseInstanceId.getInstance().getToken();
+			}
+
+
 			String address = Constants.API_MEDICAL_LOGIN;
 			Map<String, String> params = new HashMap<>();
 			params.put("username", getMobileNo);
 			params.put("password", getPassword);
 			params.put("loginstatus", "1");
+			params.put("deviceid", token);
+
 
 			return utilities.apiCalls(address,params);
 
@@ -314,6 +339,8 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private void checkValidation() {
 
 		getMobileNo = mobile.getText().toString();
+		sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+
 		getPassword = password.getText().toString();
 
 		if (getMobileNo.equals("") || getMobileNo.length() == 0
@@ -329,6 +356,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	private void checkValidationForCustomer() {
 
 		getMobileNo = mobile.getText().toString();
+
+		sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+
 		getPassword = sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS);
 
 		if (getMobileNo.equals("") || getMobileNo.length() == 0) {
@@ -427,16 +457,24 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
 
 		protected void onPreExecute() {
-			progressDialog.show();
+//			progressDialog.show();
 		}
 
 		protected String doInBackground(Void... urls) {
 
 			Utilities utilities = new Utilities(getContext());
 
+			String token = FirebaseInstanceId.getInstance().getToken();
+			while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+			{
+				token = FirebaseInstanceId.getInstance().getToken();
+			}
+
+
 			String address = Constants.API_CUSTOMER_LOGIN;
 			Map<String, String> params = new HashMap<>();
-			params.put("mobile", getMobileNo);
+			params.put("mobile", sharedPreference.getValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE));
+			params.put("deviceid", token);
 
 			return utilities.apiCalls(address,params);
 
@@ -476,11 +514,11 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 				}
 
 			} catch (Exception e) {
-				Toast.makeText( getContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+//				Toast.makeText( getContext(), "Please try again later...", Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			finally {
-				progressDialog.dismiss();
+//				progressDialog.dismiss();
 			}
 
 		}

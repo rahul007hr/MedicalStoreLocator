@@ -39,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
@@ -241,19 +242,25 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 
                     case R.id.orderresponse:
 
-                        MainFragment fragobj2 = new MainFragment();
+                        bundle = new Bundle();
+                        bundle.putString("key", "Order Responce");
+                        // set Fragmentclass Arguments
+                        MedicalResponseOfCostListFragment fragobj3 = new MedicalResponseOfCostListFragment();
+                        fragobj3.setArguments(bundle);
 
-
-                        xfragmentTransaction.replace(R.id.containerView,  new MedicalResponseOfCostListFragment()).commit();
+                        xfragmentTransaction.replace(R.id.containerView,  fragobj3);
+                        xfragmentTransaction.commit();
                         fragmentClass1 = MedicalResponseOfCostListFragment.class;
 
+
+
                         return true;
 
 
-                    case R.id.monthlyReport:
+                  /*  case R.id.monthlyReport:
 //                            xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
 //                            fragmentClass1 = UserHistryFragment.class;
-                        return true;
+                        return true;*/
 
                         /*case R.id.profile:
                             xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
@@ -411,6 +418,16 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         @Override
         protected String doInBackground(String... urls) {
             Utilities utilities = new Utilities(getBaseContext());
+
+
+            try
+            {
+                FirebaseInstanceId.getInstance().deleteInstanceId();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
 
             String address = Constants.API_Account_Logout;
             Map<String, String> params = new HashMap<>();

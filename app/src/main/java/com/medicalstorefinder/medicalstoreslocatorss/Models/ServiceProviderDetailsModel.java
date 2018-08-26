@@ -26,6 +26,7 @@ public class ServiceProviderDetailsModel implements Serializable {
 
 
     public String orderid;
+    public String orderMainId;
     public String description;
     public String imagepath;
     public String address;
@@ -34,6 +35,25 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String mobile;
     public String createddate;
     public String orderstatus;
+
+    public String medicalId;
+    public String medicalCost;
+    public String medicalReply;
+    public String medicalProfileUrl;
+    public String customerId;
+
+
+
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+
 
 
 
@@ -290,8 +310,46 @@ public class ServiceProviderDetailsModel implements Serializable {
         Name = name;
     }
 
+    public String getMedicalId() {
+        return medicalId;
+    }
+
+    public void setMedicalId(String medicalId) {
+        this.medicalId = medicalId;
+    }
+
+    public String getMedicalCost() {
+        return medicalCost;
+    }
+
+    public void setMedicalCost(String medicalCost) {
+        this.medicalCost = medicalCost;
+    }
+
+    public String getMedicalReply() {
+        return medicalReply;
+    }
+
+    public void setMedicalReply(String medicalReply) {
+        this.medicalReply = medicalReply;
+    }
+
+    public String getMedicalProfileUrl() {
+        return medicalProfileUrl;
+    }
+
+    public void setMedicalProfileUrl(String medicalProfileUrl) {
+        this.medicalProfileUrl = medicalProfileUrl;
+    }
 
 
+    public String getOrderMainId() {
+        return orderMainId;
+    }
+
+    public void setOrderMainId(String orderMainId) {
+        this.orderMainId = orderMainId;
+    }
 
     @Override
     public String toString() {

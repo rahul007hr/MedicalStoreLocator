@@ -26,9 +26,9 @@ public class FirebaseMainActivity extends AppCompatActivity {
         text.append("Message Details:");
         text.append("\n");
         text.append("\n");
-        if (extras.containsKey("title")) {
+        if (extras.containsKey("keys")) {
             text.append("Title: ");
-            text.append(extras.get("title"));
+            text.append(extras.get("keys"));
         }
         text.append("\n");
         if (extras.containsKey("message")) {
