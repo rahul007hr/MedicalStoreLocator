@@ -36,7 +36,7 @@
                 android:layout_height="70dp"
                 android:id="@+id/image_View"
                 android:paddingLeft="0dp"
-                android:background="@drawable/profile_pic"
+                android:scaleType="fitXY"
                 android:gravity="left"
                 />
 

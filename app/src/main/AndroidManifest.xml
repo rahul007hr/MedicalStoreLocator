@@ -37,7 +37,9 @@
             android:authorities="com.medicalstorefinder.medicalstoreslocatorss"
             android:exported="false" />
 
-        <receiver android:name=".IncomingSms">
+        <receiver android:name=".IncomingSms"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

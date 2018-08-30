@@ -20,15 +20,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
+import com.medicalstorefinder.medicalstoreslocatorss.GlideImageLoader;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
@@ -57,7 +61,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
     private RecyclerView.Adapter adapter;
     private SeekBar volumeControl = null;
     TextView distanceTxt,medicalStoreCntTxt;
-    int progressChanged1 = 0;
+    int progressChanged1 = 2;
 
 //    private Button btnReportLoad;
     private ImageView imgRepNotFound;
@@ -100,13 +104,17 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
         CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(true);
         CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setChecked(true);
-
+        new RetrieveFeedTask1().execute();
         volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-                int progressChanged = 0;
-                progressChanged = progress;
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int progressChanged = progress + 10;
+                if (progress<=19) {
+                    progressChanged = progress + 10;
+                } else{
+                    progressChanged = progress;
+                }
                 progressChanged=progressChanged/10;
                 progressChanged1=progressChanged;
                 distanceTxt.setText("Select Range of Medical Store : "+progressChanged+" Km");
@@ -242,6 +250,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setPassword(("Passwords"));
                         serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
 */
+                        medicalStoreCntTxt.setVisibility(View.VISIBLE);
                         medicalStoreCntTxt.setText("Medical Stores : "+i);
                         listDetails.add(serviceProviderDetails);
                     }
@@ -313,10 +322,34 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getLocation());
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
-                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
-                    holder.imageViews.setImageResource(android.R.color.transparent);
+//                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
+
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(tr.getImagepath(),options);
+
                 }else{
-                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
+
+
+
+//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
                 }
                 switch (tr.getStatus()) {
                     case "Offline":
@@ -348,6 +381,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public String s,s1;
+            public ProgressBar spinner;
+
 
 
 
@@ -360,7 +395,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
-
+                spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

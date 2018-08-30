@@ -1,6 +1,7 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Activity;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.messaging.RemoteMessage;
 import com.medicalstorefinder.medicalstoreslocatorss.Adapter.MyPagerAdapter;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
@@ -38,18 +40,29 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
-       /* String string = "Bundle{";
-        for (String key : bundle.keySet()) {
-            string += " " + key + " => " + bundle.get(key) + ";";
-        }
-        string += " }Bundle";
 
-        Log.d(string, "onCreate:string ");*/
-        if (bundle != null && bundle.get("keys")!=null) {
-
-
+        if (bundle != null) {
             //here can get notification message
-           datas = bundle.get("keys").toString();
+            try
+            {
+                if (getIntent().getExtras() != null)
+                {
+                    RemoteMessage.Builder builder = new RemoteMessage.Builder("MyFirebaseMessagingService");
+
+                    for (String key : getIntent().getExtras().keySet())
+                    {
+                        builder.addData(key, getIntent().getExtras().get(key).toString());
+                    }
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+
+            }
+//           datas = bundle.get("keysMessageBody").toString();
 
         }
 
@@ -59,7 +72,7 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
 
             Intent intent = new Intent(WelcomeInstructinsActivity.this,SplashScreenActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("keys", datas);
+//            intent.putExtra("keysMessageBody", datas);
             startActivity(intent);
             finish();
         }

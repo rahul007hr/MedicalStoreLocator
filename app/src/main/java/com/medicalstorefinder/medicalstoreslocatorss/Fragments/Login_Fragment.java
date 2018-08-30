@@ -83,7 +83,14 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		progressDialog.setCanceledOnTouchOutside(false);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 			ActivityCompat.requestPermissions(getActivity(),
-					new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PRIVILEGED, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.ACCESS_FINE_LOCATION},
+					new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+							Manifest.permission.WRITE_EXTERNAL_STORAGE,
+							Manifest.permission.READ_PHONE_STATE,
+							Manifest.permission.CALL_PRIVILEGED,
+							Manifest.permission.CALL_PHONE,
+							Manifest.permission.READ_CONTACTS,
+							Manifest.permission.ACCESS_FINE_LOCATION,
+							Manifest.permission.RECEIVE_SMS},
 					1);
 		}
 		return view;
@@ -455,21 +462,19 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	}
 
 	class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
-
+		String token ="";
 		protected void onPreExecute() {
 //			progressDialog.show();
+			token = FirebaseInstanceId.getInstance().getToken();
+			while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+			{
+				token = FirebaseInstanceId.getInstance().getToken();
+			}
 		}
 
 		protected String doInBackground(Void... urls) {
 
 			Utilities utilities = new Utilities(getContext());
-
-			String token = FirebaseInstanceId.getInstance().getToken();
-			while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
-			{
-				token = FirebaseInstanceId.getInstance().getToken();
-			}
-
 
 			String address = Constants.API_CUSTOMER_LOGIN;
 			Map<String, String> params = new HashMap<>();
@@ -502,12 +507,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 					else {
 						String s = jsonObject2.getString("status");
 					if(s.equalsIgnoreCase("success")){
+
 						Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
 						startActivity(myIntent);
 						getActivity().finish();
 //						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
-						sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
-						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
+						Toast.makeText(getActivity(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
 
 					}

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import com.medicalstorefinder.medicalstoreslocatorss.Geofencing;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.ApiUser;
 import com.medicalstorefinder.medicalstoreslocatorss.Adapter.PlaceListAdapter;
 import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceContract;
+import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceDbHelper;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 import org.json.JSONObject;
@@ -106,7 +108,11 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 		progressDialog.setCanceledOnTouchOutside(false);
 		setListeners();
 
-
+		PlaceDbHelper mPlaceDbHelper = new PlaceDbHelper(getContext());
+		SQLiteDatabase db = mPlaceDbHelper.getWritableDatabase();
+		db.delete(PlaceContract.PlaceEntry.TABLE_NAME, null, null);
+//            db.execSQL("DROP TABLE IF EXISTS places");
+		db.close();
 
 		// Set up the recycler view
 		mRecyclerView = (RecyclerView) view.findViewById(R.id.address);

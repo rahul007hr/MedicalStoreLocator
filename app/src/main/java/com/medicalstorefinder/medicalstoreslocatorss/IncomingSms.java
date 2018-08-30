@@ -27,9 +27,11 @@ public class IncomingSms extends BroadcastReceiver {
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
 
                     String senderNumber = phoneNumber;
-                    String message = currentMessage.getDisplayMessageBody().split(":")[1];
+//                    OTP for login is 940729. Please do not share it with anybody.
+//                    int i=Integer.parseInt(currentMessage.getDisplayMessageBody().replaceAll("[\\D]",""));
+                    String message = currentMessage.getDisplayMessageBody().replaceAll("[\\D]","");
 
-                    message = message.substring(0, message.length()-1);
+                    message = message.substring(0, message.length());
                     Log.i("SmsReceiver", "SenderNum: "+ senderNumber +"; message :"+ message);
 
                     Intent myIntent = new Intent("otp");

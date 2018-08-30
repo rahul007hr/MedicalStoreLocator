@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/distanceTxt"
             android:padding="10dp"
-            android:text="Select Range of Medical Store : 0 Km"
+            android:text="Select Range of Medical Store : 2 Km"
             android:textColor="#fcfcfc"
             android:textSize="20sp" />
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:max="20"
-            android:progress="0"
+            android:progress="20"
             android:progressDrawable="@drawable/progressbar"
             android:secondaryProgress="0" />
     </LinearLayout>

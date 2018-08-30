@@ -18,7 +18,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingTop="50dp"
+        android:layout_below="@+id/img_rep_not_found"
+        android:paddingTop="20dp"
         android:orientation="vertical" >
 
         <TextView

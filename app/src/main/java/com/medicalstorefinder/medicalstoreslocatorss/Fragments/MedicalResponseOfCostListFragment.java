@@ -27,17 +27,22 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.OtpVerificationActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
+import com.medicalstorefinder.medicalstoreslocatorss.GlideImageLoader;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
+import com.medicalstorefinder.medicalstoreslocatorss.SingleTouchImageViewFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -570,8 +575,36 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getAddress());
 
+                if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+//                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
 
-                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.getProgressBar()).load(tr.getImagepath(),options);
+
+
+                }else{
+//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
+
+                }
+//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
 
 
                 tr.setStatus("pending");
@@ -604,6 +637,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             public TextView vtxtStatus;
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
+            public ProgressBar spinner;
 //            public String s,s1;
 
 
@@ -616,7 +650,27 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
+                spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
+                setProgressBar(spinner);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
+
+
+                imageViews.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
+
+                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
+                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                        Bundle args1 = new Bundle();
+                        args1.putString("position1", String.valueOf(tr.getImagepath()));
+
+                        ldf1.setArguments(args1);
+
+                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                    }
+                });
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -736,7 +790,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
-                                                Toast.makeText(getContext(), "Delivered", Toast.LENGTH_SHORT).show();
+//                                               new DeliveredOrCancelled().execute("delivered");
 
                                             }
                                         });
@@ -745,7 +799,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
-                                                Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
+//                                                new DeliveredOrCancelled().execute("canceled");
 
                                             }
                                         });
@@ -778,13 +832,22 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 });
 
             }
+
+            public ProgressBar getProgressBar() {
+                return spinner;
+            }
+
+            public void setProgressBar(ProgressBar progressBar) {
+                spinner = progressBar;
+            }
+
         }
     }
 
     class DownloadImage extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
-
+            progressDialog.show();
         }
 
         @Override
@@ -800,7 +863,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         }
 
         protected void onPostExecute(String response) {
-
+            progressDialog.dismiss();
             viewimage(response);
 
         }
@@ -965,7 +1028,63 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
     }
 
 
+    class DeliveredOrCancelled extends AsyncTask<String, Void, String> {
 
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        protected String doInBackground(String... urls) {
+
+            Utilities utilities = new Utilities(getContext());
+//remaining
+            String address = Constants.API_MEDICAL_COST_RESPONCE_STATUS;
+            Map<String, String> params = new HashMap<>();
+            params.put("customerid", serviceProviderDetails.getCustomerId());
+            params.put("orderid",  serviceProviderDetails.getOrderid());
+            params.put("tblorderid", serviceProviderDetails.getOrderMainId());
+            params.put("type", serviceProviderDetails.getCustomerType());
+            params.put("isdelivered", serviceProviderDetails.getIsDelivered());
+
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+
+
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+                progressDialog.dismiss();
+            }
+
+        }
+    }
 
 
 }

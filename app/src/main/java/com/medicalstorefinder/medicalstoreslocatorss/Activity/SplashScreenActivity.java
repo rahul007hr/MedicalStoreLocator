@@ -1,8 +1,11 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,11 +106,32 @@ public class SplashScreenActivity extends AppCompatActivity {
                     finish();
 
                 }else{
-                    if(userRole.equalsIgnoreCase("customer")){
-                        new AuthoriseOTP().execute();
-                    }else{
-                        new LoginTask().execute();
+
+                    if(true){
+                        if(userRole.equalsIgnoreCase("customer")){
+                            new AuthoriseOTP().execute();
+                        }else{
+                            new LoginTask().execute();
+                        }
+                    }else {
+
+                        new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle)
+                                .setTitle("New Updates Available").setIcon(R.drawable.alert_dialog_warning)
+                                .setMessage("New upgrades are available, Please upgrade App to continue...!!")
+                                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent playstore = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=app.cricket_accessories.com.cricketaccessories"));
+                                        startActivity(playstore);
+                                    }
+                                }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
                     }
+
+
                 }
 
 

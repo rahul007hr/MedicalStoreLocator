@@ -61,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 // TODO(developer): Handle FCM messages here.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 // Check if message contains a data payload.
-        sendNotification(remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getTitle());
        /* if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             sendNotification("text");
@@ -78,16 +78,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String messageBody,String messageTitle) {
         Intent intent = new Intent(this, FirebaseMainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("keys", messageBody);
+        intent.putExtra("keysMessageBody", messageBody);
+        intent.putExtra("keysMessageTitle", messageTitle);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
-                .setContentTitle("FCM Message")
+                .setContentTitle(messageTitle)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

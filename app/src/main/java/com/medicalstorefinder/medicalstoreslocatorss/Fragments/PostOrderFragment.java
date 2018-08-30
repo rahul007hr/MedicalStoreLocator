@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -60,6 +61,7 @@ import com.medicalstorefinder.medicalstoreslocatorss.Geofencing;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.PostOrders;
 import com.medicalstorefinder.medicalstoreslocatorss.Adapter.PlaceListAdapter;
 import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceContract;
+import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceDbHelper;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 import java.io.ByteArrayOutputStream;
@@ -99,17 +101,13 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public static final String TAG = MainActivity.class.getSimpleName();
     SharedPreference sharedPreference;
     String ts="";
-
     private PlaceListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private GoogleApiClient mClient;
     private Geofencing mGeofencing;
     private static Button addLocationBtn;
     private static View view;
-
     Bitmap bitmap;
-
-//    SharedPreference sharedPreference;
     File f;
     private static int RESULT_LOAD_IMAGE = 1;
     public String res="";
@@ -127,15 +125,11 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     String ff="";
     String picturePath="";
     String name;
-
-
-
     EditText descriptionEdtxt;
 
     public PostOrderFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,14 +137,9 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_post_order, container, false);
         try {
-//            setContentView(R.layout.activity_main);
             profile_img = (ImageView) view.findViewById(R.id.imageView);
-//            Button postOrderBtn=(Button)view.findViewById(R.id.postOrderBtn);
             descriptionEdtxt=(EditText)view.findViewById(R.id.description);
-
             Button postOrderNextBtn=(Button)view.findViewById(R.id.postOrderNextBtn);
-
-//            postOrderBtn.setOnClickListener(this);
 
             postOrderNextBtn.setOnClickListener(this);
             profile_img.setOnClickListener(this);
@@ -161,9 +150,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
             CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(true);
             CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setChecked(true);
-
             CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
 
+
+            PlaceDbHelper  mPlaceDbHelper = new PlaceDbHelper(getContext());
+            SQLiteDatabase db = mPlaceDbHelper.getWritableDatabase();
+            db.delete(PlaceContract.PlaceEntry.TABLE_NAME, null, null);
+//            db.execSQL("DROP TABLE IF EXISTS places");
+            db.close();
 //            setUITEXT();
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,8 +167,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new PlaceListAdapter(getActivity(), null);
         mRecyclerView.setAdapter(mAdapter);
-
-
 
         addLocationBtn=(Button)view.findViewById(R.id.addLocationBtn);
         addLocationBtn.setOnClickListener(this);
@@ -197,28 +189,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
 
-          /*  case R.id.postOrderBtn:
-                checkValidation();
-
-
-
-                String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString();
-                String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString();
-                String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString();
-
-                String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
-                String[] s = answer.split(",");
-                String lat = s[0];
-                String longi = s[1];
-
-                postOrders.setPicUrl("This Field Temporary Blank");
-                postOrders.setDescription(descriptionEdtxt.getText().toString());
-                postOrders.setAddress(title +","+address);
-                postOrders.setLatitude(lat);
-                postOrders.setLongitude(longi);
-
-                break;*/
-
             case R.id.postOrderNextBtn:
                 checkValidation();
 
@@ -227,9 +197,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 String title = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
                 String address = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
                 String latLongitude = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
-
                 String answer = latLongitude!=""?latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")")):"";
-
 
                 String lat = "";
                 String longi ="";
@@ -238,7 +206,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     lat = s[0];
                     longi = s[1];
                 }
-
 
                 postOrders.setPicUrl("");
                 postOrders.setDescription(descriptionEdtxt.getText().toString());
@@ -271,12 +238,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 } catch (Exception e) {
                     Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
                 }
-
-
-
                 break;
-
-
         }
     }
 
@@ -336,12 +298,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 mGeofencing.updateGeofencesList(places);
                 mGeofencing.registerAllGeofences();
             }
-
         });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
             Place place = PlacePicker.getPlace(getContext(), data);
@@ -361,8 +321,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             refreshPlacesData();
         }
 
-
-
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
@@ -372,7 +330,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
             selectedImage = data.getData();
         }
-
     }
 
     private void selectImage() {
@@ -400,15 +357,9 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     }
 
     private void galleryIntent() {
-       /* Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);*/
-
         Intent i = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
         startActivityForResult(i, SELECT_FILE);
     }
 
@@ -433,16 +384,13 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-
-
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         Long tsLong = System.currentTimeMillis()/1000;
         ts = tsLong.toString()+".jpg";
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                ts);
+        File destination = new File(Environment.getExternalStorageDirectory(),ts);
 
         FileOutputStream fo;
         try {
@@ -457,8 +405,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
             f = new File(String.valueOf(destination));
             new uploadTask().execute();
-
-
 //        new ImageCompressionAsyncTask(true).execute(String.valueOf(destination));
 
         profile_img.setImageBitmap(thumbnail);
@@ -513,17 +459,13 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
 
         // Get all edittext texts
-//        String getImagePath = "";
         String getDescription = descriptionEdtxt.getText().toString();
-
         Integer itemCount = mRecyclerView.getAdapter().getItemCount();
 
         String title = itemCount != 0 ? ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString() : "";
         String address = itemCount != 0 ? ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString() : "";
         String latLongitude = itemCount != 0 ? ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString() : "";
-
         String answer = latLongitude != "" ? latLongitude.substring(latLongitude.indexOf("(") + 1, latLongitude.indexOf(")")) : "";
-
 
         String lat = "";
         String longi = "";
@@ -540,7 +482,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             getAddress = title + "," + address;
         }
         // Check if all strings are null or not
-
         if (getDescription.equals("") || getDescription.length() == 0){
 
             new CustomToast().Show_Toast(getActivity(), view,
@@ -550,25 +491,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             new CustomToast().Show_Toast(getActivity(), view,
                     "Address is required.");
          }else {
-
-           /* if (sharedPreference.isSPKeyExits(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS)){
-                if(!sharedPreference.getValue( getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS ).equalsIgnoreCase("")){
-                    new PostOrder().execute();
-                }else{
-                    Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
-                }
-            }else{
-                Toast.makeText(getContext(),"No Medical Store Found in Selected Range",Toast.LENGTH_LONG).show();
-            }*/
-
-//            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,getImagePath);
             sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Description, Constants.PREF_USER_ORDER_Description,getDescription);
             sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Latitude, Constants.PREF_USER_ORDER_Latitude,getLatitude);
             sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_Longitude, Constants.PREF_USER_ORDER_Longitude,getLongitude);
             sharedPreference.putValue(getActivity(), Constants.PREF_USER_ORDER_getAddress, Constants.PREF_USER_ORDER_getAddress,getAddress);
-
-
-
 
             ServiceProviderListFragment fragment2 = new ServiceProviderListFragment();
             FragmentManager fragmentManager = getFragmentManager();
@@ -610,7 +536,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             }
             String uriSting = (file.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg");
             return uriSting;
-
         }
 
         public String compressImage(String imageUri) {
@@ -619,10 +544,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             filePath = filePath.substring(filePath.indexOf("/storage")+1);
             filePath.trim();
             Bitmap scaledBitmap = null;
-
-
-//            BitmapFactory.Options options = new BitmapFactory.Options();
-//            options.inJustDecodeBounds = true;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
 
@@ -655,7 +576,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 } else {
                     actualHeight = (int) maxHeight;
                     actualWidth = (int) maxWidth;
-
                 }
             }
 
@@ -676,7 +596,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 bmp = BitmapFactory.decodeFile(filePath, options);
             } catch (OutOfMemoryError exception) {
                 exception.printStackTrace();
-
             }
             try {
                 scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
@@ -726,7 +645,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             String filename = getFilename();
             try {
                 out = new FileOutputStream(filename);
-
 //          write the compressed bitmap at the destination specified by filename.
                 scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
 
@@ -735,7 +653,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             }
 
             return filename;
-
         }
 
         @Override
@@ -743,8 +660,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             super.onPostExecute(result);
 
             res=result;
-
-
             picturePath=res;
             String newstr = null;
             if (null != picturePath && picturePath.length() > 0 )
@@ -808,9 +723,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         protected String doInBackground(String... params) {
             client = new FTPClient();
             FileInputStream fis = null;
-
             try {
-
                 try {
                     client.connect(FTP_HOST, 21);
                     client.login(FTP_USER, FTP_PASS);
@@ -823,9 +736,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     client.createDirectory("/images/"+p+"/");
                     else
                     client.changeDirectory("/images/"+p+"/");
-
-
-
                     sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+IMAGE_PATH+String.valueOf("/images/"+p+"/"+ff+ts));
                     try {
                         client.upload(f, new MyTransferListener());
@@ -835,42 +745,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     } catch (FTPAbortedException e) {
                         e.printStackTrace();
                     }
-
                 } catch (FTPIllegalReplyException e) {
                     e.printStackTrace();
                 } catch (FTPException e) {
                     e.printStackTrace();
                 }
-
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-          /*  String fileToDelete = "/images/"+name + ".jpg";
-            try {
-                client.deleteFile(fileToDelete);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FTPIllegalReplyException e) {
-                e.printStackTrace();
-            } catch (FTPException e) {
-                e.printStackTrace();
-            }*/
-
-
-          /*  try {
-                client.rename("/images/"+ff, "/images/"+name + ".jpg");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FTPIllegalReplyException e) {
-                e.printStackTrace();
-            } catch (FTPException e) {
-                e.printStackTrace();
-            }*/
-
             return null;
         }
     }
@@ -896,7 +778,6 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public class MyTransferListener implements FTPDataTransferListener {
 
         public void started() {
-
 //            btn.setVisibility(View.GONE);
             // Transfer started
 //            Toast.makeText(getBaseContext(), " Upload Started ...", Toast.LENGTH_SHORT).show();
@@ -906,20 +787,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
 
         public void transferred(int length) {
-
             System.out.println(" transferred ..." + length);
         }
 
         public void completed() {
-
-
             System.out.println(" completed ..." );
-
         }
 
         public void aborted() {
-
-
             System.out.println(" aborted ..." );
         }
 
@@ -930,118 +805,9 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
     }
 
-
     public int convertDipToPixels(float dips){
         Resources r = getResources();
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dips, r.getDisplayMetrics());
     }
-
-   /* class PostOrder extends AsyncTask<Void, Void, String> {
-
-        protected void onPreExecute() {
-
-        }
-
-        protected String doInBackground(Void... urls) {
-
-            Utilities utilities = new Utilities(getContext());
-
-            String address = Constants.API_POST_ORDER;
-            Map<String, String> params = new HashMap<>();
-            params.put("userid", sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
-            params.put("latitude", postOrders.getLatitude());
-            params.put("longitude", postOrders.getLongitude());
-            params.put("address", postOrders.getAddress());
-            params.put("description", postOrders.getDescription());
-            params.put("imagepath", postOrders.getPicUrl());
-            params.put("medicalids", sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
-
-            return utilities.apiCalls(address,params);
-
-        }
-
-        protected void onPostExecute(String response) {
-            try {
-
-                JSONObject jsonObject1 = new JSONObject(response);
-                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
-
-
-                if(response.equals("NO_INTERNET")) {
-                    Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                }
-                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
-                    Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
-                        Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
-                    }
-                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
-                        Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
-
-                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
-
-                       *//* apiUser = new ApiUser();
-
-                        apiUser.setID(jsonObject.getInt("id"));
-                        apiUser.setFirst_Name(jsonObject.getString("firstname"));
-                        apiUser.setLast_Name(jsonObject.getString("lastname"));
-                        apiUser.setRegMobile(jsonObject.getString("mobile"));
-                        apiUser.setAddress(jsonObject.getString("address"));
-                        apiUser.setShop_Name(jsonObject.getString("shopname"));
-                        apiUser.setEmail(jsonObject.getString("email"));
-                        apiUser.setPasswords(jsonObject.getString("password"));
-                        apiUser.setUserRole(jsonObject.getString("role"));*//*
-//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
-
-
-
-                       *//* sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
-                        sharedPreference.createSharedPreference(getActivity(), Constants.PREF_IS_USER);
-
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, getPassword);
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medica", apiUser.getUserRole());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
-*//*
-                        *//*Intent myIntent = new Intent(getActivity(), UserActivity.class);
-                        getActivity().startActivity(myIntent);
-                        getActivity().finish();*//*
-
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LATITUDE, postOrders.getLatitude());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LONGITUDE, postOrders.getLongitude());
-
-
-                        Fragment fragment = null;
-                        Class fragmentClass1 = null;
-                        FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-                        xfragmentTransaction.replace(R.id.containerView,  new ServiceProviderListFragment()).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;
-
-                        Toast.makeText( getContext(), "Success", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-            } catch (Exception e) {
-                Toast.makeText( getContext(), "Please try again later...", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
-            finally {
-            }
-
-        }
-    }*/
-
-
-
 }
 

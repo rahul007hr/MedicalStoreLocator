@@ -19,14 +19,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
+import com.medicalstorefinder.medicalstoreslocatorss.GlideImageLoader;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
@@ -272,10 +276,31 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
 
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
-                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
-                    holder.imageViews.setImageResource(android.R.color.transparent);
+//                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
+
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(tr.getImagepath(),options);
+
                 }else{
-                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
+
                 }
 
                 tr.setStatus("success");
@@ -308,6 +333,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             public TextView vtxtStatus;
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
+            public ProgressBar spinner;
 //            public String s,s1;
 
 
@@ -321,6 +347,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
+                spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

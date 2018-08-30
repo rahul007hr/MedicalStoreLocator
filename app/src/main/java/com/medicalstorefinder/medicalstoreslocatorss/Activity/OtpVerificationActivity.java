@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alimuzaffar.lib.pin.PinEntryEditText;
@@ -31,6 +34,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     ApiUser apiUser;
     SharedPreference sharedPreference = new SharedPreference();
+    TextView resendOTP;
+    TextView txtTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,14 @@ public class OtpVerificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_otp_verification);
 
         Button verifyOTP = (Button)findViewById(R.id.otpVerifyBtn);
-        Button resendOTP = (Button)findViewById(R.id.otpResendBtn);
+        resendOTP = (TextView)findViewById(R.id.otpResendBtn);
         pinEntry = (PinEntryEditText) findViewById(R.id.txt_pin_entry);
+        TextView txtMobileNo=(TextView)findViewById(R.id.txtMobileNo);
+        txtTimer=(TextView)findViewById(R.id.txtTimer);
 
+        txtMobileNo.setText("Please Enter OTP Sent On \n +91 "+(sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE )));
+        reverseTimer(120,txtTimer);
+//        pinEntry.setText("123456");
       /*  progressDialog = new ProgressDialog(getApplicationContext());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
@@ -63,6 +73,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new AuthoriseCustomer().execute();
+
             }
         });
 
@@ -101,13 +112,21 @@ public class OtpVerificationActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(myIntent);
+        finish();
+    }
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
             if(intent.getAction().equalsIgnoreCase("otp")){
                 final String message = intent.getStringExtra("message");
-                pinEntry.setText("123456");
+                pinEntry.setText(message);
             }
 
         }
@@ -203,21 +222,18 @@ public class OtpVerificationActivity extends AppCompatActivity {
         }
     }
     class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
-
+        String token = "";
         protected void onPreExecute() {
-
+            token = FirebaseInstanceId.getInstance().getToken();
+            while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+            {
+                token = FirebaseInstanceId.getInstance().getToken();
+            }
         }
 
         protected String doInBackground(Void... urls) {
 
             Utilities utilities = new Utilities(getBaseContext());
-
-
-            String token = FirebaseInstanceId.getInstance().getToken();
-            while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
-            {
-                token = FirebaseInstanceId.getInstance().getToken();
-            }
 
             String address = Constants.API_CUSTOMER_LOGIN;
             Map<String, String> params = new HashMap<>();
@@ -249,6 +265,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         String s = jsonObject2.getString("status");
                         if(s.equalsIgnoreCase("success")){
                             Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                            resendOTP.setVisibility(View.GONE);
+                            reverseTimer(120,txtTimer);
                         }
 
                     }
@@ -263,6 +281,26 @@ public class OtpVerificationActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void reverseTimer(int Seconds,final TextView tv){
+
+        new CountDownTimer(Seconds* 1000+1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                resendOTP.setVisibility(View.GONE);
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                tv.setText("" + String.format("%02d", minutes)
+                        + ":" + String.format("%02d", seconds));
+            }
+
+            public void onFinish() {
+//                tv.setText("Completed");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
 }

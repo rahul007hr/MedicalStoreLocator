@@ -191,7 +191,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
 //                startActivity(new Intent(MainActivity.this, WallateBalanceActivity.class));
 //            }
 //        });
-
+            loadFragment(new ReceivedOrderListFragment());
             navigationView.getMenu().findItem(R.id.receivedOrder).setChecked(true);
 
 //            MainFragment fragobj = new MainFragment();
@@ -345,7 +345,19 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             actionBarDrawerToggle.syncState();
         }
 
-        @Override
+    public boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.containerView, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
         public void onBackPressed() {
 
             try {

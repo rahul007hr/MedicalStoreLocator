@@ -41,6 +41,8 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String medicalReply;
     public String medicalProfileUrl;
     public String customerId;
+    public String customerType;
+    public String isDelivered;
 
 
 
@@ -345,6 +347,22 @@ public class ServiceProviderDetailsModel implements Serializable {
 
     public String getOrderMainId() {
         return orderMainId;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public String getIsDelivered() {
+        return isDelivered;
+    }
+
+    public void setIsDelivered(String isDelivered) {
+        this.isDelivered = isDelivered;
     }
 
     public void setOrderMainId(String orderMainId) {
