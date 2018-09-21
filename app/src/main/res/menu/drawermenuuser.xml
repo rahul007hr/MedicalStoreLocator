@@ -7,7 +7,7 @@
 
             <item android:title="Received Order"
                 android:id="@+id/receivedOrder"
-                android:icon="@drawable/user"
+                android:icon="@drawable/order_list_b"
                 android:iconTint="@color/primary"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
@@ -15,13 +15,13 @@
 
             <item android:title="Confirmed Order"
                 android:id="@+id/confirmedOrder"
-                android:icon="@drawable/user"
+                android:icon="@drawable/confirmed_delivery"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
             <item android:title="Pending Delivery"
                 android:id="@+id/pendingDelivery"
-                android:icon="@drawable/user"
+                android:icon="@drawable/pending_delivery"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
@@ -39,16 +39,23 @@
         <menu>
 
             <item
-                android:title="Change Password"
-                android:id="@+id/change_password"
+                android:title="Profile"
+                android:id="@+id/profile"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
+            <!--<item
+                android:title="Change Password"
+                android:id="@+id/change_password"
+                android:icon="@drawable/ic_action_pass"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>-->
+
             <item
                 android:title="Logout"
                 android:id="@+id/logout"
-                android:icon="@drawable/user"
+                android:icon="@drawable/logout_b"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
@@ -61,14 +68,14 @@
             <item
                 android:title="About us"
                 android:id="@+id/about_us"
-                android:icon="@drawable/user"
+                android:icon="@drawable/about_us"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
             <item
                 android:title="Contact us"
                 android:id="@+id/contact_us"
-                android:icon="@drawable/user"
+                android:icon="@drawable/contact_us_b"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
         </menu>

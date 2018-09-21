@@ -34,6 +34,8 @@ public class ChooseOrderTypeFragment extends Fragment {
         Button newOrderBtn = (Button)view.findViewById(R.id.newOrder);
         Button oldOrderBtn = (Button)view.findViewById(R.id.oldOrder);
 
+        CustomerActivity.navigation.setVisibility(View.VISIBLE);
+
         CustomerActivity.navigation.getMenu().findItem(R.id.chooseOrderType).setChecked(true);
 
         CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(false);
@@ -48,6 +50,7 @@ public class ChooseOrderTypeFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerView, fragment2);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
             }
@@ -62,6 +65,7 @@ public class ChooseOrderTypeFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containerView, fragment2);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

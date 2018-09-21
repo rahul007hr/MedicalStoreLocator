@@ -53,8 +53,6 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
                     {
                         builder.addData(key, getIntent().getExtras().get(key).toString());
                     }
-
-
                 }
 
             }
@@ -62,8 +60,6 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
             {
 
             }
-//           datas = bundle.get("keysMessageBody").toString();
-
         }
 
         sharedPreference = new SharedPreference();
@@ -72,7 +68,6 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
 
             Intent intent = new Intent(WelcomeInstructinsActivity.this,SplashScreenActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.putExtra("keysMessageBody", datas);
             startActivity(intent);
             finish();
         }
@@ -112,7 +107,7 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
                 }
             }
         });
-        layouts = new int[]{R.layout.slider_1,R.layout.slider_2, R.layout.slider_3, R.layout.slider_4};
+        layouts = new int[]{R.layout.slider_1,R.layout.slider_2, R.layout.slider_3};
         pagerAdapter = new MyPagerAdapter(layouts,getApplicationContext());
         viewPager.setAdapter(pagerAdapter);
 
@@ -163,7 +158,7 @@ public class WelcomeInstructinsActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setStatusBarColor(Color.GRAY);
         }
     }
 

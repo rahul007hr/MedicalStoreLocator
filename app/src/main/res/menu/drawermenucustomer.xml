@@ -7,7 +7,7 @@
 
             <item android:title="Make Order"
                 android:id="@+id/makeOrder"
-                android:icon="@drawable/user"
+                android:icon="@drawable/order_b"
                 android:iconTint="@color/primary"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
@@ -15,12 +15,18 @@
 
             <item android:title="Order Response"
                 android:id="@+id/orderresponse"
-                android:icon="@drawable/user"
+                android:icon="@drawable/order_list_b"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
-           <!-- <item android:title="Monthly Report"
-                android:id="@+id/monthlyReport"
+            <item android:title="Out For Delivery"
+                android:id="@+id/outfordelivery"
+                android:icon="@drawable/delivery"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+           <!-- <item android:title="Ratings"
+                android:id="@+id/ratings"
                 android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>-->
@@ -34,21 +40,21 @@
             <item
                 android:title="About us"
                 android:id="@+id/about_us"
-                android:icon="@drawable/user"
+                android:icon="@drawable/about_us"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
             <item
                 android:title="Contact us"
                 android:id="@+id/contact_us"
-                android:icon="@drawable/user"
+                android:icon="@drawable/contact_us_b"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
 
             <item
                 android:title="Logout"
                 android:id="@+id/logout"
-                android:icon="@drawable/user"
+                android:icon="@drawable/logout_b"
                 android:background="@drawable/custom_bg"
                 android:checkable="true"/>
         </menu>

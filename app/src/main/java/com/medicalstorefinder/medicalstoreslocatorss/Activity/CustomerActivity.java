@@ -44,12 +44,15 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AboutUsFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AllNotificationsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ChooseOrderTypeFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ContactUsFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.CustomerRatingsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MainFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MedicalResponseOfCostListFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.PostOrderFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ServiceProviderListFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ServiceProviderListUsingOrderStatusFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 
@@ -75,14 +78,8 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-   /* TextView txtvUserName;
-    TextView txtvRegisteredMobileNo;
-    TextView txtvEmail;
-
-    String username;*/
    CircleImageView profileImage;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    //CircleImageView profileImage;
 
     ImageView iconBalance;
 
@@ -115,7 +112,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
 
-//             getWindow().setBackgroundDrawableResource(R.drawable.alertdialog_background);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         //Setup the DrawerLayout and NavigationView
@@ -128,9 +124,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         //fragmentTransaction.replace(R.id.containerView,new RechargeTabFragment()).commit();
 
         v = navigationView.getHeaderView(0);
-       /* txtvUserName=(TextView) v.findViewById(R.id.user_id);
-        txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
-        txtvEmail=(TextView) v.findViewById(R.id.email);*/
+
         profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
         profileImage.setVisibility(View.GONE);
         sharedPreference = new SharedPreference();
@@ -141,53 +135,38 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         //getting bottom navigation view and attaching the listener
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-//        username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
-
-      /*  profileImage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent i = new Intent(
-                        Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });*/
-
-//        name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
-
-//        txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
-//        txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
-//        txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
-
-//        String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_ProfilePic);
-//        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
-
-        // profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
-
-        // SharedPreference sharedPreference = new SharedPreference();
-
-
-
-//        String ProfilePicUrl = sharedPreference.getValue( getBaseContext(), Constants.PREF_ISRE, Constants.PREF_KEY_USER_ProfilePic );
-//        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
 
 
 //        Animation for balance icon
-//        iconBalance = (ImageView) findViewById(R.id.balance_tool);
+        iconBalance = (ImageView) findViewById(R.id.balance_tool);
 //        Animation animIconBalance = AnimationUtils.loadAnimation(this,R.anim.flip_grow);
 //        animIconBalance.setRepeatCount(Animation.INFINITE);
 //        iconBalance.setAnimation(animIconBalance);
 //        iconBalance.setAnimation(animIconBalance);
 //
-//        iconBalance.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        iconBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                startActivity(new Intent(MainActivity.this, WallateBalanceActivity.class));
-//            }
-//        });
+
+                Fragment fragment = null;
+                Class fragmentClass1 = null;
+                Intent intent = null;
+                Bundle bundle = new Bundle();
+                String myMessage;
+                drawerLayout.closeDrawers();
+                FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
+
+                AllNotificationsFragment fragobj1 = new AllNotificationsFragment();
+
+                xfragmentTransaction.replace(R.id.containerView, fragobj1);
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                xfragmentTransaction.addToBackStack(null);
+                xfragmentTransaction.commit();
+                fragmentClass1 = AllNotificationsFragment.class;
+
+            }
+        });
 
         navigationView.getMenu().findItem(R.id.makeOrder).setChecked(true);
 
@@ -199,14 +178,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         String myMessage;
         drawerLayout.closeDrawers();
         FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-
-//            myMessage = "User";
-//            bundle.putString("message", myMessage );
-//            fragobj.setArguments(bundle);
-
-//            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-//            fragmentClass1 = MainFragment.class;
-
 
 
         //Setup click events on the Navigation View Items.
@@ -236,7 +207,10 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                             MainFragment fragobj1 = new MainFragment();
 
 
-                            xfragmentTransaction.replace(R.id.containerView,  new ChooseOrderTypeFragment()).commit();
+                            xfragmentTransaction.replace(R.id.containerView,  new ChooseOrderTypeFragment());
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
                             fragmentClass1 = ChooseOrderTypeFragment.class;
                         return true;
 
@@ -247,14 +221,34 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                         // set Fragmentclass Arguments
                         MedicalResponseOfCostListFragment fragobj3 = new MedicalResponseOfCostListFragment();
                         fragobj3.setArguments(bundle);
-
                         xfragmentTransaction.replace(R.id.containerView,  fragobj3);
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
                         xfragmentTransaction.commit();
                         fragmentClass1 = MedicalResponseOfCostListFragment.class;
 
 
 
                         return true;
+
+                    case R.id.outfordelivery:
+
+                        bundle = new Bundle();
+                        bundle.putString("key", "Pending Delivery Customer");
+                        // set Fragmentclass Arguments
+                        MedicalResponseOfCostListFragment fragobj4 = new MedicalResponseOfCostListFragment();
+                        fragobj4.setArguments(bundle);
+
+                        xfragmentTransaction.replace(R.id.containerView,  fragobj4);
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
+                        fragmentClass1 = MedicalResponseOfCostListFragment.class;
+
+
+
+                        return true;
+
 
 
                   /*  case R.id.monthlyReport:
@@ -268,12 +262,18 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                             return true;*/
 //
                     case R.id.about_us:
-                        xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment()).commit();
+                        xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment());
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
                         fragmentClass1 = AboutUsFragment.class;
                         return true;
 //
                     case R.id.contact_us:
-                        xfragmentTransaction.replace(R.id.containerView, new ContactUsFragment()).commit();
+                        xfragmentTransaction.replace(R.id.containerView, new ContactUsFragment());
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
                         fragmentClass1 = ContactUsFragment.class;
                         return true;
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -282,13 +282,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 
                           new Logout().execute();
 
-                        SharedPreference sharedPreference = new SharedPreference();
-                        sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
 
-                        Intent i = new Intent(getBaseContext(), MainActivity.class);
-                        startActivity(i);
-
-                        finish();
                         return true;
                 }
                 try {
@@ -333,21 +327,25 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
     public void onBackPressed() {
 
         try {
+            if (getSupportFragmentManager().getBackStackEntryCount() < 1){
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
-            android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                alertDialogBuilder.setTitle("Exit");
+                alertDialogBuilder
+                        .setMessage("Are you sure you want to exit?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CustomerActivity.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+            else {
+                super.onBackPressed();
+            }
 
-            alertDialogBuilder.setTitle("Exit");
-            alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
-            alertDialogBuilder
-                    .setMessage("Are you sure you want to exit?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            CustomerActivity.super.onBackPressed();
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
         } catch (Exception e) {
 
         }
@@ -389,26 +387,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 
     //--------------------------------------------------
 
-    private class LoadProfileImage extends AsyncTask<String, String, Bitmap> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-        protected Bitmap doInBackground(String... args) {
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
 
-        protected void onPostExecute(Bitmap image) {
-            if(image != null){
-//                profileImage.setImageBitmap(image);
-            }
-        }
-    }
     class Logout extends AsyncTask<String,String,String>
     {
         protected void onPreExecute() {
@@ -460,10 +439,13 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
 
-                        sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, "");
+                        SharedPreference sharedPreference = new SharedPreference();
+                        sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
 
-                        String pass = sharedPreference.getValue( getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS );
-                        Log.d(pass, "onPostExecute: ");
+                        Intent i = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(i);
+
+                        finish();
                     }
                 }
 
@@ -475,108 +457,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         }
     }
     /*******  Used to file upload and show progress  **********/
-
-    class uploadTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-/*            FTPClient client = new FTPClient();
-            FileInputStream fis = null;
-
-            try {
-
-                try {
-                    client.connect(FTP_HOST, 21);
-                    client.login(FTP_USER, FTP_PASS);
-                    client.setType(FTPClient.TYPE_BINARY);
-                    client.setPassive(true);
-                    client.noop();
-                    client.changeDirectory("/public_html/emedical/images/");
-                    try {
-                        client.upload(f, new MyTransferListener());
-
-                    } catch (FTPDataTransferException e) {
-                        e.printStackTrace();
-                    } catch (FTPAbortedException e) {
-                        e.printStackTrace();
-                    }
-
-                } catch (FTPIllegalReplyException e) {
-                    e.printStackTrace();
-                } catch (FTPException e) {
-                    e.printStackTrace();
-                }
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            String fileToDelete = "/public_html/emedical/images/"+"name" + ".jpg";
-            try {
-                client.deleteFile(fileToDelete);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FTPIllegalReplyException e) {
-                e.printStackTrace();
-            } catch (FTPException e) {
-                e.printStackTrace();
-            }
-
-
-            try {
-                client.rename("/public_html/emedical/images/"+"ff", "/public_html/emedical/images/"+"name" + ".jpg");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (FTPIllegalReplyException e) {
-                e.printStackTrace();
-            } catch (FTPException e) {
-                e.printStackTrace();
-            }*/
-
-            return null;
-        }
-    }
-
-
-    public class MyTransferListener implements FTPDataTransferListener {
-
-        public void started() {
-
-//            btn.setVisibility(View.GONE);
-            // Transfer started
-//            Toast.makeText(getBaseContext(), " Upload Started ...", Toast.LENGTH_SHORT).show();
-            System.out.println(" Upload Started ...");
-//            new DeleteImage().execute();
-
-        }
-
-        public void transferred(int length) {
-
-            System.out.println(" transferred ..." + length);
-        }
-
-        public void completed() {
-
-
-            System.out.println(" completed ..." );
-
-        }
-
-        public void aborted() {
-
-
-            System.out.println(" aborted ..." );
-        }
-
-        public void failed() {
-
-            System.out.println(" failed ..." );
-        }
-
-    }
-
 
     public int convertDipToPixels(float dips){
         Resources r = getResources();
@@ -799,7 +679,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 //            profileImage.setImageBitmap(decodeBitmapFromPath(res));
 
 
-            new uploadTask().execute();
         }
     }
 
@@ -841,9 +720,9 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                 fragment = new ServiceProviderListFragment();
                 break;
 
-            case R.id.serviceProviderResponceList:
+          /*  case R.id.serviceProviderResponceList:
 //                fragment = new ProfileFragment();
-                break;
+                break;*/
         }
 
         return loadFragment(fragment);

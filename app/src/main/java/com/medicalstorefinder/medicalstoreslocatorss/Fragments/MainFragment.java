@@ -32,56 +32,11 @@ public class MainFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-//        Bundle bundle = this.getArguments();
-//        myValue = bundle.getString("message");
-
 
         GridView gridView = (GridView)v.findViewById(R.id.gridview);
         gridView.setAdapter(new MyAdapter(getContext()));
 
         fragmentManager = getActivity().getSupportFragmentManager();
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                /*if(myValue.equals("User")){
-
-                    ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
-                    Fragment fragment = null;
-                    Class fragmentClass1 = null;
-                    Intent intent = null;
-                    Bundle bundle = new Bundle();
-                    String myMessage;
-
-                    FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-
-                    switch (position) {
-
-
-
-                        case 14:
-                            myMessage = "medical";
-                            bundle.putString("message", myMessage );
-                            fragobj.setArguments(bundle);
-
-                            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-                            fragmentClass1 = ServiceProviderListFragment.class;
-                            break;
-
-
-                       *//* case 17:
-                            xfragmentTransaction.replace(R.id.containerView, new UserHistryFragment()).commit();
-                            fragmentClass1 = UserHistryFragment.class;
-                            break;*//*
-                    }
-                    try {
-                        fragment = (Fragment) fragmentClass1.newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }*/
-            }
-        });
 
         return v;
     }
@@ -93,13 +48,6 @@ public class MainFragment extends Fragment
 
         public MyAdapter(Context context) {
             inflater = LayoutInflater.from(context);
-
-
-            if (myValue.equals("User")) {
-//                items.add(new Item("Medical", R.drawable.medical));
-//                items.add(new Item("Histry", R.drawable.history));
-            }
-
         }
 
         @Override
@@ -126,21 +74,7 @@ public class MainFragment extends Fragment
             ImageView picture;
             TextView name;
 
-            if(v == null)
-            {
-             /*   v = inflater.inflate(R.layout.gridview_item, viewGroup, false);
-                v.setTag(R.id.picture, v.findViewById(R.id.picture));
-                v.setTag(R.id.text, v.findViewById(R.id.text));*/
-            }
-
-//            picture = (ImageView)v.getTag(R.id.profile);
-//            name = (TextView)v.getTag(R.id.text);
-
             item = (Item)getItem(i);
-
-//            picture.setImageResource(item.drawableId);
-//            imageUri=picture.toString();
-//            name.setText(item.name);
 
             return v;
         }

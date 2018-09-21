@@ -1,15 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_white"
-    android:padding="20dp" >
+    android:padding="20dp">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="0dp"
+        android:paddingTop="8dp" >
+
     <ImageView
         android:layout_width="169dp"
         android:layout_height="153dp"
         android:id="@+id/img_rep_not_found"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
         android:src="@drawable/logo"
         />
 
@@ -18,7 +31,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/img_rep_not_found"
         android:paddingTop="20dp"
         android:orientation="vertical" >
 
@@ -47,7 +59,7 @@
             android:maxLength="10"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:drawableLeft="@drawable/ic_action_user"
+            android:drawableLeft="@drawable/call"
             android:textSize="16sp" />
 
         <View
@@ -69,7 +81,7 @@
             android:textColor="@color/black"
             android:visibility="gone"
             android:textColorHint="@color/black"
-            android:drawableLeft="@drawable/ic_action_pass"
+            android:drawableLeft="@drawable/passwd"
             android:textSize="16sp" />
 
         <View
@@ -133,18 +145,34 @@
 
     </LinearLayout>
 
+        <TextView
+            android:id="@+id/createAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:layout_marginLeft="90dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:text="Create New Account"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
     <TextView
-        android:id="@+id/createAccount"
+        android:id="@+id/support"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="60dp"
+        android:gravity="center_horizontal"
         android:padding="5dp"
-        android:text="Create New Account"
+        android:text="@string/contact"
         android:textColor="@color/black"
-        android:visibility="gone"
         android:textSize="15sp" />
-
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

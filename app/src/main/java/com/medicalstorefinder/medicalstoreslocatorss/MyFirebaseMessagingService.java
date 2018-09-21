@@ -58,7 +58,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(randomNo, b.build());*/
 
 
-// TODO(developer): Handle FCM messages here.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 // Check if message contains a data payload.
         sendNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getTitle());

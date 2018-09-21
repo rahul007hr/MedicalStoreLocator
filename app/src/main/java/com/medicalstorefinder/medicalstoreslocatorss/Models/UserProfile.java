@@ -5,7 +5,7 @@ public class UserProfile {
     public String RegMobile;
     public String Email;
     public String ProfilePicUrl;
-    public String Full_Name;
+    public String Full_Name,FirstName,LastName,ShopName;
     public String Location;
     public String cType;
     public String cStatus;
@@ -100,4 +100,27 @@ public class UserProfile {
         ProfilePicUrl = profilePicUrl;
     }
 
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public String getShopName() {
+        return ShopName;
+    }
+
+    public void setShopName(String shopName) {
+        ShopName = shopName;
+    }
 }

@@ -5,13 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.CustomerRatingsFragment">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="We hope you enjoyed your meal with us today"
+        android:text="Provide ratings to medical store for better user experience in future"
         android:textSize="20sp"
         android:textStyle="italic" />
 
@@ -20,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
+        android:layout_marginTop="20dp"
         android:stepSize="1"
         android:rating="5"/>
 
@@ -47,8 +52,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#e57373"
         android:text="Send feedback"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:background="@drawable/loginbutton_selector"
+        android:textStyle="bold" />
+</LinearLayout>
 
 </FrameLayout>

@@ -1,15 +1,3 @@
-/*
- * TouchImageView.java
- * By: Michael Ortiz
- * Updated By: Patrick Lackemacher
- * Updated By: Babay88
- * Updated By: @ipsilondev
- * Updated By: hank-cp
- * Updated By: singpolyma
- * -------------------
- * Extends Android ImageView to include pinch zooming, panning, fling and double tap zoom.
- */
-
 package com.medicalstorefinder.medicalstoreslocatorss;
 
 import android.annotation.TargetApi;

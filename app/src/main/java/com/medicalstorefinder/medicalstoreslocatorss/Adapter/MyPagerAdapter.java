@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by NgocTri on 11/29/2017.
+ * Created by Rahul on 1/09/2018.
  */
 
 public class MyPagerAdapter extends PagerAdapter {

@@ -5,18 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-//import com.squareup.picasso.Picasso;
-
-//import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-
 
 public class SingleTouchImageViewFragment extends Fragment {
 	
 	private TouchImageView image;
-
+	private ProgressBar pb;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,7 +25,9 @@ public class SingleTouchImageViewFragment extends Fragment {
 		String value = getArguments().getString("position1");
 
 		image = (TouchImageView) v.findViewById(R.id.img);
-//		Glide.with(getContext()).load(value).into(image);
+		pb = (ProgressBar)v.findViewById(R.id.homeprogress);
+		pb.setVisibility(View.GONE);
+
 		Picasso.with(getContext())
 				.load(value) //extract as User instance method
 				.into(image);

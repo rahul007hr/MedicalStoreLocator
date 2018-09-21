@@ -177,7 +177,7 @@ public final class Utilities {
             String selectedOutputPath = "";
             if (isSDCARDMounted()) {
                 File mediaStorageDir = new File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "e-Medicine");
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
                 // Create a storage directory if it does not exist
                 if (!mediaStorageDir.exists()) {
                     mediaStorageDir.mkdir();
@@ -211,7 +211,7 @@ public final class Utilities {
             // path to /data/data/yourapp/app_data/imageDir
 //            File directory = cw.getDir("images", Context.MODE_PRIVATE);
 
-//            File myDir = new File(directory,"e-Medicine");
+//            File myDir = new File(directory,"My-Chemist");
 
             /*  if specified not exist create new */
            /* if(!myDir.exists())

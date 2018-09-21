@@ -28,7 +28,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 // Instance ID token to your app server.
         sendRegistrationToServer(refreshedToken);
 
-//        sharedPreference.putValue(getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_FIREBASE_USER_TOKEN,refreshedToken);
     }
     /**
      * Persist token to third-party servers.
@@ -39,6 +38,5 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-// TODO: Implement this method to send token to your app server.
     }
 }

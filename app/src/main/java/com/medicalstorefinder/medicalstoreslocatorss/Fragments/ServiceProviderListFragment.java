@@ -251,7 +251,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
 */
                         medicalStoreCntTxt.setVisibility(View.VISIBLE);
-                        medicalStoreCntTxt.setText("Medical Stores : "+i);
+                        medicalStoreCntTxt.setText("Medical Stores : "+(i+1));
                         listDetails.add(serviceProviderDetails);
                     }
 
@@ -272,7 +272,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     }
 
                     adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
-//                    recyclerView.setAdapter(adapter);
+                    recyclerView.setAdapter(adapter);
                 }
             }
 
@@ -420,7 +420,6 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle("Transaction Details : ");
-                        alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
                                 "Email Id : " + tr.getEmailId() +
                                         "\n\nMobile No. : " + tr.getCustomerNo() +
@@ -486,7 +485,6 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 JSONObject jsonObject1 = new JSONObject(response);
                 JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
-
                 if(response.equals("NO_INTERNET")) {
                     Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
                 }
@@ -506,57 +504,11 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.containerView, fragment2);
                         fragmentTransaction.commit();
-//                        {"status":"success","result":{"orderid":"ORD000019","message":"Your order has been succesfully created."}}
-
 
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 
-
                         sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID,jsonObject.getString("orderid"));
 
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
-
-                       /* apiUser = new ApiUser();
-
-                        apiUser.setID(jsonObject.getInt("id"));
-                        apiUser.setFirst_Name(jsonObject.getString("firstname"));
-                        apiUser.setLast_Name(jsonObject.getString("lastname"));
-                        apiUser.setRegMobile(jsonObject.getString("mobile"));
-                        apiUser.setAddress(jsonObject.getString("address"));
-                        apiUser.setShop_Name(jsonObject.getString("shopname"));
-                        apiUser.setEmail(jsonObject.getString("email"));
-                        apiUser.setPasswords(jsonObject.getString("password"));
-                        apiUser.setUserRole(jsonObject.getString("role"));*/
-//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
-
-
-
-                       /* sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
-                        sharedPreference.createSharedPreference(getActivity(), Constants.PREF_IS_USER);
-
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, getPassword);
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, getMobileNo);
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
-                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medica", apiUser.getUserRole());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
-*/
-                        /*Intent myIntent = new Intent(getActivity(), UserActivity.class);
-                        getActivity().startActivity(myIntent);
-                        getActivity().finish();*/
-
-                       /* FragmentManager fragmentManager = getFragmentManager();
-                        Fragment fragment = null;
-                        Class fragmentClass1 = null;
-                        FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-                        xfragmentTransaction.replace(R.id.containerView,  new ServiceProviderListFragment()).commit();
-                        fragmentClass1 = ServiceProviderListFragment.class;*/
-
-//                        Toast.makeText( getContext(), "Success", Toast.LENGTH_LONG).show();
                     }
                 }
 

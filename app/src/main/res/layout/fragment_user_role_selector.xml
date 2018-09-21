@@ -3,72 +3,36 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@color/white"
-             android:orientation="horizontal">
+             android:orientation="vertical">
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="210dp"
         android:text="Please Select Registration Type"
         android:textColor="@color/primary"
-        android:textSize="25sp"
+        android:textSize="23sp"
         android:textStyle="bold" />
-
-
-   <!-- <LinearLayout
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-100dp"
-            android:layout_marginLeft="45dp"
-            android:text="Customer"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-100dp"
-            android:text="Medical User"
-            android:layout_marginLeft="65dp"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>-->
-
 
     <LinearLayout
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-       <!-- <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userSelected"
-            android:layout_width="124dp"
-            android:layout_height="124dip"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dip"
-            android:background="@drawable/customer"
-            />-->
+
         <Button
             android:id="@+id/userSelected"
-            android:layout_width="wrap_content"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-15dp"
+            android:layout_marginBottom="-25dp"
             android:padding="3dp"
             android:background="@drawable/loginbutton_selector"
+            android:drawableLeft="@drawable/cust"
+            android:drawableTint="@color/white"
             android:text="Customer"
             android:textColor="@color/white"
             android:textSize="17sp"
@@ -90,39 +54,19 @@
 
         <Button
             android:id="@+id/serviceProviderSelected"
-            android:layout_width="wrap_content"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-35dp"
+            android:layout_marginBottom="-85dp"
             android:padding="3dp"
+            android:drawableLeft="@drawable/medi"
+            android:drawableTint="@color/white"
             android:background="@drawable/loginbutton_selector"
-            android:text="Medical User"
+            android:text="Chemist"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <!--<de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/serviceProviderSelected"
-            android:layout_width="124dip"
-            android:layout_height="124dip"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dip"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/medical"
-             />
--->
 
- <!--   <Button
-        android:id="@+id/startBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:padding="3dp"
-        android:background="@drawable/loginbutton_selector"
-        android:text="Start"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="17sp"
-        android:textStyle="bold" />-->
 
 </LinearLayout>
 

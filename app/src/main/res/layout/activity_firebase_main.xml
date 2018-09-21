@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
-    android:paddingLeft="@dimen/place_autocomplete_prediction_horizontal_margin"
-    android:paddingRight="@dimen/place_autocomplete_prediction_horizontal_margin"
+    android:background="@drawable/bac"
     android:paddingTop="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
     tools:context="com.medicalstorefinder.medicalstoreslocatorss.Activity.FirebaseMainActivity">
-    <TextView
-        android:id="@+id/tvNotificationDetails"
-        android:layout_width="wrap_content"
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Here notification details will be display" />
+        android:background="@color/white"
+        android:id="@+id/appbar"
+        >
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            app:title="@string/app_name"
+            app:titleTextColor="@color/white"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbar"
+            />
+
+
+        <TextView
+            android:id="@+id/tvNotificationDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/white"
+            android:text="Here notification details will be display" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rep_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="9dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+
 </RelativeLayout>

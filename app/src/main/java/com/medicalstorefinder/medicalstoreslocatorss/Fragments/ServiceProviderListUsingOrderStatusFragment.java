@@ -179,11 +179,6 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//                        serviceProviderDetails.setID(json.getInt("Id"));
-//                        jsonObject.getString("firstname")
-
-//                        {"id":"1","userid":"15","orderid":"ORD000001","latitude":"12.1516516541","longitude":"15.65656565","description":"test order","imagepath":"http:\/\/googel.com","address":"NAshik","mobile":"654654546454","medicalids":"","createddate":"2018-08-04 08:29:45","orderstatus":"Pending"}
 
                         serviceProviderDetails.setOrderid(jsonObject.getString("orderid"));
                         serviceProviderDetails.setDescription(jsonObject.getString("description"));
@@ -195,24 +190,8 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                         serviceProviderDetails.setCreateddate(jsonObject.getString("createddate"));
                         serviceProviderDetails.setOrderstatus(jsonObject.getString("orderstatus"));
 
-
-
-                       /* serviceProviderDetails.setID(i);
-                        serviceProviderDetails.setEmailId(("Email_Id"));
-                        serviceProviderDetails.setCustomerNo(("Mobile_Number"));
-                        serviceProviderDetails.setFullName(("Full_Name"));
-
-                        serviceProviderDetails.setStatus(("cStatus"));
-                        serviceProviderDetails.setServiceTypeName(("cType"));
-                        serviceProviderDetails.setLocation(("Location"));
-                        serviceProviderDetails.setPassword(("Passwords"));
-                        serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
-*/
-
                         listDetails.add(serviceProviderDetails);
                     }
-
-
 
                     if (listDetails.size() <= 0) {
                         imgRepNotFound.setVisibility(View.VISIBLE);
@@ -334,9 +313,6 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public ProgressBar spinner;
-//            public String s,s1;
-
-
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -354,10 +330,6 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     public void onClick(View v) {
 
                         ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
-                       /* s=tr.getEmailId();
-                        s1=tr.getPassword();*/
-
-//                        _TransactionId = tr.ID;
 
                         String lStatus = "success";
                         switch ( tr.getOrderstatus()) {
@@ -370,10 +342,8 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
                         }
 
-
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle("Transaction Details : ");
-                        alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
                                          "Order Id : " + tr.getOrderid() +
                                         "\n\nDescription : " + tr.getDescription() +
@@ -389,10 +359,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             PostOrderFragment ldf = new PostOrderFragment ();
-//                                            Bundle args = new Bundle();
-//                                            args.putString("YourKey", s);
-//                                            args.putString("YourKey1", s1);
-//                                            ldf.setArguments(args);
+
                                             getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();
                                         }
                                     });
@@ -405,7 +372,4 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             }
         }
     }
-
-
-
 }

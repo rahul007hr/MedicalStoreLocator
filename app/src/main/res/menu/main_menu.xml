@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/actionbar_item"
+        android:title="Badge Item 1"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/actionbar_item1"
+        android:title="Badge Item 2" />
+    <item
+        android:id="@+id/actionbar_item2"
+        android:title="Badge Item 3" />
+    <item
+        android:id="@+id/actionbar_item3"
+        android:title="Badge Item 4" />
+    <item
+        android:id="@+id/actionbar_item4"
+        android:title="Badge Item 5" />
+</menu>

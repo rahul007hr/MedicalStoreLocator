@@ -14,10 +14,11 @@
     <LinearLayout
         android:id="@+id/dotLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="0dp"
         android:gravity="center"
+        android:background="@color/light_gray_header_color"
         android:orientation="horizontal"></LinearLayout>
 
     <View

@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
+import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
+import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 
@@ -25,11 +28,11 @@ public class ContactUsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 try {
     v = inflater.inflate(R.layout.contact_us, container, false);
-    Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_contact_us);
+   /* Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_contact_us);
     ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
     CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_contact_us);
-    collapsingToolbar.setTitle("Contact Us");
+    collapsingToolbar.setTitle("Contact Us");*/
 }catch(Exception e){}
         String htmlAsString = getString(R.string.html_contact_us);
 
@@ -39,14 +42,13 @@ try {
 
         final android.support.v7.app.AlertDialog.Builder alertDialog = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle);
         alertDialog.setTitle("Do you want to call?");
-        alertDialog.setIcon(R.drawable.alert_dialog_warning);
 
         final int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
         v.findViewById(R.id.btn_call1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                alertDialog.setMessage("1234567");
+                alertDialog.setMessage("9969707707");
 
                 alertDialog.setNegativeButton("No",
                         new DialogInterface.OnClickListener() {
@@ -59,11 +61,11 @@ try {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (currentapiVersion <= android.os.Build.VERSION_CODES.LOLLIPOP){
                                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                                    callIntent.setData(Uri.parse("tel:1234567"));
+                                    callIntent.setData(Uri.parse("tel:9969707707"));
                                     startActivity(callIntent);
                                 } else {
                                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                                    callIntent.setData(Uri.parse("tel:1234567"));
+                                    callIntent.setData(Uri.parse("tel:9969707707"));
                                     startActivity(callIntent);
                                 }
                             }
@@ -71,6 +73,11 @@ try {
                 alertDialog.show();
             }
         });
+
+        SharedPreference sharedPreference = new SharedPreference();
+        if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")) {
+            CustomerActivity.navigation.setVisibility(View.GONE);
+        }
 
          return v;
     }

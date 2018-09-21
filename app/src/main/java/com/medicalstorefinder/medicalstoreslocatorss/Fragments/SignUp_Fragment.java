@@ -73,8 +73,6 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 	private GoogleApiClient mClient;
 	private Geofencing mGeofencing;
 
-
-
 	private static View view;
 	private static EditText firstName,lastName, emailId, mobileNumber, shopName,address,latitude,langitude,
 			password, confirmPassword;
@@ -196,8 +194,6 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 				Log.e(TAG, String.format("PlacePicker Exception: %s", e.getMessage()));
 			}
 
-
-
 			break;
 
 		case R.id.signUpBtn:
@@ -242,8 +238,6 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 
 	// Check Validation Method
 	private void checkValidation() {
-
-
 			// Get all edittext texts
 			String getFirstName = firstName.getText().toString();
 			String getLastName = lastName.getText().toString();

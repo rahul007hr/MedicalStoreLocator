@@ -43,6 +43,7 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocatorss.GlideImageLoader;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
+import com.medicalstorefinder.medicalstoreslocatorss.SingleTouchImageViewFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -191,12 +192,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
-//           {"userid":"28","mainorderid":"ORD000011","cost":null,
-// "medicalreply":null,"customerconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00",
-// "medicalconfirm":"1","orderid":"13","latitude":"18.5894527","longitude":"73.822031","description":"ddf",
-// "imagepath":"http:\/\/www.allegoryweb.com\/emedical\/\/images\/28\/1534096979745.jpg",
-// "address":"Yashoda Puram,Gokul Nagari, Pimple Gurav, Gokul Nagari, Pimple Gurav, Pimpri-Chinchwad, Maharashtra 411027, India",
-// "mobile":"8793377995","ordstatus":"Pending","created_at":"2018-08-12 11:04:23"}
+
                         String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
 
                         if(!listOfOrderIds.contains((jsonObject.getString("orderid")).toString())
@@ -205,27 +201,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                             serviceProviderDetails1.setOrderMainId(jsonObject.getString("mainorderid"));
                             serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost"));
-//                            serviceProviderDetails1.set(jsonObject.getString("customerconfirm"));
-//                            serviceProviderDetails1.setMedicalCost(jsonObject.getString("medicalconfirm"));
 
                             serviceProviderDetails1.setOrderid(jsonObject.getString("orderid"));
                             serviceProviderDetails1.setDescription(jsonObject.getString("description"));
                             serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
                             serviceProviderDetails1.setOrderstatus(jsonObject.getString("ordstatus"));
                             serviceProviderDetails1.setAddress(jsonObject.getString("address"));
-
-
-                       /* serviceProviderDetails.setID(i);
-                        serviceProviderDetails.setEmailId(("Email_Id"));
-                        serviceProviderDetails.setCustomerNo(("Mobile_Number"));
-                        serviceProviderDetails.setFullName(("Full_Name"));
-
-                        serviceProviderDetails.setStatus(("cStatus"));
-                        serviceProviderDetails.setServiceTypeName(("cType"));
-                        serviceProviderDetails.setLocation(("Location"));
-                        serviceProviderDetails.setPassword(("Passwords"));
-                        serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
-*/
 
                             listDetails.add(serviceProviderDetails1);
                         }
@@ -238,7 +219,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                         imgRepNotFound.startAnimation(animImgRecordNotFound);
-
 //                        btnReportLoad.setVisibility(View.GONE);
                     }
 
@@ -371,7 +351,17 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 imageViews.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(getContext(),"hi",Toast.LENGTH_LONG).show();
+
+                        final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
+
+//                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
+                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                        Bundle args1 = new Bundle();
+                        args1.putString("position1", String.valueOf(tr.getImagepath()));
+
+                        ldf1.setArguments(args1);
+
+                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
                     }
                 });
 
@@ -400,7 +390,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle("Transaction Details : ");
-                        alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
                                          "Order Id : " + tr.getOrderMainId() +
                                         "\n\nDescription : " + tr.getDescription() +
@@ -410,14 +399,15 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         LinearLayout lv = new LinearLayout(getActivity());
                         LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
                         lv.setLayoutParams(vp);
+//                        lv.setPadding(0,-40,0,0);
                         ImageView image = new ImageView(getActivity());
 //                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
                         image.setLayoutParams(vp);
                         image.setMaxHeight(10);
                         image.setMaxWidth(10);
-
+//                        image.setPadding(0,-30,0,0);
                         // other image settings
-                        image.setImageDrawable(getResources().getDrawable(R.drawable.alert_dialog_confirm));
+                        image.setImageDrawable(getResources().getDrawable(R.drawable.download));
                         lv.addView(image);
 
                         alertDialogBuilder.setView(lv);
@@ -426,35 +416,9 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             @Override
                             public void onClick(View view) {
 
-//                                Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-                               /* File direct = new File(Environment.getExternalStorageDirectory()
-                                        + "/AnhsirkDasarp");
-
-                                if (!direct.exists()) {
-                                    direct.mkdirs();
-                                }
-
-                                DownloadManager mgr = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-
-                                Uri downloadUri = Uri.parse(tr.getImagepath());
-                                DownloadManager.Request request = new DownloadManager.Request(
-                                        downloadUri);
-
-                                request.setAllowedNetworkTypes(
-                                        DownloadManager.Request.NETWORK_WIFI
-                                                | DownloadManager.Request.NETWORK_MOBILE)
-                                        .setAllowedOverRoaming(false).setTitle("Demo")
-                                        .setDescription("Something useful. No, really.")
-                                        .setDestinationInExternalPublicDir("/AnhsirkDasarp", "fileName.jpg");
-
-                                mgr.enqueue(request);*/
-
                                String[] s = {tr.getImagepath(),tr.getOrderid()};
 
                                 new DownloadImage().execute(s);
-
-
-
                             }
                         });
 
@@ -465,31 +429,16 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         public void onClick(DialogInterface dialog, int which) {
 
                                             alertDialogBuilder1.show();
-
-//                                            PostOrderFragment ldf = new PostOrderFragment ();
-//                                            Bundle args = new Bundle();
-//                                            args.putString("YourKey", s);
-//                                            args.putString("YourKey1", s1);
-//                                            ldf.setArguments(args);
-//                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();
                                         }
                                     });
                         }
                         alertDialogBuilder.show();
 
-
-
-
                         LayoutInflater li = LayoutInflater.from(context);
                         View promptsView = li.inflate(R.layout.custom_view_for_alert_dialogue, null);
 
-
                         alertDialogBuilder1.setTitle("Transaction Details : ");
-                        alertDialogBuilder1.setIcon(R.drawable.alert_dialog_warning);
-                       /* alertDialogBuilder1.setMessage(
-                                "Order Id1 : " + tr.getOrderid() +
-                                        "\n\nDescription1 : " + tr.getDescription() +
-                                        "\n\nStatus1 : " + tr.getOrderstatus());*/
+
                         alertDialogBuilder1.setView(promptsView);
 
                         final EditText userInput = (EditText) promptsView
@@ -510,26 +459,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                             cost[0] = String.valueOf(userCost.getText());
                                             serviceProviderDetails.setOrderid(tr.getOrderid());
                                             new SendCostToCustomer().execute();
-
-//                                            PostOrderFragment ldf = new PostOrderFragment ();
-//                                            Bundle args = new Bundle();
-//                                            args.putString("YourKey", s);
-//                                            args.putString("YourKey1", s1);
-//                                            ldf.setArguments(args);
-//                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();
                                         }
                                     });
                         }
-
-
-
-
-
-
                     }
 
                 });
-
             }
         }
     }
@@ -565,7 +500,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         String selectedOutputPath = "";
 
         File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "e-Medicine");
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
         // Create a storage directory if it does not exist
 
         // Create a media file name
@@ -634,9 +569,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     }
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
-
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
 
                         String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
 

@@ -13,7 +13,6 @@ public class IncomingSms extends BroadcastReceiver {
 
     final SmsManager sms = SmsManager.getDefault();
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -27,8 +26,6 @@ public class IncomingSms extends BroadcastReceiver {
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
 
                     String senderNumber = phoneNumber;
-//                    OTP for login is 940729. Please do not share it with anybody.
-//                    int i=Integer.parseInt(currentMessage.getDisplayMessageBody().replaceAll("[\\D]",""));
                     String message = currentMessage.getDisplayMessageBody().replaceAll("[\\D]","");
 
                     message = message.substring(0, message.length());
@@ -37,7 +34,6 @@ public class IncomingSms extends BroadcastReceiver {
                     Intent myIntent = new Intent("otp");
                     myIntent.putExtra("message", message);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(myIntent);
-
                 }
             }
         }catch (Exception e){

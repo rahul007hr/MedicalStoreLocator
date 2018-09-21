@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.OtpVerificationActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
@@ -120,7 +123,13 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         strtext = getArguments().getString("key");
 
         if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
-            new RetrieveFeedTask1().execute();
+//            CustomerActivity.navigation.setVisibility(View.GONE);
+//            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+             if(strtext.equalsIgnoreCase("Pending Delivery Customer"))
+                new OutForDelivery().execute();
+             else
+                 new RetrieveFeedTask1().execute();
+
         }else{
             if(strtext.equalsIgnoreCase("Pending Delivery"))
                 new RetrieveFeedTask3().execute();
@@ -128,12 +137,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 new RetrieveFeedTask2().execute();
 
         }
-
-
-
-
-
-
         return v;
     }
 
@@ -224,7 +227,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         && jsonObjectMedicalids.getString("cost")!=(null)
                                         && !jsonObjectMedicalids.getString("cost").equalsIgnoreCase("null")) {
 
-//                                    {"medicalid":"18","medicalreply":null,"cost":null,"customerconfirm":"0","medicalconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00"}
                                     ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                                     serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
                                     serviceProviderDetails1.setOrderid(jsonObject.getString("orderid"));
@@ -232,8 +234,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     serviceProviderDetails1.setDescription(jsonObject.getString("description"));
                                     serviceProviderDetails1.setAddress(jsonObject.getString("address"));
 
-
-//                                {"medicalid":"21","medicalurl":"no_avatar.jpg","medicalreply":"this is sampel text","cost":"150.00","customerconfirm":"1","medicalconfirm":"1","customeconfirmdatetime":"2018-08-19 10:34:51"}
                                     serviceProviderDetails1.setMedicalId(jsonObjectMedicalids.getString("medicalid"));
                                     serviceProviderDetails1.setMedicalReply(jsonObjectMedicalids.getString("medicalreply"));
                                     serviceProviderDetails1.setMedicalCost(jsonObjectMedicalids.getString("cost"));
@@ -260,7 +260,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                         imgRepNotFound.startAnimation(animImgRecordNotFound);
-
 //                        btnReportLoad.setVisibility(View.GONE);
                     }
 
@@ -339,19 +338,8 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         try {
 
-//           {"userid":"28","mainorderid":"ORD000011","cost":null,
-// "medicalreply":null,"customerconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00",
-// "medicalconfirm":"1","orderid":"13","latitude":"18.5894527","longitude":"73.822031","description":"ddf",
-// "imagepath":"http:\/\/www.allegoryweb.com\/emedical\/\/images\/28\/1534096979745.jpg",
-// "address":"Yashoda Puram,Gokul Nagari, Pimple Gurav, Gokul Nagari, Pimple Gurav, Pimpri-Chinchwad, Maharashtra 411027, India",
-// "mobile":"8793377995","ordstatus":"Pending","created_at":"2018-08-12 11:04:23"}
-
-
-
-
                             if(( jsonObject.getString("customerconfirm").equalsIgnoreCase("1")
                                     && !jsonObject.getString("medicalconfirm").equalsIgnoreCase("1"))) {
-
 
                                 ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                                 serviceProviderDetails1.setLatitude(jsonObject.getString("latitude"));
@@ -368,10 +356,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                 serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
                                 serviceProviderDetails1.setMedicalId(sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
 
-
-//
-
-
                                 listDetails.add(serviceProviderDetails1);
                             }
 
@@ -379,8 +363,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
 
 
@@ -467,19 +449,9 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         try {
 
-//           {"userid":"28","mainorderid":"ORD000011","cost":null,
-// "medicalreply":null,"customerconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00",
-// "medicalconfirm":"1","orderid":"13","latitude":"18.5894527","longitude":"73.822031","description":"ddf",
-// "imagepath":"http:\/\/www.allegoryweb.com\/emedical\/\/images\/28\/1534096979745.jpg",
-// "address":"Yashoda Puram,Gokul Nagari, Pimple Gurav, Gokul Nagari, Pimple Gurav, Pimpri-Chinchwad, Maharashtra 411027, India",
-// "mobile":"8793377995","ordstatus":"Pending","created_at":"2018-08-12 11:04:23"}
-
-
-
-
                             if(( jsonObject.getString("customerconfirm").equalsIgnoreCase("1")
-                                    && jsonObject.getString("medicalconfirm").equalsIgnoreCase("1"))) {
-
+                                    && jsonObject.getString("medicalconfirm").equalsIgnoreCase("1")
+                                    && jsonObject.getString("ordstatus").equalsIgnoreCase("Pending"))) {
 
                                 ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                                 serviceProviderDetails1.setLatitude(jsonObject.getString("latitude"));
@@ -496,10 +468,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                 serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
                                 serviceProviderDetails1.setMedicalId(sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
 
-
-//
-
-
                                 listDetails.add(serviceProviderDetails1);
                             }
 
@@ -507,11 +475,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
-
-
 
                     if (listDetails.size() <= 0) {
                         imgRepNotFound.setVisibility(View.VISIBLE);
@@ -535,8 +499,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             }
         }
     }
-
-
 
 //*************  Adapter Class*************//
 
@@ -661,7 +623,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
-                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
                         SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
                         Bundle args1 = new Bundle();
                         args1.putString("position1", String.valueOf(tr.getImagepath()));
@@ -703,7 +665,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle("Transaction Details : ");
-                        alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                         alertDialogBuilder.setMessage(
                                          "Order Id : " + tr.getOrderid() +
                                         "\nDescription : " + tr.getDescription()+
@@ -712,6 +673,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
 //                                        "\n\nStatus : " + tr.getOrderstatus());
                                         "\n\nDownload Prescription : " );
+                        sharedPreference.putValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID,tr.getOrderid() );
 
                         LinearLayout lv = new LinearLayout(getActivity());
                         LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
@@ -723,7 +685,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         image.setMaxWidth(10);
 
                         // other image settings
-                        image.setImageDrawable(getResources().getDrawable(R.drawable.alert_dialog_confirm));
+                        image.setImageDrawable(getResources().getDrawable(R.drawable.download));
                         lv.addView(image);
 
                         alertDialogBuilder.setView(lv);
@@ -732,40 +694,13 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             @Override
                             public void onClick(View view) {
 
-//                                Toast.makeText(getActivity(), "hi", Toast.LENGTH_SHORT).show();
-                               /* File direct = new File(Environment.getExternalStorageDirectory()
-                                        + "/AnhsirkDasarp");
-
-                                if (!direct.exists()) {
-                                    direct.mkdirs();
-                                }
-
-                                DownloadManager mgr = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-
-                                Uri downloadUri = Uri.parse(tr.getImagepath());
-                                DownloadManager.Request request = new DownloadManager.Request(
-                                        downloadUri);
-
-                                request.setAllowedNetworkTypes(
-                                        DownloadManager.Request.NETWORK_WIFI
-                                                | DownloadManager.Request.NETWORK_MOBILE)
-                                        .setAllowedOverRoaming(false).setTitle("Demo")
-                                        .setDescription("Something useful. No, really.")
-                                        .setDestinationInExternalPublicDir("/AnhsirkDasarp", "fileName.jpg");
-
-                                mgr.enqueue(request);*/
-
                                 String[] s = {tr.getImagepath(),tr.getOrderid()};
 
                                 new DownloadImage().execute(s);
-
-
-
                             }
                         });
 
                         if(lStatus.equalsIgnoreCase("pending")){
-
 
                             if(strtext.equalsIgnoreCase("Pending Delivery")){
 
@@ -790,7 +725,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
-//                                               new DeliveredOrCancelled().execute("delivered");
+                                               new DeliveredOrCancelled().execute("1");
 
                                             }
                                         });
@@ -799,7 +734,27 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
-//                                                new DeliveredOrCancelled().execute("canceled");
+                                                new DeliveredOrCancelled().execute("0");
+
+                                            }
+                                        });
+
+                            }else if(strtext.equalsIgnoreCase("Pending Delivery Customer")){
+
+                                alertDialogBuilder.setNeutralButton("Order Delivered",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                new DeliveredOrCancelledCustomer().execute("1");
+
+                                            }
+                                        });
+
+                                alertDialogBuilder.setNegativeButton("Canceled",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                new DeliveredOrCancelledCustomer().execute("0");
 
                                             }
                                         });
@@ -821,12 +776,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         }
                         alertDialogBuilder.show();
-
-
-
-
-
-
                     }
 
                 });
@@ -876,11 +825,14 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         String selectedOutputPath = "";
 
         File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "e-Medicine");
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
         // Create a storage directory if it does not exist
 
         // Create a media file name
         selectedOutputPath = mediaStorageDir.getPath() + File.separator + fileName;
+
+        Toast.makeText(getContext(),"Image is stored in "+selectedOutputPath,Toast.LENGTH_LONG).show();
+
         Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
         mypath = new File(selectedOutputPath);
 
@@ -944,10 +896,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
                         new RetrieveFeedTask1().execute();
-
                     }
                 }
 
@@ -961,10 +910,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         }
     }
-
-
-
-
 
     class SendFinalConfirmationFromMedicalToCustomer extends AsyncTask<Void, Void, String> {
 
@@ -994,7 +939,6 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 JSONObject jsonObject1 = new JSONObject(response);
                 JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
-//				{"Content":"{\"status\":\"success\",\"result\":{\"id\":\"28\",\"firstname\":\"Mangesh\",\"lastname\":\"Khalale\",\"shopname\":\"Mango\",\"email\":\"mangesh@gmail.com\",\"password\":\"111\",\"mobile\":\"8793377994\",\"address\":\"Pathardi Phata,Pathardi Phata, Nashik, Maharashtra, India\",\"latitude\":\"19.946922\",\"longitude\":\"73.7654367\",\"profilepic\":\"no_avatar.jpg\",\"role\":\"medical\",\"regdate\":\"2018-07-27 10:44:22\",\"status\":\"0\",\"deletestatus\":null,\"loginstatus\":\"1\",\"otp\":null}}","Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
                 if(response.equals("NO_INTERNET")) {
                     Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
                 }
@@ -1009,10 +953,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
                         new RetrieveFeedTask2().execute();
-
                     }
                 }
 
@@ -1038,13 +979,20 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
             Utilities utilities = new Utilities(getContext());
 //remaining
-            String address = Constants.API_MEDICAL_COST_RESPONCE_STATUS;
+
+            String s1;
+
+            s1=urls[0];
+
+
+            String address = Constants.API_UPDATE_ORDER_STATUS;
             Map<String, String> params = new HashMap<>();
-            params.put("customerid", serviceProviderDetails.getCustomerId());
-            params.put("orderid",  serviceProviderDetails.getOrderid());
+            params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
             params.put("tblorderid", serviceProviderDetails.getOrderMainId());
-            params.put("type", serviceProviderDetails.getCustomerType());
-            params.put("isdelivered", serviceProviderDetails.getIsDelivered());
+            params.put("orderid",  sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID ));
+            params.put("isdelivered", s1);
+            params.put("type", "medical");
+
 
 
             return utilities.apiCalls(address,params);
@@ -1070,7 +1018,231 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     }
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+                    }
+                }
 
+            } catch (Exception e) {
+                Toast.makeText( getContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+                progressDialog.dismiss();
+            }
+        }
+    }
+
+    class OutForDelivery extends AsyncTask<Void, Void, String> {
+
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getContext());
+
+            String address = Constants.API_SERVICE_PROVIDER_LIST_USING_ORDER_STATUS;
+            Map<String, String> params = new HashMap<>();
+            params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
+//            params.put("userid", "21");
+            params.put("status", "Pending");
+
+            return utilities.apiCalls(address,params);
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+                imgRepNotFound.setVisibility(View.GONE);
+
+                if (response.equals("NO_INTERNET")) {
+                    Toast.makeText(getActivity().getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                } else if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    imgRepNotFound.setVisibility(View.VISIBLE);
+
+                    final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
+                    imgRepNotFound.startAnimation(animImgRecordNotFound);
+//                    btnReportLoad.setVisibility(View.GONE);
+//                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
+                } else {
+
+
+                    if (listDetails.size() > 0) {
+                        listDetails.clear();
+                    }
+
+
+                    JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
+                    if (jsonarray.length() <= 0) {
+//                        btnReportLoad.setVisibility(View.GONE);
+                        Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    String listOfMedicalUsers="";
+
+                    /*for (int i = 0; i < jsonarray.length(); i++) {
+
+                        JSONObject jsonObject = jsonarray.getJSONObject(i);
+
+                        try {
+
+                            if(( jsonObject.getString("customerconfirm").equalsIgnoreCase("1")
+                                    && jsonObject.getString("medicalconfirm").equalsIgnoreCase("1")
+                                    && jsonObject.getString("ordstatus").equalsIgnoreCase("Pending"))) {
+
+                                ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+                                serviceProviderDetails1.setLatitude(jsonObject.getString("latitude"));
+                                serviceProviderDetails1.setLongitude(jsonObject.getString("longitude"));
+                                serviceProviderDetails1.setOrderMainId(jsonObject.getString("orderid"));
+                                serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost"));
+                                serviceProviderDetails1.setMedicalReply(jsonObject.getString("medicalreply"));
+                                serviceProviderDetails1.setOrderid(jsonObject.getString("mainorderid"));
+                                serviceProviderDetails1.setDescription(jsonObject.getString("description"));
+                                serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
+                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+                                serviceProviderDetails1.setMobile(jsonObject.getString("mobile"));
+                                serviceProviderDetails1.setOrderstatus(jsonObject.getString("ordstatus"));
+                                serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
+                                serviceProviderDetails1.setMedicalId(sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
+
+                                listDetails.add(serviceProviderDetails1);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }*/
+
+                    for (int i = 0; i < jsonarray.length(); i++) {
+
+                        JSONObject jsonObject = jsonarray.getJSONObject(i);
+
+                        JSONObject jsonObjectMedicalids = null;
+                        try {
+                            JSONObject json = new JSONObject(jsonObject.getString("medicalids"));
+                            Iterator<String> temp = json.keys();
+                            while (temp.hasNext()) {
+                                String key = temp.next();
+                                Object value = json.get(key);
+
+                                jsonObjectMedicalids= new JSONObject((String.valueOf(value)));
+//                                {"id":"11","userid":"14","orderid":"ORD000009","latitude":"12.1516516541","longitude":"15.65656565","description":"test order","imagepath":"http:\/\/googel.com","address":"NAshik","mobile":"7412589630"
+
+                                if(jsonObjectMedicalids.getString("medicalconfirm").equalsIgnoreCase("1")
+                                        &&jsonObjectMedicalids.getString("customerconfirm").equalsIgnoreCase("1")) {
+
+                                    ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+                                    serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
+                                    serviceProviderDetails1.setOrderid(jsonObject.getString("orderid"));
+                                    serviceProviderDetails1.setOrderMainId(jsonObject.getString("id"));
+                                    serviceProviderDetails1.setDescription(jsonObject.getString("description"));
+                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+
+                                    serviceProviderDetails1.setMedicalId(jsonObjectMedicalids.getString("medicalid"));
+                                    serviceProviderDetails1.setMedicalReply(jsonObjectMedicalids.getString("medicalreply"));
+                                    serviceProviderDetails1.setMedicalCost(jsonObjectMedicalids.getString("cost"));
+                                    serviceProviderDetails1.setMedicalProfileUrl(jsonObjectMedicalids.getString("medicalurl"));
+                                    serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
+
+
+                                    listDetails.add(serviceProviderDetails1);
+                                }
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+
+                    if (listDetails.size() <= 0) {
+                        imgRepNotFound.setVisibility(View.VISIBLE);
+
+                        final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
+                        imgRepNotFound.startAnimation(animImgRecordNotFound);
+
+//                        btnReportLoad.setVisibility(View.GONE);
+                    }
+
+                    adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            catch (Exception e1) {
+                Toast.makeText( getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+            }
+            finally {
+                progressDialog.dismiss();
+            }
+        }
+    }
+
+
+
+    class DeliveredOrCancelledCustomer extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        protected String doInBackground(String... urls) {
+
+            Utilities utilities = new Utilities(getContext());
+//remaining
+
+            String s1;
+
+            s1=urls[0];
+
+
+            String address = Constants.API_UPDATE_ORDER_STATUS;
+            Map<String, String> params = new HashMap<>();
+            params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
+            params.put("tblorderid", serviceProviderDetails.getOrderMainId());
+            params.put("orderid",  sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID ));
+            params.put("isdelivered", s1);
+            params.put("type", "customer");
+
+
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+//remaining
+                        sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_MEDICAL_ID, serviceProviderDetails.getMedicalId());
+
+
+                        CustomerRatingsFragment fragment2 = new CustomerRatingsFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, fragment2);
+                        fragmentTransaction.commit();
 
                     }
                 }
@@ -1085,6 +1257,5 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         }
     }
-
 
 }

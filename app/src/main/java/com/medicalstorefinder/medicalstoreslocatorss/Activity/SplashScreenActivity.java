@@ -1,5 +1,6 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Activity;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -11,9 +12,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.medicalstorefinder.medicalstoreslocatorss.BuildConfig;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
@@ -53,14 +59,26 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-/*                Intent i = new Intent(getApplicationContext(), CustomerActivity.class);
-                startActivity(i);
-                finish();*/
-
                 new CheckIsStableVersion().execute();
 
             }
         },SPLASH_SCREEN_TIMEOUT);
+
+        ImageView logo = (ImageView)findViewById(R.id.logo);
+     /*   Animation animIconBalance = AnimationUtils.loadAnimation(this,R.anim.flip_grow);
+        animIconBalance.setRepeatCount(Animation.INFINITE);
+        logo.setAnimation(animIconBalance);*/
+//        logo.setAnimation(animIconBalance);
+
+
+        ObjectAnimator animation = ObjectAnimator.ofFloat(logo, "rotationY", 0.0f, 360f);
+        animation.setDuration(3600);
+        animation.setRepeatCount(ObjectAnimator.INFINITE);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.start();
+
+
+
     }
 
 
@@ -99,45 +117,52 @@ public class SplashScreenActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), FirebaseMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("keys", datas);
-                   /* PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0 *//* Request code *//*, intent,
-                            PendingIntent.FLAG_ONE_SHOT);*/
 
                     startActivity(intent);
                     finish();
 
                 }else{
-
-                    if(true){
-                        if(userRole.equalsIgnoreCase("customer")){
-                            new AuthoriseOTP().execute();
-                        }else{
-                            new LoginTask().execute();
-                        }
-                    }else {
-
-                        new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle)
-                                .setTitle("New Updates Available").setIcon(R.drawable.alert_dialog_warning)
-                                .setMessage("New upgrades are available, Please upgrade App to continue...!!")
-                                .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent playstore = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=app.cricket_accessories.com.cricketaccessories"));
-                                        startActivity(playstore);
-                                    }
-                                }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                    try{
+                        JSONObject jsonObject1 = new JSONObject(response);
+                        JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
+                        String versionName = BuildConfig.VERSION_NAME;
+                        if((int)(Float.parseFloat(jsonObject.getString("version")))==((int)(Float.parseFloat(versionName)))){
+                            if(userRole.equalsIgnoreCase("customer")){
+                                new AuthoriseOTP().execute();
+                            }else{
+                                new LoginTask().execute();
                             }
-                        }).show();
+                        }else {
+
+                            new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle)
+                                    .setTitle("New Updates Available").setIcon(R.drawable.alert_dialog_warning)
+                                    .setMessage("New upgrades are available, Please upgrade App to continue...!!")
+                                    .setPositiveButton("confirm", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent playstore = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=app.cricket_accessories.com.cricketaccessories"));
+                                            startActivity(playstore);
+                                            finish();
+                                        }
+                                    }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText( getApplication(), "Please Update App !!", Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            }).show();
+                        }
+                    } catch (Exception e) {
+                    //    Toast.makeText( getApplication(), "Please Login Again", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+
+                    }
+                    finally {
+                    //                progressDialog.dismiss();
                     }
 
-
                 }
-
-
-
-
-
             }
         }
     }
@@ -205,8 +230,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
                         sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
                         sharedPreference.putValue(getApplication(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
-//						sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
                         Toast.makeText(getApplication(), "Login Success", Toast.LENGTH_SHORT).show();
 
@@ -232,6 +255,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
     class LoginTask extends AsyncTask<String,String,String> {
+
+        String token = "";
+        protected void onPreExecute() {
+            token = FirebaseInstanceId.getInstance().getToken();
+            while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
+            {
+                token = FirebaseInstanceId.getInstance().getToken();
+            }
+        }
         @Override
         protected String doInBackground(String... urls) {
             try {
@@ -242,13 +274,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         sharedPreference.isSPKeyExits(context, Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS)) {
 
                     Utilities utilities = new Utilities(getApplicationContext());
-
-                    String token = FirebaseInstanceId.getInstance().getToken();
-                    while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
-                    {
-                        token = FirebaseInstanceId.getInstance().getToken();
-                    }
-
 
                     String address = Constants.API_MEDICAL_LOGIN;
                     Map<String, String> params = new HashMap<>();
@@ -281,8 +306,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     JSONObject jsonObject1 = new JSONObject(response);
                     JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
-//
-
 
                     if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();

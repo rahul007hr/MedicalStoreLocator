@@ -79,9 +79,7 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
         btnSubmit.setOnClickListener(this);
         /** Setting the adapter to the ListView */
         setListAdapter(adapter);
-        new RetrieveFeedTask().execute();
         return v1;
-
     }
     @Override
     public void onListItemClick(ListView l, View v, final int position, long id) {
@@ -89,7 +87,6 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getContext(),R.style.AppCompatAlertDialogStyle );
 
         alertDialogBuilder.setTitle("Exit");
-        alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
         alertDialogBuilder
                 .setMessage("Are you sure you want to Remove?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -101,8 +98,6 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
                 })
                 .setNegativeButton("No", null)
                 .show();
-
-
     }
 
     @Override
@@ -119,12 +114,10 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
                         adapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(getContext(), "Item List is Full", Toast.LENGTH_SHORT).show();
-
                     }
                 }else {
                     if(s.equals("") && s1.equals("")){
                         Toast.makeText(getContext(), "Please Enter Item And Item Cost", Toast.LENGTH_SHORT).show();
-
                     }
                     else if(s.equals("")) {
                         Toast.makeText(getContext(), "Please Enter Item", Toast.LENGTH_SHORT).show();
@@ -135,261 +128,6 @@ public class ServiceProviderListItemFragment extends ListFragment implements Vie
                 }
 
                 break;
-
-           /* case R.id.profile:
-
-                String itemname1,itemname2,itemname3,itemname4,itemname5,itemname6,itemname7,itemname8,itemname9,itemname10;
-            if(adapter.getCount()>=1) {
-                if (adapter.getCount() >= 1) {
-                    itemname1 = adapter.getItem(0);
-                } else {
-                    itemname1 = "null";
-                }
-                if (adapter.getCount() >= 2) {
-                    itemname2 = adapter.getItem(1);
-                } else {
-                    itemname2 = "null";
-                }
-                if (adapter.getCount() >= 3) {
-                    itemname3 = adapter.getItem(2);
-                } else {
-                    itemname3 = "null";
-                }
-                if (adapter.getCount() >= 4) {
-                    itemname4 = adapter.getItem(3);
-                } else {
-                    itemname4 = "null";
-                }
-                if (adapter.getCount() >= 5) {
-                    itemname5 = adapter.getItem(4);
-                } else {
-                    itemname5 = "null";
-                }
-                if (adapter.getCount() >= 6) {
-                    itemname6 = adapter.getItem(5);
-                } else {
-                    itemname6 = "null";
-                }
-                if (adapter.getCount() >= 7) {
-                    itemname7 = adapter.getItem(6);
-                } else {
-                    itemname7 = "null";
-                }
-                if (adapter.getCount() >= 8) {
-                    itemname8 = adapter.getItem(7);
-                } else {
-                    itemname8 = "null";
-                }
-                if (adapter.getCount() >= 9) {
-                    itemname9 = adapter.getItem(8);
-                } else {
-                    itemname9 = "null";
-                }
-                if (adapter.getCount() >= 10) {
-                    itemname10 = adapter.getItem(9);
-                } else {
-                    itemname10 = "null";
-                }
-
-                serviceProviderDetailsModel = new ServiceProviderDetailsModel();
-                serviceProviderDetailsModel.setItemname1(itemname1);
-                serviceProviderDetailsModel.setItemname2(itemname2);
-                serviceProviderDetailsModel.setItemname3(itemname3);
-                serviceProviderDetailsModel.setItemname4(itemname4);
-                serviceProviderDetailsModel.setItemname5(itemname5);
-                serviceProviderDetailsModel.setItemname6(itemname6);
-                serviceProviderDetailsModel.setItemname7(itemname7);
-                serviceProviderDetailsModel.setItemname8(itemname8);
-                serviceProviderDetailsModel.setItemname9(itemname9);
-                serviceProviderDetailsModel.setItemname10(itemname10);
-
-                new Submit().execute();
-
-            }else{
-                Toast.makeText(getContext(), "Please Add Item", Toast.LENGTH_SHORT).show();
-
-            }
-                break;*/
-        }
-    }
-
-
-
-    class Submit extends AsyncTask<String,String,String> {
-        protected void onPreExecute() {
-            progressDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            StringBuilder URL_CREATE_REQUEST = new StringBuilder(Constants.API_SubmitServiceProvidersList);
-
-            SharedPreference sharedPreference = new SharedPreference();
-
-            URL_CREATE_REQUEST.append("?Id=1");
-            URL_CREATE_REQUEST.append("&pUserID=" + sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
-            URL_CREATE_REQUEST.append("&pKey=" + sharedPreference.getValue(getActivity().getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_PASS));
-            URL_CREATE_REQUEST.append("&itemname1=" + serviceProviderDetailsModel.getItemname1());
-            URL_CREATE_REQUEST.append("&itemname2=" + serviceProviderDetailsModel.getItemname2());
-            URL_CREATE_REQUEST.append("&itemname3=" + serviceProviderDetailsModel.getItemname3());
-            URL_CREATE_REQUEST.append("&itemname4=" + serviceProviderDetailsModel.getItemname4());
-            URL_CREATE_REQUEST.append("&itemname5=" + serviceProviderDetailsModel.getItemname5());
-            URL_CREATE_REQUEST.append("&itemname6=" + serviceProviderDetailsModel.getItemname6());
-            URL_CREATE_REQUEST.append("&itemname7=" + serviceProviderDetailsModel.getItemname7());
-            URL_CREATE_REQUEST.append("&itemname8=" + serviceProviderDetailsModel.getItemname8());
-            URL_CREATE_REQUEST.append("&itemname9=" + serviceProviderDetailsModel.getItemname9());
-            URL_CREATE_REQUEST.append("&itemname10=" + serviceProviderDetailsModel.getItemname10());
-
-            Utilities utilities = new Utilities(getActivity().getApplicationContext());
-            return utilities.apiCall(URL_CREATE_REQUEST.toString());
-        }
-
-        public void onPostExecute(String response) {
-            try {
-
-                if (response.equals("NO_INTERNET")) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                } else if (response.equals("ERROR")) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
-                } else {
-                    if (response.equals("true")) {
-
-                        new android.support.v7.app.AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyleSuccess)
-                                .setTitle("Submit List")
-                                .setIcon(R.drawable.alert_dialog_confirm)
-                                .setMessage("Submited Successfully.....")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                }).show();
-
-
-
-                    } else {
-                        new android.support.v7.app.AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyleFailed)
-                                .setTitle("Submit List")
-                                .setIcon(R.drawable.alert_dialog_misdeed)
-                                .setMessage("Error occurred in Submiting List...")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                }).show();
-                    }
-                }
-
-            } catch (Exception e1) {
-                Toast.makeText(getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
-                e1.fillInStackTrace();
-            } finally {
-                progressDialog.dismiss();
-            }
-        }
-    }
-
-    class RetrieveFeedTask extends AsyncTask<Void, Void, String> {
-
-        protected void onPreExecute() {
-            progressDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(Void... urls) {
-
-            Utilities utilities = new Utilities(  getActivity().getApplicationContext() );
-            SharedPreference sharedPreference = new SharedPreference();
-
-            StringBuilder URL_List= new StringBuilder(Constants.API_GetServiceProvidersList);
-            URL_List.append("?Id=1");
-            URL_List.append("&pUserID=" + sharedPreference.getValue(getActivity().getBaseContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
-            URL_List.append("&pKey=" + sharedPreference.getValue(getActivity().getBaseContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_PASS));
-
-
-            return utilities.apiCall(URL_List.toString());
-        }
-
-        protected void onPostExecute(String response) {
-
-            try {
-
-
-
-                if (response.equals("NO_INTERNET")) {
-                    Toast.makeText(getActivity().getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                } else if (response.equals("ERROR")) {
-
-                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
-                } else {
-
-
-                    JSONArray jsonarray = new JSONArray(response);
-
-                    if (jsonarray.length() <= 0) {
-                        Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
-                        JSONObject json = jsonarray.getJSONObject(i);
-
-                        serviceProviderDetails.setItemname1(json.getString("Itemname1"));
-                        serviceProviderDetails.setItemname2(json.getString("Itemname2"));
-                        serviceProviderDetails.setItemname3(json.getString("Itemname3"));
-                        serviceProviderDetails.setItemname4(json.getString("Itemname4"));
-                        serviceProviderDetails.setItemname5(json.getString("Itemname5"));
-                        serviceProviderDetails.setItemname6(json.getString("Itemname6"));
-                        serviceProviderDetails.setItemname7(json.getString("Itemname7"));
-                        serviceProviderDetails.setItemname8(json.getString("Itemname8"));
-                        serviceProviderDetails.setItemname9(json.getString("Itemname9"));
-                        serviceProviderDetails.setItemname10(json.getString("Itemname10"));
-
-
-                        if(!json.getString("Itemname1").equals("null"))
-                         list.add(json.getString("Itemname1"));
-                        if(!json.getString("Itemname2").equals("null"))
-                            list.add(json.getString("Itemname2"));
-                        if(!json.getString("Itemname3").equals("null"))
-                            list.add(json.getString("Itemname3"));
-                        if(!json.getString("Itemname4").equals("null"))
-                            list.add(json.getString("Itemname4"));
-                        if(!json.getString("Itemname5").equals("null"))
-                            list.add(json.getString("Itemname5"));
-                        if(!json.getString("Itemname6").equals("null"))
-                            list.add(json.getString("Itemname6"));
-                        if(!json.getString("Itemname7").equals("null"))
-                            list.add(json.getString("Itemname7"));
-                        if(!json.getString("Itemname8").equals("null"))
-                            list.add(json.getString("Itemname8"));
-                        if(!json.getString("Itemname9").equals("null"))
-                            list.add(json.getString("Itemname9"));
-                        if(!json.getString("Itemname10").equals("null"))
-                            list.add(json.getString("Itemname10"));
-
-
-
-                        listDetails.add(serviceProviderDetails);
-
-                        adapter.notifyDataSetChanged();
-                    }
-
-
-
-                }
-            }
-
-            catch (Exception e1) {
-                try {
-                    Toast.makeText(getActivity().getApplicationContext(), "List is Empty", Toast.LENGTH_LONG).show();
-                }catch (Exception e2) {
-
-                }
-            }
-            finally {
-                progressDialog.dismiss();
-            }
         }
     }
 

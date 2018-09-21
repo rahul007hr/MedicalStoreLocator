@@ -50,11 +50,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
         txtMobileNo.setText("Please Enter OTP Sent On \n +91 "+(sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE )));
         reverseTimer(120,txtTimer);
-//        pinEntry.setText("123456");
-      /*  progressDialog = new ProgressDialog(getApplicationContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);*/
 
         verifyOTP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +123,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 final String message = intent.getStringExtra("message");
                 pinEntry.setText(message);
             }
-
         }
     };
 

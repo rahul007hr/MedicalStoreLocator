@@ -189,7 +189,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 		case R.id.changeRoleBtn:
 
-			sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, "");
+			SharedPreference sharedPreference1 = new SharedPreference();
+			sharedPreference1.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
+
 
 			Intent myIntent1 = new Intent(getActivity(), RoleSelectorActivity.class);
 			getActivity().startActivity(myIntent1);
@@ -209,15 +211,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			}else{
 				checkValidation();
 			}
-			/*Uri.Builder builder = new Uri.Builder();
-			builder.scheme("https")
-					.authority("www.google.com").appendPath("maps").appendPath("dir").appendPath("").appendQueryParameter("api", "1")
-					.appendQueryParameter("destination", 18.590388700000002 + "," + 73.8204423);
-			String url = builder.build().toString();
-			Log.d("Directions", url);
-			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(url));
-			startActivity(i);*/
 
 			break;
 
@@ -243,21 +236,22 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 	class AuthoriseUser extends AsyncTask<Void, Void, String> {
 
+		String token = "";
 		protected void onPreExecute() {
-			progressDialog.show();
-		}
-
-		protected String doInBackground(Void... urls) {
-
-			Utilities utilities = new Utilities(getContext());
-
-
-			String token = FirebaseInstanceId.getInstance().getToken();
+			token = FirebaseInstanceId.getInstance().getToken();
 			while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
 			{
 				token = FirebaseInstanceId.getInstance().getToken();
 			}
+			progressDialog.show();
+		}
 
+
+
+
+		protected String doInBackground(Void... urls) {
+
+			Utilities utilities = new Utilities(getContext());
 
 			String address = Constants.API_MEDICAL_LOGIN;
 			Map<String, String> params = new HashMap<>();
@@ -266,9 +260,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			params.put("loginstatus", "1");
 			params.put("deviceid", token);
 
-
 			return utilities.apiCalls(address,params);
-
 		}
 
 		protected void onPostExecute(String response) {
@@ -277,7 +269,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 				JSONObject jsonObject1 = new JSONObject(response);
 				JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
-//				{"Content":"{\"status\":\"success\",\"result\":{\"id\":\"28\",\"firstname\":\"Mangesh\",\"lastname\":\"Khalale\",\"shopname\":\"Mango\",\"email\":\"mangesh@gmail.com\",\"password\":\"111\",\"mobile\":\"8793377994\",\"address\":\"Pathardi Phata,Pathardi Phata, Nashik, Maharashtra, India\",\"latitude\":\"19.946922\",\"longitude\":\"73.7654367\",\"profilepic\":\"no_avatar.jpg\",\"role\":\"medical\",\"regdate\":\"2018-07-27 10:44:22\",\"status\":\"0\",\"deletestatus\":null,\"loginstatus\":\"1\",\"otp\":null}}","Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
 				if(response.equals("NO_INTERNET")) {
 					Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_LONG).show();
 				}
@@ -293,7 +284,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
 						JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//						JSONObject jsonObject = jsonarray.getJSONObject(1);
 
 						apiUser = new ApiUser();
 
@@ -309,7 +299,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						String s = PROFILE_IMAGE_PATH+jsonObject.getInt("id")+"/"+jsonObject.getInt("id")+".jpg";
 
 						apiUser.setProfilePicUrl(s);
-
 
 
 							sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
@@ -414,8 +403,16 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 					else {
 						JSONObject jsonObject1 = new JSONObject(response);
 						JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
-						JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
 
+//						{"status":"error","message":"Invalid OTP"}
+
+				if("Invalid OTP".equalsIgnoreCase(jsonObject2.getString("message"))) {
+
+					new AuthoriseCustomer().execute();
+
+				}else{
+
+					JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
 						apiUser = new ApiUser();
 
 						apiUser.setID(jsonObject.getInt("id"));
@@ -426,10 +423,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						apiUser.setShop_Name(jsonObject.getString("shopname"));
 						apiUser.setEmail(jsonObject.getString("email"));
 						apiUser.setUserRole(jsonObject.getString("role"));
-						apiUser.setPasswords( getPassword);
-//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
-
-//						sharedPreference = new SharedPreference();
+						apiUser.setPasswords(getPassword);
 
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
@@ -440,13 +434,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
 						Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
 
 						Intent myIntent = new Intent(getActivity(), CustomerActivity.class);
 						startActivity(myIntent);
 						getActivity().finish();
+					}
 					}
 				}
 
@@ -478,7 +472,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 			String address = Constants.API_CUSTOMER_LOGIN;
 			Map<String, String> params = new HashMap<>();
-			params.put("mobile", sharedPreference.getValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE));
+			params.put("mobile", mobile.getText().toString());
 			params.put("deviceid", token);
 
 			return utilities.apiCalls(address,params);

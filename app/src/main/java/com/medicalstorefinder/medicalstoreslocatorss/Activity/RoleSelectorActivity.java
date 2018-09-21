@@ -14,7 +14,6 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 public class RoleSelectorActivity extends AppCompatActivity {
-//    static int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,60 +48,31 @@ public class RoleSelectorActivity extends AppCompatActivity {
             serviceProviderBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if(count!=0) {
                     sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"medical");
 
                     Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
                         getActivity().finish();
-                   /* }else{
-                        Toast.makeText(getActivity(), "Please select atleast one type", Toast.LENGTH_SHORT).show();
-                    }*/
+
                 }
             });
 
             userBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if(count!=0) {
 
                     sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"Customer");
 
                     Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);
                         getActivity().finish();
-                   /* }else{
-                        Toast.makeText(getActivity(), "Please select atleast one type", Toast.LENGTH_SHORT).show();
-                    }*/
+
                 }
             });
 
 
 
-           /* rootView.findViewById(R.id.userSelected).setOnClickListener(new View.OnClickListener() {
-                        @SuppressLint("ResourceAsColor")
-                        @Override
-                        public void onClick(View view) {
-                            rootView.findViewById(R.id.userSelected).setBackgroundResource(R.drawable.customer2);
-                            rootView.findViewById(R.id.serviceProviderSelected).setBackgroundResource(R.drawable.medical);
-                            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"Customer");
 
-                            count=1;
-
-                        }
-                    });
-                    rootView.findViewById(R.id.serviceProviderSelected).setOnClickListener(new View.OnClickListener() {
-                        @SuppressLint("ResourceAsColor")
-                        @Override
-                        public void onClick(View view) {
-
-                            rootView.findViewById(R.id.userSelected).setBackgroundResource(R.drawable.customer);
-                            rootView.findViewById(R.id.serviceProviderSelected).setBackgroundResource(R.drawable.medical2);
-                            sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"ServiceProvider");
-
-                            count=1;
-                        }
-                    });*/
 
             return rootView;
         }

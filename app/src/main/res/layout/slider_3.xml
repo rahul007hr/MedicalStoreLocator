@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
+    android:background="@drawable/thi"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -10,13 +10,15 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="e-Medicine"
+        android:text="My-Chemist"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="30dp"
@@ -26,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="e-Medicine Intro Text"
+        android:text="My-Chemist Intro Text"
+        android:visibility="gone"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="20dp" />

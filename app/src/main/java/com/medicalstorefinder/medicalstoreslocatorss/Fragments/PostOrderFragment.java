@@ -500,6 +500,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.containerView, fragment2);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
     }
@@ -778,12 +779,9 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public class MyTransferListener implements FTPDataTransferListener {
 
         public void started() {
-//            btn.setVisibility(View.GONE);
             // Transfer started
 //            Toast.makeText(getBaseContext(), " Upload Started ...", Toast.LENGTH_SHORT).show();
             System.out.println(" Upload Started ...");
-//            new DeleteImage().execute();
-
         }
 
         public void transferred(int length) {

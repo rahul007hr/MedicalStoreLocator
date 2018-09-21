@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">e-Medicines</string>
+    <string name="app_name">My-Chemists</string>
 
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
-    <string name="splash_screen_welcome">e-Medicine</string>
+    <string name="splash_screen_welcome">My-Chemist</string>
 
     <string name="title_activity_welcome_instructins">WelcomeInstructinsActivity</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -28,6 +28,15 @@
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
+    <string name="company">
+    <a href="www.ridsinfocom.com">www.ridsinfocom.com</a>
+    </string>
+    <string name="policy">
+    <a href="https://mychemist.net.in/app/policy.html">Privacy Policy</a>
+    </string>
+
+    <string name="contact">Support : www.ridsinfocom.com \n Email : mychemist247@gmail.com</string>
+
 
     <string name="hintTxtItem">Enter an item here ...</string>
     <string name="lblBtnAdd">Add Item</string>
@@ -54,11 +63,9 @@ needs and wants.</p></li>
 
     <string name="html_contact_us">
               <![CDATA[
-            <p> <i> We love hearing from you! If you have any feedback,concerns or inquiries, feel free to contact us. <i> <br />
-             <b>Office Address : </b> <br />
+            <p> <i> If you have any questions or suggestions, do not hesitate to contact us at <i> <br />
 
-             Pune- 411 052, Maharashtra, India.<br />
-             <b> E-mail : </b> <a href="mailto:support@emedical.com"> support@emedical.com </a> </p>
+             <b> E-mail : </b> <a href="mailto:mychemist247@gmail.com"> mychemist247@gmail.com </a> </p>
             ]]>
        </string>
 

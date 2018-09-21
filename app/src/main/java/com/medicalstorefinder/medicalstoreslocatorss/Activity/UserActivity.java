@@ -22,12 +22,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +37,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -42,10 +45,12 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AboutUsFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AllNotificationsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ChangePassword_Fragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ContactUsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MainFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MedicalResponseOfCostListFragment;
+import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ProfileFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ReceivedOrderListFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ServiceProviderListUsingOrderStatusFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
@@ -76,9 +81,6 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
 /**
  * Created by Rahul on 2/19/2017.
  */
-
-
-
     public class UserActivity extends AppCompatActivity {
 
         DrawerLayout drawerLayout;
@@ -86,14 +88,10 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
 
-//        TextView txtvUserName;
-//        TextView txtvRegisteredMobileNo;
-//        TextView txtvEmail;
         CircleImageView profileImage;
         String username;
 
         ActionBarDrawerToggle actionBarDrawerToggle;
-        //CircleImageView profileImage;
 
         ImageView iconBalance;
 
@@ -125,12 +123,13 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_user);
 
-//             getWindow().setBackgroundDrawableResource(R.drawable.alertdialog_background);
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
             //Setup the DrawerLayout and NavigationView
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
             navigationView = (NavigationView) findViewById(R.id.nav) ;
+
+
             sharedPreference = new SharedPreference();
             // inflating the TabFragment as the first Fragment
             fragmentManager = getSupportFragmentManager();
@@ -138,15 +137,12 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             //fragmentTransaction.replace(R.id.containerView,new RechargeTabFragment()).commit();
 
             v = navigationView.getHeaderView(0);
-//            txtvUserName=(TextView) v.findViewById(R.id.user_id);
-//            txtvRegisteredMobileNo=(TextView) v.findViewById(R.id.reg_mobile);
-//            txtvEmail=(TextView) v.findViewById(R.id.email);
             profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
             SharedPreference sharedPreference = new SharedPreference();
 
-            username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+//            username=(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
 
-            profileImage.setOnClickListener(new View.OnClickListener() {
+           /* profileImage.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
@@ -157,40 +153,35 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
 
                     startActivityForResult(i, RESULT_LOAD_IMAGE);
                 }
-            });
-
-//            name=sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email);
-
-//            txtvUserName.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_NAME));
-//            txtvRegisteredMobileNo.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_RegMobile));
-//            txtvEmail.setText(sharedPreference.getValue(getApplicationContext(), Constants.PREF_ISAD, Constants.PREF_KEY_USER_Email));
+            });*/
 
             String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic);
             new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
 
-            // profileImage=(CircleImageView)v.findViewById(R.id.drawer_header_profile_pic);
-
-            // SharedPreference sharedPreference = new SharedPreference();
-
-
-
-//        String ProfilePicUrl = sharedPreference.getValue( getBaseContext(), Constants.PREF_ISRE, Constants.PREF_KEY_USER_ProfilePic );
-//        new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
-
-
 //        Animation for balance icon
-//        iconBalance = (ImageView) findViewById(R.id.balance_tool);
-//        Animation animIconBalance = AnimationUtils.loadAnimation(this,R.anim.flip_grow);
-//        animIconBalance.setRepeatCount(Animation.INFINITE);
-//        iconBalance.setAnimation(animIconBalance);
-//        iconBalance.setAnimation(animIconBalance);
-//
-//        iconBalance.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, WallateBalanceActivity.class));
-//            }
-//        });
+        iconBalance = (ImageView) findViewById(R.id.balance_tool);
+
+        iconBalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = null;
+                Class fragmentClass1 = null;
+                Intent intent = null;
+                Bundle bundle = new Bundle();
+                String myMessage;
+                drawerLayout.closeDrawers();
+                FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
+
+                AllNotificationsFragment fragobj1 = new AllNotificationsFragment();
+
+                xfragmentTransaction.replace(R.id.containerView, fragobj1);
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                xfragmentTransaction.addToBackStack(null);
+                xfragmentTransaction.commit();
+                fragmentClass1 = AllNotificationsFragment.class;
+            }
+        });
             loadFragment(new ReceivedOrderListFragment());
             navigationView.getMenu().findItem(R.id.receivedOrder).setChecked(true);
 
@@ -203,15 +194,6 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             drawerLayout.closeDrawers();
             FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
 
-//            myMessage = "User";
-//            bundle.putString("message", myMessage );
-//            fragobj.setArguments(bundle);
-
-//            xfragmentTransaction.replace(R.id.containerView, fragobj).commit();
-//            fragmentClass1 = MainFragment.class;
-
-
-
             //Setup click events on the Navigation View Items.
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -222,12 +204,10 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                         navigationView.getMenu().findItem(R.id.receivedOrder).setChecked(false);
                     }
 
-//                    ServiceProviderListFragment fragobj = new ServiceProviderListFragment();
                     Fragment fragment = null;
                     Class fragmentClass1 = null;
                     Intent intent = null;
                     Bundle bundle = new Bundle();
-//                    String myMessage;
                     drawerLayout.closeDrawers();
                     FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
 
@@ -237,12 +217,11 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                         case R.id.receivedOrder:
 
                             ReceivedOrderListFragment fragobj1 = new ReceivedOrderListFragment();
-//                            myMessage = "User";
-//                            bundle.putString("message", myMessage );
-//                            fragobj1.setArguments(bundle);
 
-
-                            xfragmentTransaction.replace(R.id.containerView, fragobj1).commit();
+                            xfragmentTransaction.replace(R.id.containerView, fragobj1);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
                             fragmentClass1 = ServiceProviderListUsingOrderStatusFragment.class;
                             return true;
 
@@ -254,6 +233,8 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             fragobj2.setArguments(bundle);
 
                             xfragmentTransaction.replace(R.id.containerView,  fragobj2);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
                             xfragmentTransaction.commit();
                             fragmentClass1 = MedicalResponseOfCostListFragment.class;
                             return true;
@@ -269,42 +250,45 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             fragobj3.setArguments(bundle);
 
                             xfragmentTransaction.replace(R.id.containerView,  fragobj3);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
                             xfragmentTransaction.commit();
                             fragmentClass1 = MedicalResponseOfCostListFragment.class;
                             return true;
 
-                        /*case R.id.profile:
-                            xfragmentTransaction.replace(R.id.containerView, new ProfileFragment()).commit();
+                        case R.id.profile:
+                            xfragmentTransaction.replace(R.id.containerView, new ProfileFragment());
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
                             fragmentClass1 = ProfileFragment.class;
-                            return true;*/
-//
-                        case R.id.change_password:
-                            xfragmentTransaction.replace(R.id.containerView, new ChangePassword_Fragment()).commit();
-                            fragmentClass1 = ChangePassword_Fragment.class;
                             return true;
 //
+                        /*case R.id.change_password:
+                            xfragmentTransaction.replace(R.id.containerView, new ChangePassword_Fragment()).commit();
+                            fragmentClass1 = ChangePassword_Fragment.class;
+                            return true;*/
+//
                         case R.id.about_us:
-                            xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment()).commit();
+                            xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment());
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
                             fragmentClass1 = AboutUsFragment.class;
                             return true;
 //
                         case R.id.contact_us:
-                            xfragmentTransaction.replace(R.id.containerView, new ContactUsFragment()).commit();
+                            xfragmentTransaction.replace(R.id.containerView, new ContactUsFragment());
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
                             fragmentClass1 = ContactUsFragment.class;
                             return true;
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
                         case R.id.logout:
 
-
                             new Logout().execute();
 
-                            SharedPreference sharedPreference = new SharedPreference();
-                            sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
-
-                            Intent i = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(i);
-
-                            finish();
                             return true;
                     }
                     try {
@@ -357,15 +341,18 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
         return false;
     }
 
+
+
+
     @Override
         public void onBackPressed() {
 
             try {
 
+                if (getSupportFragmentManager().getBackStackEntryCount() < 1){
                     android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
                     alertDialogBuilder.setTitle("Exit");
-                    alertDialogBuilder.setIcon(R.drawable.alert_dialog_warning);
                     alertDialogBuilder
                             .setMessage("Are you sure you want to exit?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -376,6 +363,10 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             })
                             .setNegativeButton("No", null)
                             .show();
+                }
+                else {
+                    super.onBackPressed();
+                }
             } catch (Exception e) {
 
             }
@@ -486,6 +477,16 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                         Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
                     } else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+
+
+                        SharedPreference sharedPreference = new SharedPreference();
+                        sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
+
+                        Intent i = new Intent(getBaseContext(), MainActivity.class);
+                        startActivity(i);
+
+                        finish();
+
                     }
                 }
 
@@ -591,9 +592,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
 
             public void started() {
 
-//            btn.setVisibility(View.GONE);
                 // Transfer started
-//            Toast.makeText(getBaseContext(), " Upload Started ...", Toast.LENGTH_SHORT).show();
                 System.out.println(" Upload Started ...");
 //            new DeleteImage().execute();
 
@@ -850,7 +849,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
             }
         }
 
-        @Override
+       /* @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
 
@@ -859,7 +858,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
 
                 new ImageCompressionAsyncTask(true).execute(data.getDataString());
             }
-        }
+        }*/
 
         private Bitmap getBitmapFromUri(Uri uri) throws IOException {
             ParcelFileDescriptor parcelFileDescriptor =
