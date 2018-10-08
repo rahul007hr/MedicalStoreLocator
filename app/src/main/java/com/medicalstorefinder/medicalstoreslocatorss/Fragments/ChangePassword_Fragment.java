@@ -84,11 +84,11 @@ public class ChangePassword_Fragment extends Fragment implements OnClickListener
 			new CustomToast().Show_Toast(getActivity(), view, "New Password and Confirm Password not Same");
 		}
 
-		else
-			new ChangePassword().execute();
+		/*else
+			new ChangePassword().execute();*/
 	}
 
-	class ChangePassword extends AsyncTask<String,String,String> {
+	/*class ChangePassword extends AsyncTask<String,String,String> {
 		protected void onPreExecute() {
 			progressDialog.show();
 		}
@@ -159,6 +159,6 @@ public class ChangePassword_Fragment extends Fragment implements OnClickListener
 				progressDialog.dismiss();
 			}
 		}
-	}
+	}*/
 
 }

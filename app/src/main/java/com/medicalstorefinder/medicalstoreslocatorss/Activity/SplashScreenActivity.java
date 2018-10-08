@@ -213,7 +213,16 @@ public class SplashScreenActivity extends AppCompatActivity {
                         apiUser.setFirst_Name(jsonObject.getString("firstname"));
                         apiUser.setLast_Name(jsonObject.getString("lastname"));
                         apiUser.setRegMobile(jsonObject.getString("mobile"));
-                        apiUser.setAddress(jsonObject.getString("address"));
+
+                        String string = jsonObject.getString("address");
+                        String[] bits = string.split(",");
+                        String lastWord = "";
+                        if(bits.length>2)
+                            lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+//                        serviceProviderDetails1.setAddress(lastWord);
+
+                        apiUser.setAddress(lastWord);
                         apiUser.setShop_Name(jsonObject.getString("shopname"));
                         apiUser.setEmail(jsonObject.getString("email"));
                         apiUser.setUserRole(jsonObject.getString("role"));

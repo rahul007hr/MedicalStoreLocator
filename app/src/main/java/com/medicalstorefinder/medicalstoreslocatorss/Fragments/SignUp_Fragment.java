@@ -399,6 +399,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 				if(response.equalsIgnoreCase("ERROR") ) {
 //                    Toast.makeText(getContext(), "Please try again later config 2", Toast.LENGTH_LONG).show();
 				}else if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
+					Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 				}
 				else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
                     Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();

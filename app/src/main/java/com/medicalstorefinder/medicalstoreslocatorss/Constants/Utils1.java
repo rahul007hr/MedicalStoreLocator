@@ -6,6 +6,7 @@ public class Utils1 {
 
 	public static final String Login_Fragment = "Login_Fragment";
 	public static final String SignUp_Fragment = "SignUp_Fragment";
+	public static final String SignUp_Customer_Fragment = "SignUp_Customer_Fragment";
 	public static final String ForgotPassword_Fragment = "ForgotPassword_Fragment";
 	
 }

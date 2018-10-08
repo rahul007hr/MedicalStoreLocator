@@ -6,15 +6,23 @@
     android:background="#ffffff"
     android:padding="5dp" >
 
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/exc"
+        />
+
     <TextView
         android:id="@+id/toast_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
+        android:layout_marginLeft="50dp"
         android:padding="5dp"
-        android:drawableLeft="@drawable/alert_dialog_warning"
         android:textColor="#c0392b"
         android:textSize="15sp" />
 

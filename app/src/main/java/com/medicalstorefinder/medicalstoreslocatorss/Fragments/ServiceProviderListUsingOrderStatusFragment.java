@@ -9,9 +9,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +40,9 @@ import com.medicalstorefinder.medicalstoreslocatorss.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,7 +144,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             Map<String, String> params = new HashMap<>();
             params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
 //            params.put("userid", "15");
-            params.put("status", "success");
+            params.put("status", "Completed");
 
             return utilities.apiCalls(address,params);
         }
@@ -180,10 +185,31 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
 
+                        //                            2018-09-22 03:48:19
+                        String s = jsonObject.getString("createddate");
+//                        String s ="2018-09-22 03:48:19";
+                        String[] s1 = s.split("\\s+");
+                        String s2 = s1[0];
+
+                        Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+
+
                         serviceProviderDetails.setOrderid(jsonObject.getString("orderid"));
                         serviceProviderDetails.setDescription(jsonObject.getString("description"));
                         serviceProviderDetails.setImagepath(jsonObject.getString("imagepath"));
-                        serviceProviderDetails.setAddress(jsonObject.getString("address"));
+
+                        String string = jsonObject.getString("address");
+                        String[] bits = string.split(",");
+                        String lastWord = "";
+                        if(bits.length>2)
+                            lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+                        serviceProviderDetails.setAddress(lastWord);
+
+//                        serviceProviderDetails.setAddress(jsonObject.getString("address"));
+                        serviceProviderDetails.setNotificationTime(parsedDate);
                         serviceProviderDetails.setLatitude(jsonObject.getString("latitude"));
                         serviceProviderDetails.setLongitude(jsonObject.getString("longitude"));
                         serviceProviderDetails.setMobile(jsonObject.getString("mobile"));
@@ -252,7 +278,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getAddress());
-
+                holder.vtxtTime.setText("Date : "+tr.getNotificationTime());
 
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
 //                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
@@ -268,8 +294,9 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }else{
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
 
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
@@ -280,17 +307,19 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
+                }else{
+                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
 
-                tr.setStatus("success");
+                tr.setStatus("Success");
                 switch (tr.getStatus()) {
-                    case "pending":
+                    case "Pending":
                         holder.vtxtStatus.setText("PENDING");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
-                    case "success":
+                    case "Success":
                         holder.vtxtStatus.setText("SUCCESS");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
@@ -313,12 +342,14 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public ProgressBar spinner;
+            public TextView vtxtTime;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
                 final View view = itemView;
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtTime = (TextView) itemView.findViewById(R.id.time);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
@@ -329,28 +360,30 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     @Override
                     public void onClick(View v) {
 
-                        ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
+                        final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
-                        String lStatus = "success";
+                        String lStatus = "Success";
                         switch ( tr.getOrderstatus()) {
-                            case "pending":
+                            case "Pending":
                                 lStatus = "PENDING";
                                 break;
-                            case "success":
+                            case "Success":
                                 lStatus = "SUCCESS";
                                 break;
 
                         }
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
-                        alertDialogBuilder.setTitle("Transaction Details : ");
+                        alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                         "Order Id : " + tr.getOrderid() +
-                                        "\n\nDescription : " + tr.getDescription() +
-                                        "\n\nAddress : " + tr.getAddress() +
-                                        "\n\nMobile No. : " + tr.getMobile() +
-                                        "\n\nCreated Date : " + tr.getCreateddate() +
-                                        "\n\nStatus : " + tr.getOrderstatus());
+                                Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
+                                        "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
+                                        "\n"+Html.fromHtml(getString(R.string.address)) + tr.getAddress() +
+                                        "\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() +
+                                        "\n"+Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime() +
+                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus());
+                        final String imagePath = tr.getImagepath();
+                        final String descriptionss = tr.getDescription();
 
 
                         if(lStatus.equalsIgnoreCase("SUCCESS")){
@@ -358,9 +391,25 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                             alertDialogBuilder.setPositiveButton("Create Order",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            PostOrderFragment ldf = new PostOrderFragment ();
+                                           /* PostOrderFragment ldf = new PostOrderFragment ();
 
-                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();
+                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();*/
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("imagePath",imagePath);
+                                            bundle.putString("description",descriptionss);
+
+
+                                            PostOrderFragment fragment2 = new PostOrderFragment();
+
+                                            fragment2.setArguments(bundle);
+
+                                            FragmentManager fragmentManager = getFragmentManager();
+                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                            fragmentTransaction.replace(R.id.containerView, fragment2);
+                                            fragmentTransaction.addToBackStack(null);
+                                            fragmentTransaction.commit();
+
                                         }
                                     });
                         }

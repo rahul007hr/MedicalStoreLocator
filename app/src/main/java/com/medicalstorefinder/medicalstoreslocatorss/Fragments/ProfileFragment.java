@@ -75,14 +75,25 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
     File f;
     Uri selectedImage;
 
-    /*********  work only for Dedicated IP ***********/
+   /* *//*********  work only for Dedicated IP ***********//*
     static final String FTP_HOST= "allegoryweb.com";
 
-    /*********  FTP USERNAME ***********/
+    *//*********  FTP USERNAME ***********//*
     static final String FTP_USER = "emedical@allegoryweb.com";
 
+    *//*********  FTP PASSWORD ***********//*
+    static final String FTP_PASS  ="11QCOX&3vzX!";*/
+
+
+    /*********  work only for Dedicated IP ***********/
+    static final String FTP_HOST= "ftp.mychemist.net.in";
+
+    /*********  FTP USERNAME ***********/
+    static final String FTP_USER = "mychemist";
+
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="11QCOX&3vzX!";
+    static final String FTP_PASS  ="d1Y%9HFZpqle";
+
 
     String ff="";
     String picturePath="";
@@ -346,11 +357,11 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     client.setPassive(true);
                     client.noop();
                     String p = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
-                    boolean exist = checkDirectoryExists("/images/"+p+"/");
+                    boolean exist = checkDirectoryExists("/public_html/admin/images/"+p+"/");
                     if(!exist)
-                        client.createDirectory("/images/"+p+"/");
+                        client.createDirectory("/public_html/admin/images/"+p+"/");
                     else
-                        client.changeDirectory("/images/"+p+"/");
+                        client.changeDirectory("/public_html/admin/images/"+p+"/");
 
                     try {
                         client.upload(f, new MyTransferListener());
@@ -374,7 +385,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             }
 
             String p = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
-            String fileToDelete =IMAGE_PATH + "/images/"+p+"/"+p+".jpg";
+            String fileToDelete =IMAGE_PATH + "public_html/admin/images/"+p+"/"+p+".jpg";
             try {
                 client.deleteFile(fileToDelete);
             } catch (IOException e) {
@@ -389,7 +400,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
             try {
 
 
-                client.rename("/images/"+p+"/"+ff, "/images/"+p+"/"+p+ ".jpg");
+                client.rename("/public_html/admin/images/"+p+"/"+ff, "/public_html/admin/images/"+p+"/"+p+ ".jpg");
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (FTPIllegalReplyException e) {
@@ -584,7 +595,16 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     userProfile.setShopName(jsonObject3.getString("shopname"));
                     userProfile.setEmail(jsonObject3.getString("email"));
                     userProfile.setRegMobile(jsonObject3.getString("mobile"));
-                    userProfile.setLocation(jsonObject3.getString("address"));
+
+                    String string = jsonObject3.getString("address");
+                    String[] bits = string.split(",");
+                    String lastWord = "";
+                    if(bits.length>2)
+                        lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+//                    serviceProviderDetails1.setAddress(lastWord);
+
+                    userProfile.setLocation(lastWord);
                     userProfile.setProfilePicUrl(jsonObject3.getString("profilepic"));
 
 
@@ -673,7 +693,7 @@ public class ProfileFragment extends android.support.v4.app.Fragment {
                     Toast.makeText( getActivity().getApplicationContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
                     String p = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
 
-                    new LoadProfileImage().execute(PROFILE_IMAGE_PATH + "/images/"+p+"/"+p+ ".jpg");
+                    new LoadProfileImage().execute(PROFILE_IMAGE_PATH + ""+p+"/"+p+ ".jpg");
                 }
             } catch (JSONException e1) {
                 Toast.makeText( getActivity().getApplicationContext(), "Please try again later", Toast.LENGTH_LONG).show();

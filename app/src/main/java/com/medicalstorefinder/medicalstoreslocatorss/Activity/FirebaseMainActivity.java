@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
@@ -42,7 +44,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +147,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getAddress());
+                holder.vtxtTime.setText("Date : "+tr.getNotificationTime());
 
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
 //                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
@@ -159,7 +164,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }else{
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -172,19 +177,21 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     new GlideImageLoader(holder.imageViews,
                             holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
+                }else{
+                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
 
 
-                tr.setStatus("pending");
+                tr.setStatus("Pending");
                 switch (tr.getStatus()) {
-                    case "pending":
+                    case "Pending":
                         holder.vtxtStatus.setText("PENDING");
                         holder.vtxtStatus.setTextColor(getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
-                    case "success":
+                    case "Success":
                         holder.vtxtStatus.setText("SUCCESS");
                         holder.vtxtStatus.setTextColor(getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
@@ -207,6 +214,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public ProgressBar spinner;
+            public TextView vtxtTime;
 //            public String s,s1;
 
 
@@ -216,6 +224,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                 final View view = itemView;
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtTime = (TextView) itemView.findViewById(R.id.time);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
@@ -230,17 +239,17 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
-                        String lStatus = "pending";
+                        String lStatus = "Pending";
 
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
-                        alertDialogBuilder.setTitle("Transaction Details : ");
+                        alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                "Order Id : " + tr.getOrderid() +
-                                        "\nDescription : " + tr.getDescription()+
-                                        "\nMedical Cost : " + tr.getMedicalCost() +
-                                        "\nMedical Description : " + tr.getMedicalReply());
+                                Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
+                                        "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
+                                        "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
+                                        "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply());
 
                         alertDialogBuilder.show();
 
@@ -313,7 +322,20 @@ public class FirebaseMainActivity extends AppCompatActivity {
 //remaining
 
 
-                            JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
+
+
+
+                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
+
+                        //                            2018-09-22 03:48:19 remains
+                        String s = jsonObject.getString("created_at");
+//                        String s ="2018-09-22 03:48:19";
+                        String[] s1 = s.split("\\s+");
+                        String s2 = s1[0];
+
+                        Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
 
                             if (listDetails.size() > 0) {
                                 listDetails.clear();
@@ -321,13 +343,21 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                             ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
 
-                            serviceProviderDetails1.setMedicalReply(jsonObject.getString("medicalreply"));
+                            serviceProviderDetails1.setMedicalReply(jsonObject.getString("medicalreply").equalsIgnoreCase("null")?"":jsonObject.getString("medicalreply"));
                             serviceProviderDetails1.setOrderid(jsonObject.getString("mainorderid"));
-                            serviceProviderDetails1.setDescription(jsonObject.getString("description"));
+                            serviceProviderDetails1.setDescription(jsonObject.getString("description").equalsIgnoreCase("null")?"":jsonObject.getString("description"));
                             serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
-                            serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost"));
+                            serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost").equalsIgnoreCase("null")?"":jsonObject.getString("cost"));
                             serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
-                            serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+
+                            String string = jsonObject.getString("address");
+                            String[] bits = string.split(",");
+                            String lastWord = "";
+                            if(bits.length>2)
+                                lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+                            serviceProviderDetails1.setAddress(lastWord);
+                            serviceProviderDetails1.setNotificationTime(parsedDate);
 
                             listDetails.add(serviceProviderDetails1);
 

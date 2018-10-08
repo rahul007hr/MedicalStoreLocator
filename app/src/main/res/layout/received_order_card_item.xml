@@ -48,9 +48,8 @@
                         android:id="@+id/progressBar1"
                         android:layout_width="70dp"
                         android:layout_gravity="center"
-                        android:background="@color/light_gray_header_color"
+                        android:background="@color/white"
                         android:layout_height="70dp" />
-
 
                 </RelativeLayout>
 
@@ -62,60 +61,7 @@
                 android:layout_height="wrap_content"
                 android:weightSum="5">
 
-                <!--<TableRow>
-                    &lt;!&ndash;android:background="@color/table_row_odd" >&ndash;&gt;
-
-                    <TextView
-                        android:id="@+id/full_name"
-                        android:text="FULL NAME"
-                        android:gravity="left"
-                        android:textSize="12dp"
-                        android:layout_weight="3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </TableRow>-->
-
-                <!--<TableRow>
-
-                    <TextView
-                        android:id="@+id/customer_no"
-                        android:text="MOBILE NUMBER"
-                        android:gravity="left"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        android:layout_weight="3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </TableRow>-->
-
-                <!--<TableRow>
-                    <TextView
-                        android:id="@+id/service_type"
-                        android:text="SERVICE"
-                        android:gravity="left"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        android:layout_weight="2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </TableRow>-->
-
-               <!-- <TableRow>
-                    &lt;!&ndash;android:background="@color/table_row_odd" >&ndash;&gt;
-
-                    <TextView
-                        android:id="@+id/email_id"
-                        android:text="EMAIL ID"
-                        android:gravity="left"
-                        android:textSize="12dp"
-                        android:layout_weight="3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </TableRow>-->
-
-                <TableRow>
+              <TableRow>
                     <TextView
                         android:id="@+id/location"
                         android:text="LOCATION"
@@ -126,6 +72,21 @@
                         android:layout_height="wrap_content" />
 
                 </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:text="Date"
+                        android:textStyle="bold"
+                        android:gravity="left"
+                        android:textSize="14dp"
+                        android:layout_weight="2.5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </TableRow>
+
 
                 <TableRow>
 

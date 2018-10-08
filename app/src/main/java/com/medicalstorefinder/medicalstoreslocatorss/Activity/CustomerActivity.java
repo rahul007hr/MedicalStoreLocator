@@ -95,13 +95,13 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
     public static BottomNavigationView navigation;
 
     /*********  work only for Dedicated IP ***********/
-    static final String FTP_HOST= "allegoryweb.com";
+    static final String FTP_HOST= "ftp.mychemist.net.in";
 
     /*********  FTP USERNAME ***********/
-    static final String FTP_USER = "emedical@allegoryweb.com";
+    static final String FTP_USER = "mychemist";
 
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="11QCOX&3vzX!";
+    static final String FTP_PASS  ="d1Y%9HFZpqle";
 
     String ff="";
     String picturePath="";
@@ -144,6 +144,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
 //        iconBalance.setAnimation(animIconBalance);
 //        iconBalance.setAnimation(animIconBalance);
 //
+
         iconBalance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,6 +262,57 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                             fragmentClass1 = ProfileFragment.class;
                             return true;*/
 //
+                    case R.id.completedOrders:
+
+
+                        bundle = new Bundle();
+                        bundle.putString("key", "Completed");
+                        // set Fragmentclass Arguments
+                        MedicalResponseOfCostListFragment fragobj13 = new MedicalResponseOfCostListFragment();
+                        fragobj13.setArguments(bundle);
+
+                        xfragmentTransaction.replace(R.id.containerView,  fragobj13);
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
+                        fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                        return true;
+
+
+                    case R.id.canceledOrders:
+
+
+                        bundle = new Bundle();
+                        bundle.putString("key", "Canceled");
+                        // set Fragmentclass Arguments
+                        MedicalResponseOfCostListFragment fragobj14 = new MedicalResponseOfCostListFragment();
+                        fragobj14.setArguments(bundle);
+
+                        xfragmentTransaction.replace(R.id.containerView,  fragobj14);
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
+                        fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                        return true;
+
+
+                    case R.id.onHoldOrders:
+
+
+                        bundle = new Bundle();
+                        bundle.putString("key", "Hold");
+                        // set Fragmentclass Arguments
+                        MedicalResponseOfCostListFragment fragobj15 = new MedicalResponseOfCostListFragment();
+                        fragobj15.setArguments(bundle);
+
+                        xfragmentTransaction.replace(R.id.containerView,  fragobj15);
+                        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        xfragmentTransaction.addToBackStack(null);
+                        xfragmentTransaction.commit();
+                        fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                        return true;
+
+
                     case R.id.about_us:
                         xfragmentTransaction.replace(R.id.containerView, new AboutUsFragment());
                         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -398,7 +450,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
         protected String doInBackground(String... urls) {
             Utilities utilities = new Utilities(getBaseContext());
 
-
             try
             {
                 FirebaseInstanceId.getInstance().deleteInstanceId();
@@ -406,7 +457,6 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
             {
                 e.printStackTrace();
             }
-
 
             String address = Constants.API_Account_Logout;
             Map<String, String> params = new HashMap<>();
@@ -436,7 +486,7 @@ public class CustomerActivity extends AppCompatActivity implements BottomNavigat
                     if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
                     } else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
-                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Logout Successfully", Toast.LENGTH_LONG).show();
 
 
                         SharedPreference sharedPreference = new SharedPreference();

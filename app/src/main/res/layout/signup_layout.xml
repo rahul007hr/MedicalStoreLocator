@@ -15,13 +15,23 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/usr" />
+
     <EditText
         android:id="@+id/firstName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/user"
         android:drawablePadding="8dp"
         android:maxLength="50"
         android:gravity="center_vertical"
@@ -32,13 +42,22 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/usr" />
 
     <EditText
         android:id="@+id/lastName"
@@ -46,7 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/user"
         android:drawablePadding="8dp"
         android:maxLength="50"
         android:gravity="center_vertical"
@@ -57,18 +75,29 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/shp" />
+
     <EditText
         android:id="@+id/shop_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_prof_company"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:hint="Shop Name"
@@ -79,28 +108,12 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
 
-   <!-- <EditText
-        android:id="@+id/address"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_prof_company"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Address"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />-->
 
         <Button
             android:layout_width="match_parent"
@@ -136,13 +149,23 @@
         android:layout_height="2px"
         android:background="#f9ba29" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/em" />
+
     <EditText
         android:id="@+id/userEmailId"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_prof_email"
         android:drawablePadding="8dp"
         android:maxLength="50"
         android:gravity="center_vertical"
@@ -153,11 +176,22 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/cl" />
 
     <EditText
         android:id="@+id/mobileNumber"
@@ -165,7 +199,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_action_user"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:hint="Mobile Number"
@@ -177,12 +210,23 @@
         android:textColorHint="@color/black"
         android:textSize="16sp" />
 
+    </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/pw" />
 
     <EditText
         android:id="@+id/password"
@@ -190,7 +234,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_action_pass"
         android:drawablePadding="8dp"
         android:maxLength="20"
         android:gravity="center_vertical"
@@ -202,10 +245,24 @@
         android:textColorHint="@color/black"
         android:textSize="16sp" />
 
+    </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="0dp"
+            android:src="@drawable/pw" />
 
     <EditText
         android:id="@+id/confirmPassword"
@@ -218,13 +275,12 @@
         android:maxLength="20"
         android:hint="Confirm Password"
         android:inputType="textPassword"
-        android:drawableLeft="@drawable/ic_action_pass"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="16sp" />
-
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"

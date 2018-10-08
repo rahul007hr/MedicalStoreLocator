@@ -1,8 +1,11 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Fragments;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,11 +32,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,11 +63,13 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.CustomToast;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utility;
 import com.medicalstorefinder.medicalstoreslocatorss.Geofencing;
+import com.medicalstorefinder.medicalstoreslocatorss.ImagePicker;
 import com.medicalstorefinder.medicalstoreslocatorss.Models.PostOrders;
 import com.medicalstorefinder.medicalstoreslocatorss.Adapter.PlaceListAdapter;
 import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceContract;
 import com.medicalstorefinder.medicalstoreslocatorss.Provider.PlaceDbHelper;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -104,6 +111,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     private PlaceListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private GoogleApiClient mClient;
+    ProgressDialog progressDialog;
     private Geofencing mGeofencing;
     private static Button addLocationBtn;
     private static View view;
@@ -113,19 +121,29 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     public String res="";
     Uri selectedImage;
 
-    /*********  work only for Dedicated IP ***********/
+  /*  *//*********  work only for Dedicated IP ***********//*
     static final String FTP_HOST= "allegoryweb.com";
 
-    /*********  FTP USERNAME ***********/
+    *//*********  FTP USERNAME ***********//*
     static final String FTP_USER = "emedical@allegoryweb.com";
 
+    *//*********  FTP PASSWORD ***********//*
+    static final String FTP_PASS  ="11QCOX&3vzX!";*/
+
+    /*********  work only for Dedicated IP ***********/
+    static final String FTP_HOST= "ftp.mychemist.net.in";
+
+    /*********  FTP USERNAME ***********/
+    static final String FTP_USER = "mychemist";
+
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="11QCOX&3vzX!";
+    static final String FTP_PASS  ="d1Y%9HFZpqle";
 
     String ff="";
     String picturePath="";
     String name;
     EditText descriptionEdtxt;
+    String imagePath,description;
 
     public PostOrderFragment() {
         // Required empty public constructor
@@ -152,6 +170,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setChecked(true);
             CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
 
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setMessage("Uploading Image...");
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
 
             PlaceDbHelper  mPlaceDbHelper = new PlaceDbHelper(getContext());
             SQLiteDatabase db = mPlaceDbHelper.getWritableDatabase();
@@ -159,6 +181,24 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 //            db.execSQL("DROP TABLE IF EXISTS places");
             db.close();
 //            setUITEXT();
+            sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,"");
+            Bundle bundle = this.getArguments();
+
+            if(bundle != null){
+
+
+                imagePath = bundle.getString("imagePath");
+                description = bundle.getString("description");
+                sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,imagePath);
+                if(!imagePath.equalsIgnoreCase("")) {
+                    Picasso.with(getContext())
+                            .load(imagePath)
+                            .into(profile_img);
+
+                }
+                descriptionEdtxt.setText(description);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -325,11 +365,19 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+            else if (requestCode == REQUEST_CAMERA){
 
-            selectedImage = data.getData();
+                Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
+//                mProfileBase64 = Utils.convertBitmapToBase64(bitmap);
+                profile_img.setImageBitmap(bitmap);
+
+
+                onCaptureImageResult(bitmap);
+            }
+//            selectedImage = data.getData();
+
         }
+
     }
 
     private void selectImage() {
@@ -364,8 +412,11 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     }
 
     private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+//        private void pickProfileImage() {
+            Intent chooseImagePlanIntent = ImagePicker.getPickImageIntent(getContext());
+            startActivityForResult(chooseImagePlanIntent, REQUEST_CAMERA);
+//        }
+
     }
 
     @Override
@@ -384,10 +435,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+    private void onCaptureImageResult(Bitmap thumbnail) {
+//        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         Long tsLong = System.currentTimeMillis()/1000;
         ts = tsLong.toString()+".jpg";
         File destination = new File(Environment.getExternalStorageDirectory(),ts);
@@ -403,6 +454,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         } catch (IOException e) {
             e.printStackTrace();
         }
+
             f = new File(String.valueOf(destination));
             new uploadTask().execute();
 //        new ImageCompressionAsyncTask(true).execute(String.valueOf(destination));
@@ -426,6 +478,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+//                new ImageCompressionAsyncTask(true).execute(data.getDataString());
             if(dataSize>10240000)
                 new ImageCompressionAsyncTask(true).execute(data.getDataString());
             else {
@@ -647,7 +700,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             try {
                 out = new FileOutputStream(filename);
 //          write the compressed bitmap at the destination specified by filename.
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -720,6 +773,12 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
     FTPClient client=null;
     class uploadTask extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+
+            progressDialog.show();
+        }
+
         @Override
         protected String doInBackground(String... params) {
             client = new FTPClient();
@@ -732,13 +791,20 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     client.setPassive(true);
                     client.noop();
                     String p = sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
-                    boolean exist = checkDirectoryExists("/images/"+p+"/");
+
+                    boolean exist1 = checkDirectoryExists("/public_html/admin/images/");
+                    if(!exist1)
+                        client.createDirectory("/public_html/admin/images/");
+
+
+                    boolean exist = checkDirectoryExists("/public_html/admin/images/"+p+"/");
                     if(!exist)
-                    client.createDirectory("/images/"+p+"/");
+                    client.createDirectory("/public_html/admin/images/"+p+"/");
                     else
-                    client.changeDirectory("/images/"+p+"/");
-                    sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+IMAGE_PATH+String.valueOf("/images/"+p+"/"+ff+ts));
+                    client.changeDirectory("/public_html/admin/images/"+p+"/");
+                    sharedPreference.putValue(getContext(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath,DOMAIN_NAME+String.valueOf("admin/images/"+p+"/"+ff+ts));
                     try {
+//                        client.setAutoNoopTimeout(7000);
                         client.upload(f, new MyTransferListener());
 
                     } catch (FTPDataTransferException e) {
@@ -754,8 +820,17 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return "true";
         }
+
+        protected void onPostExecute(String response) {
+            if(response.equalsIgnoreCase("true")){
+                progressDialog.dismiss();
+            }
+
+        }
+
+
     }
 
     boolean checkDirectoryExists(String dirPath) throws IOException {
@@ -782,6 +857,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             // Transfer started
 //            Toast.makeText(getBaseContext(), " Upload Started ...", Toast.LENGTH_SHORT).show();
             System.out.println(" Upload Started ...");
+//            progressDialog.show();
         }
 
         public void transferred(int length) {
@@ -789,6 +865,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
 
         public void completed() {
+//            progressDialog.dismiss();
             System.out.println(" completed ..." );
         }
 

@@ -177,7 +177,16 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         apiUser.setFirst_Name(jsonObject.getString("firstname"));
                         apiUser.setLast_Name(jsonObject.getString("lastname"));
                         apiUser.setRegMobile(jsonObject.getString("mobile"));
-                        apiUser.setAddress(jsonObject.getString("address"));
+
+                        String string = jsonObject.getString("address");
+                        String[] bits = string.split(",");
+                        String lastWord = "";
+                        if(bits.length>2)
+                            lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+//                        serviceProviderDetails1.setAddress(lastWord);
+
+                        apiUser.setAddress(lastWord);
                         apiUser.setShop_Name(jsonObject.getString("shopname"));
                         apiUser.setEmail(jsonObject.getString("email"));
                         apiUser.setUserRole(jsonObject.getString("role"));
@@ -185,6 +194,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
 //						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
 
 //						sharedPreference = new SharedPreference();
+
+                        sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
+//                        sharedPreference.createSharedPreference(new OtpVerificationActivity(), Constants.PREF_IS_USER);
 
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());

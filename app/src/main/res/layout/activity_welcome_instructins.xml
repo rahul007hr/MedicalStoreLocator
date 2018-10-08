@@ -19,7 +19,10 @@
         android:layout_marginBottom="0dp"
         android:gravity="center"
         android:background="@color/light_gray_header_color"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

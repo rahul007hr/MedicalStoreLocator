@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
-    android:background="@drawable/bac"
+    android:background="@drawable/backg"
     android:paddingTop="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
     tools:context="com.medicalstorefinder.medicalstoreslocatorss.Activity.FirebaseMainActivity">
 
@@ -14,7 +14,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@android:color/transparent"
         android:id="@+id/appbar"
         >
         <android.support.v7.widget.Toolbar
@@ -23,6 +23,7 @@
             android:background="@color/colorPrimary"
             app:title="@string/app_name"
             app:titleTextColor="@color/white"
+            app:theme="@style/ToolbarColoredBackArrow"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/toolbar"
             />
@@ -30,11 +31,15 @@
 
         <TextView
             android:id="@+id/tvNotificationDetails"
-            android:layout_width="wrap_content"
+            android:layout_width="335dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
-            android:background="@color/white"
-            android:text="Here notification details will be display" />
+            app:theme="@style/ToolbarColoredBackArrow"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:text=" "
+            />
 
     </android.support.design.widget.AppBarLayout>
 

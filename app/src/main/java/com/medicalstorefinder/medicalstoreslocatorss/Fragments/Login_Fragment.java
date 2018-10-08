@@ -26,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,11 +56,12 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 	private static EditText mobile, password;
 	private static Button loginButton, changeRoleBtn;
-	private static TextView forgotPassword, signUp;
+	private static TextView forgotPassword, signUp,signUpCustomer;
 	private static CheckBox show_hide_password;
 	private static LinearLayout loginLayout;
 	private static Animation shakeAnimation;
 	private static FragmentManager fragmentManager;
+	private static ImageView password_img;
 
 	String getMobileNo,getPassword;
 	ApiUser apiUser;
@@ -90,7 +92,8 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 							Manifest.permission.CALL_PHONE,
 							Manifest.permission.READ_CONTACTS,
 							Manifest.permission.ACCESS_FINE_LOCATION,
-							Manifest.permission.RECEIVE_SMS},
+							Manifest.permission.RECEIVE_SMS,
+							Manifest.permission.CAMERA},
 					1);
 		}
 		return view;
@@ -125,9 +128,11 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 		mobile = (EditText) view.findViewById(R.id.login_mobile_no);
 		password = (EditText) view.findViewById(R.id.login_password);
+		password_img = (ImageView) view.findViewById(R.id.login_password_img);
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
 		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
 		signUp = (TextView) view.findViewById(R.id.createAccount);
+		signUpCustomer = (TextView) view.findViewById(R.id.createAccountCustomer);
 		changeRoleBtn=(Button) view.findViewById(R.id.changeRoleBtn);
 		show_hide_password = (CheckBox) view
 				.findViewById(R.id.show_hide_password);
@@ -140,13 +145,17 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			forgotPassword.setVisibility(View.GONE);
 			show_hide_password.setVisibility(View.GONE);
 			password.setVisibility(View.GONE);
+			password_img.setVisibility(View.GONE);
 			signUp.setVisibility(View.GONE);
+			signUpCustomer.setVisibility(View.VISIBLE);
 		}else{
 			loginButton.setText("LOGIN");
 			forgotPassword.setVisibility(View.VISIBLE);
 			show_hide_password.setVisibility(View.VISIBLE);
 			password.setVisibility(View.VISIBLE);
+			password_img.setVisibility(View.VISIBLE);
 			signUp.setVisibility(View.VISIBLE);
+			signUpCustomer.setVisibility(View.GONE);
 		}
 
 	}
@@ -156,6 +165,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		changeRoleBtn.setOnClickListener(this);
 		forgotPassword.setOnClickListener(this);
 		signUp.setOnClickListener(this);
+		signUpCustomer.setOnClickListener(this);
 
 		show_hide_password
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -204,9 +214,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 				checkValidationForCustomer();
 
-				Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
+				/*Intent myIntent = new Intent(getActivity(), OtpVerificationActivity.class);
 				getActivity().startActivity(myIntent);
-				getActivity().finish();
+				getActivity().finish();*/
 
 			}else{
 				checkValidation();
@@ -231,7 +241,17 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 					.replace(R.id.frameContainer, new SignUp_Fragment(),
 							Utils1.SignUp_Fragment).commit();
 			break;
-		}
+
+
+		case R.id.createAccountCustomer:
+
+		fragmentManager
+				.beginTransaction()
+				.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+				.replace(R.id.frameContainer, new SignUp_Customer_Fragment(),
+						Utils1.SignUp_Customer_Fragment).commit();
+		break;
+	}
 	}
 
 	class AuthoriseUser extends AsyncTask<Void, Void, String> {
@@ -281,7 +301,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						Toast.makeText(getContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
 					}
 					else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
-						Toast.makeText(getContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+						Toast.makeText(getContext(), "Login Success", Toast.LENGTH_LONG).show();
 
 						JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 
@@ -291,7 +311,16 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						apiUser.setFirst_Name(jsonObject.getString("firstname"));
 						apiUser.setLast_Name(jsonObject.getString("lastname"));
 						apiUser.setRegMobile(jsonObject.getString("mobile"));
-						apiUser.setAddress(jsonObject.getString("address"));
+
+						String string = jsonObject.getString("address");
+						String[] bits = string.split(",");
+						String lastWord = "";
+						if(bits.length>2)
+							lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+//						serviceProviderDetails1.setAddress(lastWord);
+
+						apiUser.setAddress(lastWord);
 						apiUser.setShop_Name(jsonObject.getString("shopname"));
 						apiUser.setEmail(jsonObject.getString("email"));
 						apiUser.setPasswords(jsonObject.getString("password"));
@@ -312,7 +341,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_SHOP_NAME, apiUser.getShop_Name());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_FIRST_NAME, apiUser.getFirst_Name());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_LAST_NAME, apiUser.getLast_Name());
-							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medica", apiUser.getUserRole());
+							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, "medical", apiUser.getUserRole());
 							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
 
 								Intent myIntent = new Intent(getActivity(), UserActivity.class);
@@ -419,11 +448,24 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 						apiUser.setFirst_Name(jsonObject.getString("firstname"));
 						apiUser.setLast_Name(jsonObject.getString("lastname"));
 						apiUser.setRegMobile(jsonObject.getString("mobile"));
-						apiUser.setAddress(jsonObject.getString("address"));
+
+					String string = jsonObject.getString("address");
+					String[] bits = string.split(",");
+					String lastWord = "";
+					if(bits.length>2)
+						lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+//					serviceProviderDetails1.setAddress(lastWord);
+
+						apiUser.setAddress(lastWord);
 						apiUser.setShop_Name(jsonObject.getString("shopname"));
 						apiUser.setEmail(jsonObject.getString("email"));
 						apiUser.setUserRole(jsonObject.getString("role"));
 						apiUser.setPasswords(getPassword);
+
+
+						sharedPreference.clearSharedPreference(getContext(), Constants.PREF_IS_USER);
+						sharedPreference.createSharedPreference(getActivity(), Constants.PREF_IS_USER);
 
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
 						sharedPreference.putValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());

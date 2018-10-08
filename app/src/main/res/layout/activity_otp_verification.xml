@@ -4,9 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backg"
     android:orientation="vertical"
     tools:context=".Activity.OtpVerificationActivity">
 
+    <ImageView
+        android:layout_width="169dp"
+        android:layout_height="153dp"
+        android:id="@+id/img_rep_not_found"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        android:src="@drawable/send"
+        />
 
     <TextView
         android:id="@+id/txtMobileNo"
@@ -14,7 +24,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="10dp"
         android:text="Please Enter OTP Sent On \n +91 1234567890"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -72,7 +82,6 @@
         android:text="Resend OTP"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/black"
-        android:enabled="false"
         android:textSize="17sp"
         android:textStyle="bold" />
 

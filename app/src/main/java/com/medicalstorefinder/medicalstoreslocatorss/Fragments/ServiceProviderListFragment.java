@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +41,9 @@ import com.medicalstorefinder.medicalstoreslocatorss.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +184,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
 
 
-            String address = Constants.API_GET_NEARBY;
+            String address = Constants. API_GET_NEARBY;
             Map<String, String> params = new HashMap<>();
             params.put("latitude", sharedPreference.getValue(getContext(), Constants.PREF_USER_ORDER_Latitude, Constants.PREF_USER_ORDER_Latitude));
             params.put("longitude", sharedPreference.getValue(getContext(), Constants.PREF_USER_ORDER_Longitude, Constants.PREF_USER_ORDER_Longitude));
@@ -223,33 +227,36 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     }
 
                     String listOfMedicalUsers="";
+                    String listOfKm="";
 
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
-//                        JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
-//                        serviceProviderDetails.setID(json.getInt("Id"));
-//                        jsonObject.getString("firstname")
+
+
                         serviceProviderDetails.setOrderstatus(jsonObject.getString("loginstatus"));
                         serviceProviderDetails.setLocation(jsonObject.getString("distance"));
                         serviceProviderDetails.setImagepath(jsonObject.getString("profilepic"));
+
+                        String rt = (jsonObject.getString("rating")!=null && !jsonObject.getString("rating").equalsIgnoreCase("null"))?jsonObject.getString("rating"):"0";
+                        serviceProviderDetails.setRating(Float.valueOf(rt));
+
+
+
 
                         if(listOfMedicalUsers.equalsIgnoreCase("")) {
                             listOfMedicalUsers = jsonObject.getString("id");
                         }else{
                             listOfMedicalUsers += ","+jsonObject.getString("id");
                         }
-                       /* serviceProviderDetails.setID(i);
-                        serviceProviderDetails.setEmailId(("Email_Id"));
-                        serviceProviderDetails.setCustomerNo(("Mobile_Number"));
-                        serviceProviderDetails.setFullName(("Full_Name"));
 
-                        serviceProviderDetails.setStatus(("cStatus"));
-                        serviceProviderDetails.setServiceTypeName(("cType"));
-                        serviceProviderDetails.setLocation(("Location"));
-                        serviceProviderDetails.setPassword(("Passwords"));
-                        serviceProviderDetails.setImage_link("https://thumbs.dreamstime.com/z/smile-emoticons-thumbs-up-isolated-60753634.jpg");
-*/
+
+                        if(listOfKm.equalsIgnoreCase("")) {
+                            listOfKm = jsonObject.getString("distance") + "-" +jsonObject.getString("id");
+                        }else{
+                            listOfKm += ","+jsonObject.getString("distance") + "-" +jsonObject.getString("id");
+                        }
+
                         medicalStoreCntTxt.setVisibility(View.VISIBLE);
                         medicalStoreCntTxt.setText("Medical Stores : "+(i+1));
                         listDetails.add(serviceProviderDetails);
@@ -260,6 +267,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     sharedPreference.clearSharedPreference(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS);
                     sharedPreference.createSharedPreference(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS);
                     sharedPreference.putValue(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS,listOfMedicalUsers);
+                    sharedPreference.putValue(getActivity(), Constants.DISTANCE, Constants.DISTANCE,listOfKm);
 
                     if (listDetails.size() <= 0) {
                         imgRepNotFound.setVisibility(View.VISIBLE);
@@ -304,7 +312,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.service_provider_card_item, parent, false);
+                    .inflate(R.layout.service_provider_card_item_with_ratings, parent, false);
             ViewHolder viewHolder = new ViewHolder(v);
 
             final Animation anim_record_item = AnimationUtils.loadAnimation(parent.getContext(), R.anim.swipe_down);
@@ -321,6 +329,12 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getLocation());
+
+                String date = (tr.getNotificationTime()!=null && !tr.getNotificationTime().equalsIgnoreCase("null"))?"Date : "+tr.getNotificationTime():"";
+                Float ratings = (tr.getRating()!=null)?tr.getRating():0;
+
+                holder.vtxtTime.setText(date);
+                holder.rb.setRating(ratings);
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
 //                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
@@ -335,8 +349,9 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }else{
-
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+//                    holder.imageViews.setImageResource(android.R.color.transparent);
 
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
@@ -347,9 +362,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-
-
-//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
+                }else{
+                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
                 switch (tr.getStatus()) {
                     case "Offline":
@@ -382,6 +396,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             public ImageView imageViews;
             public String s,s1;
             public ProgressBar spinner;
+            public TextView vtxtTime;
+            public RatingBar rb;
 
 
 
@@ -391,8 +407,10 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
                 final View view = itemView;
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtTime = (TextView) itemView.findViewById(R.id.time);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
+                rb = (RatingBar) itemView.findViewById(R.id.ratingBar);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
                 spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
@@ -419,14 +437,14 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
 
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
-                        alertDialogBuilder.setTitle("Transaction Details : ");
+                        alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                "Email Id : " + tr.getEmailId() +
-                                        "\n\nMobile No. : " + tr.getCustomerNo() +
-                                        "\n\nDelivery_Date : " + tr.getDeliveryDate() +
-                                        "\n\nService Type : " + tr.getServiceTypeName() +
-                                        "\n\nLocation : " + tr.getLocation() +
-                                        "\n\nStatus : " + lStatus);
+                                Html.fromHtml(getString(R.string.emailids)) + tr.getEmailId() +
+                                        "\n"+ Html.fromHtml(getString(R.string.mobileno)) + tr.getCustomerNo() +
+                                        "\n"+ Html.fromHtml(getString(R.string.deliverydate)) + tr.getDeliveryDate() +
+                                        "\n"+ Html.fromHtml(getString(R.string.servicetype)) + tr.getServiceTypeName() +
+                                        "\n"+ Html.fromHtml(getString(R.string.locations)) + tr.getLocation() +
+                                        "\n"+Html.fromHtml(getString(R.string.status)) + lStatus);
 
 
 
@@ -474,6 +492,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             params.put("description", sharedPreference.getValue(getActivity(), Constants.PREF_USER_ORDER_Description, Constants.PREF_USER_ORDER_Description));
             params.put("imagepath", sharedPreference.getValue(getActivity(), Constants.PREF_USER_ORDER_ImagePath, Constants.PREF_USER_ORDER_ImagePath));
             params.put("medicalids", sharedPreference.getValue(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_SERVICE_PROVIDER_IDS));
+            params.put("km", sharedPreference.getValue(getActivity(), Constants.DISTANCE, Constants.DISTANCE));
 
             return utilities.apiCalls(address,params);
 

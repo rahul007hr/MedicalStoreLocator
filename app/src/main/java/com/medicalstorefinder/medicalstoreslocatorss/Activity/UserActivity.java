@@ -46,7 +46,6 @@ import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AboutUsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.AllNotificationsFragment;
-import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ChangePassword_Fragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.ContactUsFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MainFragment;
 import com.medicalstorefinder.medicalstoreslocatorss.Fragments.MedicalResponseOfCostListFragment;
@@ -77,6 +76,7 @@ import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.IMAGE_PATH;
+import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.PROFILE_IMAGE_PATH;
 
 /**
  * Created by Rahul on 2/19/2017.
@@ -106,13 +106,13 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
         Uri selectedImage;
 
     /*********  work only for Dedicated IP ***********/
-    static final String FTP_HOST= "allegoryweb.com";
+    static final String FTP_HOST= "ftp.mychemist.net.in";
 
     /*********  FTP USERNAME ***********/
-    static final String FTP_USER = "emedical@allegoryweb.com";
+    static final String FTP_USER = "mychemist";
 
     /*********  FTP PASSWORD ***********/
-    static final String FTP_PASS  ="11QCOX&3vzX!";
+    static final String FTP_PASS  ="d1Y%9HFZpqle";
 
         String ff="";
         String picturePath="";
@@ -154,12 +154,13 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                     startActivityForResult(i, RESULT_LOAD_IMAGE);
                 }
             });*/
-
+            String p = sharedPreference.getValue( getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
             String ProfilePicUrl = sharedPreference.getValue(getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic);
-            new LoadProfileImage().execute(ProfilePicUrl.replace("~", Constants.DOMAIN_NAME));
+            new LoadProfileImage().execute(PROFILE_IMAGE_PATH +p+"/"+p+ ".jpg");
 
 //        Animation for balance icon
         iconBalance = (ImageView) findViewById(R.id.balance_tool);
+
 
         iconBalance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +223,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             xfragmentTransaction.addToBackStack(null);
                             xfragmentTransaction.commit();
-                            fragmentClass1 = ServiceProviderListUsingOrderStatusFragment.class;
+                            fragmentClass1 = ReceivedOrderListFragment.class;
                             return true;
 
                         case R.id.confirmedOrder:
@@ -255,6 +256,59 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                             xfragmentTransaction.commit();
                             fragmentClass1 = MedicalResponseOfCostListFragment.class;
                             return true;
+
+
+
+                        case R.id.completedOrders:
+
+
+                            bundle = new Bundle();
+                            bundle.putString("key", "Completed");
+                            // set Fragmentclass Arguments
+                            MedicalResponseOfCostListFragment fragobj13 = new MedicalResponseOfCostListFragment();
+                            fragobj13.setArguments(bundle);
+
+                            xfragmentTransaction.replace(R.id.containerView,  fragobj13);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
+                            fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                            return true;
+
+
+                        case R.id.canceledOrders:
+
+
+                            bundle = new Bundle();
+                            bundle.putString("key", "Canceled");
+                            // set Fragmentclass Arguments
+                            MedicalResponseOfCostListFragment fragobj14 = new MedicalResponseOfCostListFragment();
+                            fragobj14.setArguments(bundle);
+
+                            xfragmentTransaction.replace(R.id.containerView,  fragobj14);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
+                            fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                            return true;
+
+
+                        case R.id.onHoldOrders:
+
+
+                            bundle = new Bundle();
+                            bundle.putString("key", "Hold");
+                            // set Fragmentclass Arguments
+                            MedicalResponseOfCostListFragment fragobj15 = new MedicalResponseOfCostListFragment();
+                            fragobj15.setArguments(bundle);
+
+                            xfragmentTransaction.replace(R.id.containerView,  fragobj15);
+                            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            xfragmentTransaction.addToBackStack(null);
+                            xfragmentTransaction.commit();
+                            fragmentClass1 = MedicalResponseOfCostListFragment.class;
+                            return true;
+
 
                         case R.id.profile:
                             xfragmentTransaction.replace(R.id.containerView, new ProfileFragment());
@@ -432,12 +486,12 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
         {
             protected void onPreExecute() {
 
+
             }
 
             @Override
             protected String doInBackground(String... urls) {
                 Utilities utilities = new Utilities(getBaseContext());
-
 
                 try
                 {
@@ -476,7 +530,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                     if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
                     } else if (jsonObject2.getString("status").equalsIgnoreCase("success")) {
-                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Logout Successfully", Toast.LENGTH_LONG).show();
 
 
                         SharedPreference sharedPreference = new SharedPreference();
@@ -531,11 +585,11 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                         client.setPassive(true);
                         client.noop();
                         String p = sharedPreference.getValue( getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
-                        boolean exist = checkDirectoryExists("/images/"+p+"/");
+                        boolean exist = checkDirectoryExists("/public_html/admin/images/"+p+"/");
                         if(!exist)
-                            client.createDirectory("/images/"+p+"/");
+                            client.createDirectory("/public_html/admin/images/"+p+"/");
                         else
-                            client.changeDirectory("/images/"+p+"/");
+                            client.changeDirectory("/public_html/admin/images/"+p+"/");
 
                         try {
                             client.upload(f, new MyTransferListener());
@@ -559,7 +613,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                 }
 
                 String p = sharedPreference.getValue( getApplicationContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
-                String fileToDelete =IMAGE_PATH + "/images/"+p+"/"+p+".jpg";
+                String fileToDelete =IMAGE_PATH + "public_html/admin/images/"+p+"/"+p+".jpg";
                 try {
                     client.deleteFile(fileToDelete);
                 } catch (IOException e) {
@@ -574,7 +628,7 @@ import static com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants.
                 try {
 
 
-                    client.rename("/images/"+p+"/"+ff, "/images/"+p+"/"+p+ ".jpg");
+                    client.rename("/public_html/admin/images/"+p+"/"+ff, "/images/"+p+"/"+p+ ".jpg");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (FTPIllegalReplyException e) {

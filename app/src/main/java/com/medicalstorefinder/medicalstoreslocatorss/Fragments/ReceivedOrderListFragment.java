@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,10 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +156,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             Map<String, String> params = new HashMap<>();
             params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
 //            params.put("userid", "21");
-            params.put("status", "pending");
+            params.put("status", "Pending");
 
             return utilities.apiCalls(address,params);
         }
@@ -177,7 +181,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
 
                     if (listDetails.size() > 0) {
-                       listDetails.clear();
+                        listDetails.clear();
                     }
 
 
@@ -186,12 +190,23 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 //                        btnReportLoad.setVisibility(View.GONE);
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
                     }
-
+                    String userId = sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     String listOfMedicalUsers="";
 
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
+
+                        //                  created_at    2018-09-25 16:10:07      2018-09-22 03:48:19
+                        String s = jsonObject.getString("created_at");
+//                        String s ="2018-09-22 03:48:19";
+                        String[] s1 = s.split("\\s+");
+                        String s2 = s1[0];
+
+                        Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+
 
                         String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
 
@@ -205,8 +220,42 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             serviceProviderDetails1.setOrderid(jsonObject.getString("orderid"));
                             serviceProviderDetails1.setDescription(jsonObject.getString("description"));
                             serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
-                            serviceProviderDetails1.setOrderstatus(jsonObject.getString("ordstatus"));
-                            serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+                            serviceProviderDetails1.setOrderstatus(jsonObject.getString("orderstatus"));
+
+
+
+                            String km =(jsonObject.getString("km"));
+
+                            if (km.toLowerCase().contains("-")) {
+
+                                String[] kmList = km.split(",");
+
+                                for (int k = 0; k < kmList.length; k++) {
+
+                                    if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                        String[] kms = kmList[k].split("-");
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                    }
+                                }
+                            }else{
+                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                            }
+
+
+
+
+                            String string = jsonObject.getString("address");
+                            String[] bits = string.split(",");
+                            String lastWord = "";
+                            if(bits.length>2)
+                                lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
+
+                            serviceProviderDetails1.setAddress(lastWord);
+
+//                            serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+                            serviceProviderDetails1.setNotificationTime(parsedDate);
 
                             listDetails.add(serviceProviderDetails1);
                         }
@@ -221,9 +270,10 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         imgRepNotFound.startAnimation(animImgRecordNotFound);
 //                        btnReportLoad.setVisibility(View.GONE);
                     }
-
-                    adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
-                    recyclerView.setAdapter(adapter);
+                    if (listDetails.size() > 0) {
+                        adapter = new ServiceProviderReportCardAdapter(getContext(), listDetails);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             }
 
@@ -255,7 +305,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.received_order_card_item, parent, false);
+                    .inflate(R.layout.received_order_card_items, parent, false);
             ViewHolder viewHolder = new ViewHolder(v);
 
             final Animation anim_record_item = AnimationUtils.loadAnimation(parent.getContext(), R.anim.swipe_down);
@@ -272,6 +322,8 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtLocation.setText("Location : "+tr.getAddress());
+                holder.vtxtTime.setText("Date : "+tr.getNotificationTime());
+                holder.km.setText("Distance : "+tr.getKm() + " KM");
 
                 if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
 //                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
@@ -286,10 +338,9 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }else{
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
-
 
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
@@ -300,11 +351,13 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
+                }else{
+                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
 
-                tr.setStatus("pending");
+                tr.setStatus("Pending");
                 switch (tr.getStatus()) {
-                    case "pending":
+                    case "Pending":
                         holder.vtxtStatus.setText("PENDING");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
@@ -333,6 +386,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             public CardView cardViewTxCardItem;
             public ImageView imageViews;
             public ProgressBar spinner;
+            public TextView vtxtTime,km;
 //            public String s,s1;
 
 
@@ -342,6 +396,8 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                 final View view = itemView;
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
+                vtxtTime = (TextView) itemView.findViewById(R.id.time);
+                km = (TextView) itemView.findViewById(R.id.km);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
                 imageViews=(ImageView)itemView.findViewById(R.id.image_View);
 //                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
@@ -375,12 +431,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
 //                        _TransactionId = tr.ID;
 
-                        String lStatus = "pending";
+                        String lStatus = "Pending";
                         switch ( tr.getOrderstatus()) {
                             case "Pending":
                                 lStatus = "PENDING";
                                 break;
-                            case "success":
+                            case "Success":
                                 lStatus = "SUCCESS";
                                 break;
 
@@ -389,12 +445,13 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
-                        alertDialogBuilder.setTitle("Transaction Details : ");
+                        alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                         "Order Id : " + tr.getOrderMainId() +
-                                        "\n\nDescription : " + tr.getDescription() +
-                                        "\n\nStatus : " + tr.getOrderstatus()+
-                                        "\n\nDownload Prescription : " );
+                                Html.fromHtml(getString(R.string.orderid)) + tr.getOrderMainId() +
+                                        "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
+                                        "\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM" +
+                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus()+
+                                        "\n"+Html.fromHtml(getString(R.string.download)) );
 
                         LinearLayout lv = new LinearLayout(getActivity());
                         LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
@@ -407,7 +464,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         image.setMaxWidth(10);
 //                        image.setPadding(0,-30,0,0);
                         // other image settings
-                        image.setImageDrawable(getResources().getDrawable(R.drawable.download));
+                        image.setImageDrawable(getResources().getDrawable(R.drawable.down));
                         lv.addView(image);
 
                         alertDialogBuilder.setView(lv);
@@ -422,7 +479,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             }
                         });
 
-                        if(lStatus.equalsIgnoreCase("pending")){
+                        if(lStatus.equalsIgnoreCase("Pending")){
 
                             alertDialogBuilder.setPositiveButton("Accept",
                                     new DialogInterface.OnClickListener() {
@@ -437,7 +494,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         LayoutInflater li = LayoutInflater.from(context);
                         View promptsView = li.inflate(R.layout.custom_view_for_alert_dialogue, null);
 
-                        alertDialogBuilder1.setTitle("Transaction Details : ");
+                        alertDialogBuilder1.setTitle(Html.fromHtml(getString(R.string.transactions)));
 
                         alertDialogBuilder1.setView(promptsView);
 
@@ -447,7 +504,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         final EditText userCost = (EditText) promptsView
                                 .findViewById(R.id.editTextCost);
 
-                        if(lStatus.equalsIgnoreCase("pending")){
+                        if(lStatus.equalsIgnoreCase("Pending")){
 
                             alertDialogBuilder1.setPositiveButton("Send",
                                     new DialogInterface.OnClickListener() {
@@ -458,7 +515,20 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                             desc[0] = String.valueOf(userInput.getText());
                                             cost[0] = String.valueOf(userCost.getText());
                                             serviceProviderDetails.setOrderid(tr.getOrderid());
-                                            new SendCostToCustomer().execute();
+
+
+                                            if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase(""))&& (cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                                Toast.makeText(getContext(),"Please Enter Cost and Description",Toast.LENGTH_LONG).show();
+                                            }else  if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase("")) ){
+                                                Toast.makeText(getContext(),"Please Enter Description",Toast.LENGTH_LONG).show();
+                                            }else  if((cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                                Toast.makeText(getContext(),"Please Enter Cost",Toast.LENGTH_LONG).show();
+                                            }else{
+                                                new SendCostToCustomer().execute();
+                                            }
+
+
+
                                         }
                                     });
                         }
@@ -517,8 +587,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         Uri apkURI = FileProvider.getUriForFile(
                 getContext(),
-                getContext().getApplicationContext()
-                        .getPackageName() + ".provider", mypath);
+                "com.zoftino.android.fileprovider", mypath);
         intent.setDataAndType(apkURI, "image/");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

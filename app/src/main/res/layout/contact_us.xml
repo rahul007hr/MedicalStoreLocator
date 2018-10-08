@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Phone : "
+                    android:text="Contact Details : "
                     android:layout_gravity="left"
                     android:textColor="@color/black"
                     android:paddingLeft="5dp"
@@ -94,7 +94,17 @@
                             android:gravity="center_vertical"
                             android:layout_marginTop="5dp" >
 
-                            <android.support.v7.widget.AppCompatTextView
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/btn_call1"
+                                android:layout_margin="5dp"
+                                android:padding="5dp"
+                                android:background="@drawable/cl"
+                                android:layout_weight="0.02"
+                                />
+
+                            <!--<android.support.v7.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="9969707707"
@@ -103,25 +113,61 @@
                                 android:layout_weight="0.1"
                                 android:textColor="@color/black"
                                 android:textSize="20dp"/>
+-->
 
-                            <android.support.v7.widget.AppCompatImageView
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/btn_call1"
+                                android:text="+919969707707"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
-                                android:background="@drawable/call"
+                                android:layout_weight="0.1"
+                                android:textColor="@color/accent"
+                                android:textSize="18dp" />
+
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:layout_marginTop="5dp" >
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/btn_email"
+                                android:layout_margin="5dp"
+                                android:padding="5dp"
+                                android:background="@drawable/eml"
                                 android:layout_weight="0.02"
                                 />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/email1"
+                                android:layout_margin="5dp"
+                                android:padding="5dp"
+                                android:layout_weight="0.1"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+
+
                         </TableRow>
-                        <View
+
+
+                       <!-- <View
                             android:id="@+id/line1"
                             android:layout_width="match_parent"
                             android:layout_height="1dip"
                             android:layout_weight="1"
                             android:background="#FF909090"
-                            android:padding="2dip" />
+                            android:padding="2dip" />-->
 
 
                     </TableLayout>

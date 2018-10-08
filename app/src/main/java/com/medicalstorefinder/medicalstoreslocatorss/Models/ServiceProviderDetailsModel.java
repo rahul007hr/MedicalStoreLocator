@@ -43,7 +43,8 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String customerType;
     public String isDelivered;
     public String notification;
-    public String notificationTime;
+    public String notificationTime,km;
+    public Float rating;
 
     public String getCustomerId() {
         return customerId;
@@ -206,8 +207,23 @@ public class ServiceProviderDetailsModel implements Serializable {
         DeliveryDate = deliveryDate;
     }
 
+    public String getKm() {
+        return km;
+    }
 
-//............................................................................
+    public void setKm(String km) {
+        this.km = km;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    //............................................................................
 
     public int getId() {
         return Id;

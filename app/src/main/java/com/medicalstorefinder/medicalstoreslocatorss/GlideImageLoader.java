@@ -35,6 +35,7 @@ public class GlideImageLoader {
             @Override
             public void onProgress(long bytesRead, long expectedLength) {
                 if (mProgressBar != null) {
+                    expectedLength = expectedLength != 0 ? expectedLength : 1;
                     mProgressBar.setProgress((int) (100 * bytesRead / expectedLength));
                 }
             }

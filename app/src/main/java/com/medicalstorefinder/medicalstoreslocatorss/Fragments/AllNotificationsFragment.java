@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.FirebaseMainActivity;
@@ -37,7 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,10 +150,24 @@ public class AllNotificationsFragment extends Fragment {
 
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
                         try {
+
+//                            2018-09-22 03:48:19
+                            String s = jsonObject.getString("notifytime");
+                            String[] s1 = s.split("\\s+");
+                            String s2 = s1[0];
+
+                            Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
+                            String parsedDate = formatter.format(initDate) + " "+ s1[1];
+
+
+
+
+
 //                            {"notificationtitle":"My Chemist","notification":"You have received new order (ORD000092)","notifytime":"2018-09-15 18:36:03","imagepath":"http:\/\/www.allegoryweb.com\/emedical\/images\/27\/IMG_20171111_144622.jpg","description":"h"}
                                     ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
                                     serviceProviderDetails1.setNotification(jsonObject.getString("notification"));
-                                    serviceProviderDetails1.setNotificationTime(jsonObject.getString("notifytime"));
+                                    serviceProviderDetails1.setNotificationTime(parsedDate);
                                     serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
                                     serviceProviderDetails1.setDescription(jsonObject.getString("description"));
 
@@ -227,7 +245,7 @@ public class AllNotificationsFragment extends Fragment {
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
                 holder.vtxtMessages.setText("Message : "+tr.getNotification());
                 holder.vtxtDescription.setText("Description : "+tr.getDescription());
-                holder.vtxtTime.setText("Time : "+tr.getNotificationTime());
+                holder.vtxtTime.setText("Date : "+tr.getNotificationTime());
 
 
 
@@ -246,7 +264,7 @@ public class AllNotificationsFragment extends Fragment {
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }else{
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -259,6 +277,8 @@ public class AllNotificationsFragment extends Fragment {
                     new GlideImageLoader(holder.imageViews,
                             holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
+                }else{
+                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
 
@@ -409,19 +429,35 @@ public class AllNotificationsFragment extends Fragment {
                         serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
                         serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost"));
                         serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
-                        serviceProviderDetails1.setAddress(jsonObject.getString("address"));
 
+                        String string = jsonObject.getString("address");
+                        String[] bits = string.split(",");
+                        String lastWord = "";
+                        if(bits.length>2)
+                            lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
+                        serviceProviderDetails1.setAddress(lastWord);
+
+//                        serviceProviderDetails1.setAddress(jsonObject.getString("address"));
+
+                        String description = (serviceProviderDetails1.getDescription()!=null &&
+                                !serviceProviderDetails1.getDescription().equalsIgnoreCase("null"))?serviceProviderDetails1.getDescription():"-";
+
+                        String medicalCost = (serviceProviderDetails1.getMedicalCost()!=null &&
+                                !serviceProviderDetails1.getMedicalCost().equalsIgnoreCase("null"))?serviceProviderDetails1.getMedicalCost():"-";
+
+                        String medicalDescription = (serviceProviderDetails1.getMedicalReply()!=null &&
+                                !serviceProviderDetails1.getMedicalReply().equalsIgnoreCase("null"))?serviceProviderDetails1.getMedicalReply():"-";
 
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
-                        alertDialogBuilder.setTitle("Transaction Details : ");
+                        alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                "Order Id : " + serviceProviderDetails1.getOrderid() +
-                                "\nDescription : " + serviceProviderDetails1.getDescription()+
-                                "\nMedical Cost : " + serviceProviderDetails1.getMedicalCost() +
-                                "\nMedical Description : " + serviceProviderDetails1.getMedicalReply());
+                                Html.fromHtml(getString(R.string.orderid))+ serviceProviderDetails1.getOrderid() +
+                                "\n"+Html.fromHtml(getString(R.string.description)) + description+
+                                "\n"+Html.fromHtml(getString(R.string.medicalcost)) + medicalCost +
+                                "\n"+Html.fromHtml(getString(R.string.medicaldescription)) +medicalDescription );
 
 
 

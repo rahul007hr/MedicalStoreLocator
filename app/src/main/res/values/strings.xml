@@ -28,6 +28,8 @@
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
+    <string name="customer">\nCustomer</string>
+    <string name="chemist">\n Chemist  </string>
     <string name="company">
     <a href="www.ridsinfocom.com">www.ridsinfocom.com</a>
     </string>
@@ -35,6 +37,10 @@
     <a href="https://mychemist.net.in/app/policy.html">Privacy Policy</a>
     </string>
 
+    <string name="email1">
+    <a href="mailto:mychemist247@gmail.com">mychemist247@gmail.com</a>
+    </string>
+    <string name="create_new_account"><u>Create New Account</u></string>
     <string name="contact">Support : www.ridsinfocom.com \n Email : mychemist247@gmail.com</string>
 
 
@@ -63,9 +69,7 @@ needs and wants.</p></li>
 
     <string name="html_contact_us">
               <![CDATA[
-            <p> <i> If you have any questions or suggestions, do not hesitate to contact us at <i> <br />
-
-             <b> E-mail : </b> <a href="mailto:mychemist247@gmail.com"> mychemist247@gmail.com </a> </p>
+            <p>  If you have any questions or suggestions, do not hesitate to contact us at  <br /> </p>
             ]]>
        </string>
 
@@ -92,5 +96,79 @@ needs and wants.</p></li>
     <string name="title_type">Order Type</string>
     <string name="title_createOrder">Create Order</string>
     <string name="title_profile">Profile</string>
-
+    <string name="orderid">
+     <![CDATA[
+ <b>Order Id : </b>
+    ]]>
+    </string>
+    <string name="description">
+     <![CDATA[
+ <b>Description : </b>
+    ]]>
+    </string>
+    <string name="address">
+     <![CDATA[
+ <b>Address : </b>
+    ]]>
+    </string>
+    <string name="mobileno">
+     <![CDATA[
+ <b>Mobile No. : </b>
+    ]]>
+    </string>
+    <string name="createddate">
+     <![CDATA[
+ <b>Created Date : </b>
+    ]]>
+    </string>
+    <string name="status">
+     <![CDATA[
+ <b>Status : </b>
+    ]]>
+    </string>
+    <string name="medicalcost">
+     <![CDATA[
+ <b>Medical Cost : </b>
+    ]]>
+    </string>
+    <string name="medicaldescription">
+     <![CDATA[
+ <b>Medical Description : </b>
+    ]]>
+    </string>
+    <string name="download">
+     <![CDATA[
+ <b>Download Prescription : </b>
+    ]]>
+    </string>
+    <string name="distances">
+     <![CDATA[
+ <b>Distance : </b>
+    ]]>
+    </string>
+    <string name="emailids">
+     <![CDATA[
+ <b>Email Id : </b>
+    ]]>
+    </string>
+    <string name="locations">
+     <![CDATA[
+ <b>Location : </b>
+    ]]>
+    </string>
+    <string name="deliverydate">
+     <![CDATA[
+ <b>Delivery Date : </b>
+    ]]>
+    </string>
+    <string name="servicetype">
+     <![CDATA[
+ <b>Service Type : </b>
+    ]]>
+    </string>
+    <string name="transactions">
+     <![CDATA[
+ <b>Transaction Details : </b>
+    ]]>
+    </string>
 </resources>

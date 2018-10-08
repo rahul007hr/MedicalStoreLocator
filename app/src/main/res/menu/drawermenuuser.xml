@@ -34,6 +34,32 @@
         </menu>
     </item>
 
+    <item android:title="History">
+        <menu>
+
+
+            <item android:title="Completed Orders"
+                android:id="@+id/completedOrders"
+                android:icon="@drawable/completedhistory"
+                android:iconTint="@color/primary"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+
+            <item android:title="Canceled Orders"
+                android:id="@+id/canceledOrders"
+                android:icon="@drawable/canceledhistory"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+            <item android:title="On Hold Orders"
+                android:id="@+id/onHoldOrders"
+                android:icon="@drawable/onholdhistory"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"/>
+
+        </menu>
+    </item>
 
     <item android:title="Account">
         <menu>

@@ -92,7 +92,12 @@ public class CustomerRatingsFragment extends Fragment {
         mSendFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(String.valueOf(mRatingBar.getRating()).equalsIgnoreCase("0.0")){
+                    Toast.makeText(getContext(), "Please Give Ratings To Medical Store", Toast.LENGTH_SHORT).show();
+                }else{
                     new Ratings().execute();
+                }
+
                 }
 //            }
         });

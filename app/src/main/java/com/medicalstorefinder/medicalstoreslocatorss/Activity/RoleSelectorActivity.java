@@ -61,7 +61,7 @@ public class RoleSelectorActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"Customer");
+                    sharedPreference.putValue(getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE,"customer");
 
                     Intent intent = new Intent(getContext(), MainActivity.class);
                         startActivity(intent);

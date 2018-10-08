@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backg"
     tools:context=".Fragments.CustomerRatingsFragment">
 
 <LinearLayout
@@ -14,19 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
+        android:layout_marginRight="10dp"
+        android:gravity="start"
+        android:layout_marginLeft="10dp"
         android:text="Provide ratings to medical store for better user experience in future"
-        android:textSize="20sp"
-        android:textStyle="italic" />
+        android:textSize="20sp"/>
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:numStars="5"
         android:layout_marginTop="20dp"
         android:stepSize="1"
-        android:rating="5"/>
+        android:rating="0"/>
 
     <TextView
         android:id="@+id/tvRatingScale"
@@ -39,22 +42,24 @@
         android:textStyle="bold" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:id="@+id/etFeedback"
         android:inputType="textMultiLine"
+        android:layout_gravity="center_horizontal"
         android:lines="5"
         android:hint="Tell us what you loved"
         android:gravity="top"/>
 
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_width="match_parent"
+        android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Send feedback"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/loginbutton_selector"
         android:textStyle="bold" />
 </LinearLayout>
