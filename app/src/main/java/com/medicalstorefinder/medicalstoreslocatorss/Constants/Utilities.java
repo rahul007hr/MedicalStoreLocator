@@ -1,10 +1,6 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Constants;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,8 +13,8 @@ import org.json.JSONObject;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +24,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
@@ -167,15 +162,17 @@ public final class Utilities {
 
 
 
-    public final String downloadImagesToSdCard(String downloadUrl, String imageName)
+    public final File downloadImagesToSdCard(String downloadUrl, String imageName)
     {
+        File destination=null;
         try
         {
             URL url = new URL(downloadUrl);
+
             /* making a directory in sdcard */
             File file =null;
             String selectedOutputPath = "";
-            if (isSDCARDMounted()) {
+           /* if (isSDCARDMounted()) {
                 File mediaStorageDir = new File(
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
                 // Create a storage directory if it does not exist
@@ -189,7 +186,7 @@ public final class Utilities {
                 selectedOutputPath = mediaStorageDir.getPath() + File.separator + imageName+".jpg";
                 Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
                 file = new File(selectedOutputPath);
-                /*try {
+                *//*try {
                     FileOutputStream out = new FileOutputStream(file);
                     if (layoutCollage != null) {
                         layoutCollage.setDrawingCacheEnabled(true);
@@ -199,8 +196,8 @@ public final class Utilities {
                     out.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
-            }
+                }*//*
+            }*/
 
 //            return selectedOutputPath;
 
@@ -234,24 +231,62 @@ public final class Utilities {
             httpConn.setRequestMethod("GET");
             httpConn.connect();
             inputStream = httpConn.getInputStream();
-                /*if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK)
+                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK)
                 {
                     inputStream = httpConn.getInputStream();
-                }*/
+                }
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 
-            FileOutputStream fos = new FileOutputStream(file);
+            File myDir = new File(Environment.getExternalStorageDirectory(),"My-Chemist");
+            if(!myDir.exists())
+            {
+                myDir.mkdir();
+
+            }
+
+            File myDir1 = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Downloaded Prescriptions");
+            if(!myDir1.exists())
+            {
+                myDir1.mkdir();
+
+            }
+            destination = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Downloaded Prescriptions/"+imageName+".jpg");
+            FileOutputStream fo = null;
+
+//            FileOutputStream fos = new FileOutputStream(file);
+            try {
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             int totalSize = httpConn.getContentLength();
             int downloadedSize = 0;
             byte[] buffer = new byte[1024];
             int bufferLength = 0;
+
             while ( (bufferLength = inputStream.read(buffer)) >0 )
             {
-                fos.write(buffer, 0, bufferLength);
-                downloadedSize += bufferLength;
-                Log.i("Progress:","downloadedSize:"+downloadedSize+"totalSize:"+ totalSize) ;
-            }
+                try {
+//                    destination.createNewFile();
+//                    fo = new FileOutputStream(destination);
+                    fo.write(buffer, 0, bufferLength);
+                    downloadedSize += bufferLength;
+                    Log.i("Progress:","downloadedSize:"+downloadedSize+"totalSize:"+ totalSize) ;
 
-            fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+//                fos.write(buffer, 0, bufferLength);
+
+            }
+            fo.close();
+
             Log.d("test", "Image Saved in sdcard..");
 
         }
@@ -264,7 +299,7 @@ public final class Utilities {
             e.printStackTrace();
         }
 
-        return imageName+".jpg";
+        return destination;
     }
 
     private static boolean isSDCARDMounted() {

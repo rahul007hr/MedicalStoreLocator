@@ -43,7 +43,7 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String customerType;
     public String isDelivered;
     public String notification;
-    public String notificationTime,km;
+    public String notificationTime,km,shopName,loginStatus;
     public Float rating;
 
     public String getCustomerId() {
@@ -221,6 +221,22 @@ public class ServiceProviderDetailsModel implements Serializable {
 
     public void setRating(Float rating) {
         this.rating = rating;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
     }
 
     //............................................................................

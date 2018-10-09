@@ -65,7 +65,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
     private SeekBar volumeControl = null;
     TextView distanceTxt;
     int progressChanged1 = 0;
-
+    String strtext="";
 //    private Button btnReportLoad;
     private ImageView imgRepNotFound;
     String myValue;
@@ -107,6 +107,8 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
         distanceTxt=(TextView)v.findViewById(R.id.distanceTxt);
         distanceTxt.setVisibility(View.GONE);
 
+        strtext = getArguments().getString("key");
+
         new RetrieveFeedTask1().execute();
 
 
@@ -144,7 +146,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             Map<String, String> params = new HashMap<>();
             params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
 //            params.put("userid", "15");
-            params.put("status", "Completed");
+            params.put("status", strtext);
 
             return utilities.apiCalls(address,params);
         }
@@ -311,17 +313,23 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
 
-                tr.setStatus("Success");
-                switch (tr.getStatus()) {
-                    case "Pending":
-                        holder.vtxtStatus.setText("PENDING");
+//                tr.setStatus("Success");
+                switch (tr.getOrderstatus()) {
+                    case "Canceled":
+                        holder.vtxtStatus.setText("CANCELED");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
-                    case "Success":
-                        holder.vtxtStatus.setText("SUCCESS");
+                    case "Completed":
+                        holder.vtxtStatus.setText("COMPLETED");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
+//                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
+                        holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                        break;
+                    case "On Hold":
+                        holder.vtxtStatus.setText("ON HOLD");
+                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.primary_dark));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;

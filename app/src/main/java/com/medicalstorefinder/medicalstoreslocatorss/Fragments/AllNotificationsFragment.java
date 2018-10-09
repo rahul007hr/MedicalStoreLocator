@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.FirebaseMainActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
@@ -89,6 +90,15 @@ public class AllNotificationsFragment extends Fragment {
 
         imgRepNotFound = (ImageView) v.findViewById(R.id.img_rep_not_found);
         imgRepNotFound.setVisibility(View.GONE);
+
+        if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")) {
+
+            CustomerActivity.navigation.getMenu().findItem(R.id.chooseOrderType).setChecked(false);
+            CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(false);
+            CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
+
+        }
+
 
         new RetrieveFeedTask1().execute();
 

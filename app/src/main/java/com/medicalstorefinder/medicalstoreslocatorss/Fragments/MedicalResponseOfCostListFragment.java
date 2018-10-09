@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -39,7 +36,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
-import com.medicalstorefinder.medicalstoreslocatorss.Activity.OtpVerificationActivity;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Constants;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.SharedPreference;
 import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utilities;
@@ -53,11 +49,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -128,6 +121,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
 //            CustomerActivity.navigation.setVisibility(View.GONE);
 //            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+            CustomerActivity.navigation.getMenu().findItem(R.id.chooseOrderType).setChecked(false);
+            CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(false);
+            CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
+
              if(strtext.equalsIgnoreCase("Pending Delivery Customer"))
                 new OutForDelivery().execute();
              else  if(strtext.equalsIgnoreCase("Completed"))
@@ -921,14 +919,14 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         }
     }
 
-    class DownloadImage extends AsyncTask<String, Void, String> {
+    class DownloadImage extends AsyncTask<String, Void, File> {
 
         protected void onPreExecute() {
             progressDialog.show();
         }
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected File doInBackground(String... urls) {
             Utilities utilities = new Utilities(getContext());
 
             String s1,s2;
@@ -939,25 +937,25 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             return utilities.downloadImagesToSdCard(s1,s2);
         }
 
-        protected void onPostExecute(String response) {
+        protected void onPostExecute(File response) {
             progressDialog.dismiss();
             viewimage(response);
 
         }
     }
 
-    public void viewimage(String fileName)
+    public void viewimage(File fileName)
     {
 //        String path = serialnumber+".png";
         File mypath =null;
         String selectedOutputPath = "";
 
-        File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
+       /* File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");*/
         // Create a storage directory if it does not exist
 
         // Create a media file name
-        selectedOutputPath = mediaStorageDir.getPath() + File.separator + fileName;
+        selectedOutputPath = fileName.getPath();
 
         Toast.makeText(getContext(),"Image is stored in "+selectedOutputPath,Toast.LENGTH_LONG).show();
 

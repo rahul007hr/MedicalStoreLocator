@@ -72,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/primary_dark"
-            app:itemTextColor="@color/black"
-            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:itemIconTint="@color/bottom_nav_color"
             android:visibility="gone"
             app:menu="@menu/navigation"/>
 

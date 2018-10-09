@@ -69,7 +69,7 @@ needs and wants.</p></li>
 
     <string name="html_contact_us">
               <![CDATA[
-            <p>  If you have any questions or suggestions, do not hesitate to contact us at  <br /> </p>
+            <p>  <b>If you have any questions or suggestions, do not hesitate to contact us at </b> <br /> </p>
             ]]>
        </string>
 

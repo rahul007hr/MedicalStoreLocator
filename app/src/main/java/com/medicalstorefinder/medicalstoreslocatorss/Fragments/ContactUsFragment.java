@@ -75,6 +75,36 @@ try {
         });
 
 
+        v.findViewById(R.id.txtv_call).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                alertDialog.setMessage("+919969707707");
+
+                alertDialog.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (currentapiVersion <= android.os.Build.VERSION_CODES.LOLLIPOP){
+                                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                                    callIntent.setData(Uri.parse("tel:9969707707"));
+                                    startActivity(callIntent);
+                                } else {
+                                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                                    callIntent.setData(Uri.parse("tel:9969707707"));
+                                    startActivity(callIntent);
+                                }
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
+
+
 
 
         v.findViewById(R.id.btn_email).setOnClickListener(new View.OnClickListener() {
@@ -90,6 +120,21 @@ try {
                 startActivity(Intent.createChooser(callIntent,"Choose Application To Send Email"));
             }
         });
+
+        v.findViewById(R.id.txtv_email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                String[] recepient = {"mychemist247@gmail.com"};
+
+                Intent callIntent = new Intent(Intent.ACTION_SEND);
+                callIntent.setData(Uri.parse("mailto:"));
+                callIntent.setType("message/rfc822");
+                callIntent.putExtra(Intent.EXTRA_EMAIL,recepient);
+                startActivity(Intent.createChooser(callIntent,"Choose Application To Send Email"));
+            }
+        });
+
 
 
 

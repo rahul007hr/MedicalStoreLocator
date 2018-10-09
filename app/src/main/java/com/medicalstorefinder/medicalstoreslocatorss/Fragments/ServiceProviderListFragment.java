@@ -237,6 +237,8 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         serviceProviderDetails.setOrderstatus(jsonObject.getString("loginstatus"));
                         serviceProviderDetails.setLocation(jsonObject.getString("distance"));
                         serviceProviderDetails.setImagepath(jsonObject.getString("profilepic"));
+                        serviceProviderDetails.setShopName(jsonObject.getString("shopname"));
+                        serviceProviderDetails.setLoginStatus(jsonObject.getString("loginstatus"));
 
                         String rt = (jsonObject.getString("rating")!=null && !jsonObject.getString("rating").equalsIgnoreCase("null"))?jsonObject.getString("rating"):"0";
                         serviceProviderDetails.setRating(Float.valueOf(rt));
@@ -328,7 +330,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
             try {
 
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
-                holder.vtxtLocation.setText("Location : "+tr.getLocation());
+                holder.vtxtLocation.setText("Shop Name : "+tr.getShopName());
 
                 String date = (tr.getNotificationTime()!=null && !tr.getNotificationTime().equalsIgnoreCase("null"))?"Date : "+tr.getNotificationTime():"";
                 Float ratings = (tr.getRating()!=null)?tr.getRating():0;
@@ -365,15 +367,25 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                 }else{
                     Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
                 }
-                switch (tr.getStatus()) {
-                    case "Offline":
-                        holder.vtxtStatus.setText("OFFLINE");
+
+
+                String status = (tr.getLoginStatus()!=null && !tr.getLoginStatus().equalsIgnoreCase("null"))?tr.getLoginStatus():"0";
+
+                if(status.equalsIgnoreCase("1")){
+                    status="Available";
+                }else{
+                    status="Unavailable";
+                }
+
+                switch (status) {
+                    case "Unavailable":
+                        holder.vtxtStatus.setText("UNAVAILABLE");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
-                    case "Online":
-                        holder.vtxtStatus.setText("ONLINE");
+                    case "Available":
+                        holder.vtxtStatus.setText("AVAILABLE");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));

@@ -78,6 +78,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -441,7 +442,22 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         Long tsLong = System.currentTimeMillis()/1000;
         ts = tsLong.toString()+".jpg";
-        File destination = new File(Environment.getExternalStorageDirectory(),ts);
+
+
+        File myDir = new File(Environment.getExternalStorageDirectory(),"My-Chemist");
+        if(!myDir.exists())
+        {
+            myDir.mkdir();
+
+        }
+        File myDir1 = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Uploaded Prescriptions");
+        if(!myDir1.exists())
+        {
+            myDir1.mkdir();
+
+        }
+
+        File destination = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Uploaded Prescriptions/"+ts);
 
         FileOutputStream fo;
         try {
@@ -486,8 +502,41 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 String s = filePath.substring(filePath.indexOf("/storage")+1);
                 s.trim();
 
+
+                File myDir = new File(Environment.getExternalStorageDirectory(),"My-Chemist");
+                if(!myDir.exists())
+                {
+                    myDir.mkdir();
+
+                }
+                File myDir1 = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Uploaded Prescriptions");
+                if(!myDir1.exists())
+                {
+                    myDir1.mkdir();
+
+                }
                 f = new File(s);
                 ts = f.getName();
+                File destination = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Uploaded Prescriptions/"+ts);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                FileOutputStream fo;
+                try {
+//                    destination.createNewFile();
+
+                    copyFile(f,destination);
+
+                   /* fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();*/
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
                 new uploadTask().execute();
             }
             } catch (IOException e) {
@@ -496,6 +545,29 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         }
         profile_img.setImageBitmap(bm);
     }
+
+
+    private void copyFile(File sourceFile, File destFile) throws IOException {
+        if (!sourceFile.exists()) {
+            return;
+        }
+
+        FileChannel source = null;
+        FileChannel destination = null;
+        source = new FileInputStream(sourceFile).getChannel();
+        destination = new FileOutputStream(destFile).getChannel();
+        if (destination != null && source != null) {
+            destination.transferFrom(source, 0, source.size());
+        }
+        if (source != null) {
+            source.close();
+        }
+        if (destination != null) {
+            destination.close();
+        }
+
+    }
+
     public String getRealPathFromURI1(String contentURI) {
         Uri contentUri = Uri.parse(contentURI);
         Cursor cursor = null;

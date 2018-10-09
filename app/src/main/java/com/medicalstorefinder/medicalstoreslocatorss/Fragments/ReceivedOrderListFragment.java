@@ -1,19 +1,15 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Fragments;
 
 
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -50,8 +46,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -539,14 +533,14 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         }
     }
 
-    class DownloadImage extends AsyncTask<String, Void, String> {
+    class DownloadImage extends AsyncTask<String, Void, File> {
 
         protected void onPreExecute() {
             progressDialog.show();
         }
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected File doInBackground(String... urls) {
             Utilities utilities = new Utilities(getContext());
 
             String s1,s2;
@@ -557,24 +551,24 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
             return utilities.downloadImagesToSdCard(s1,s2);
         }
 
-        protected void onPostExecute(String response) {
+        protected void onPostExecute(File response) {
             progressDialog.dismiss();
             viewimage(response);
 
         }
     }
-    public void viewimage(String fileName)
+    public void viewimage(File fileName)
     {
 //        String path = serialnumber+".png";
         File mypath =null;
         String selectedOutputPath = "";
 
-        File mediaStorageDir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
+       /* File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");*/
         // Create a storage directory if it does not exist
 
         // Create a media file name
-        selectedOutputPath = mediaStorageDir.getPath() + File.separator + fileName;
+        selectedOutputPath = fileName.getPath();
         Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
         mypath = new File(selectedOutputPath);
 

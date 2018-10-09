@@ -1,16 +1,19 @@
 package com.medicalstorefinder.medicalstoreslocatorss.Fragments;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.medicalstorefinder.medicalstoreslocatorss.Activity.CustomerActivity;
+import com.medicalstorefinder.medicalstoreslocatorss.Constants.Utility;
 import com.medicalstorefinder.medicalstoreslocatorss.R;
 
 /**
@@ -18,7 +21,7 @@ import com.medicalstorefinder.medicalstoreslocatorss.R;
  */
 public class ChooseOrderTypeFragment extends Fragment {
 
-
+    private String userChoosenTask;
     public ChooseOrderTypeFragment() {
         // Required empty public constructor
     }
@@ -61,16 +64,74 @@ public class ChooseOrderTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.containerView, fragment2);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
+                selectPreviousOrderType();
+
+
             }
         });
 
         return view;
+    }
+
+    private void selectPreviousOrderType() {
+
+
+
+        final CharSequence[] items = { "Completed Orders", "Canceled Orders","On Hold Orders" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select Previous Order Type..");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result= Utility.checkPermission(getContext());
+                if (items[item].equals("Completed Orders")) {
+                    userChoosenTask ="Completed Orders";
+                    if(result){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("key", "Completed");
+
+                        ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
+                        fragment2.setArguments(bundle);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, fragment2);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                } else if (items[item].equals("Canceled Orders")) {
+                    userChoosenTask ="Canceled Orders";
+                    if(result){
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("key", "Canceled");
+
+                        ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
+                        fragment2.setArguments(bundle);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, fragment2);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                } else if (items[item].equals("On Hold Orders")) {
+                    userChoosenTask ="On Hold Orders";
+                    if(result){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("key", "On Hold");
+
+                        ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
+                        fragment2.setArguments(bundle);
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.containerView, fragment2);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                }
+            }
+        });
+        builder.show();
     }
 
 }

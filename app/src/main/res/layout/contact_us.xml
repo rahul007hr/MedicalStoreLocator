@@ -71,12 +71,13 @@
                     android:text="Contact Details : "
                     android:layout_gravity="left"
                     android:textColor="@color/black"
+                    android:textSize="18dp"
                     android:paddingLeft="5dp"
                     android:singleLine="true" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@android:dimen/notification_large_icon_width">
 
@@ -119,9 +120,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="+919969707707"
+                                android:id="@+id/txtv_call"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
                                 android:layout_weight="0.1"
+                                android:clickable="true"
                                 android:textColor="@color/accent"
                                 android:textSize="18dp" />
 
@@ -150,7 +153,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/email1"
+                                android:id="@+id/txtv_email"
                                 android:layout_margin="5dp"
+                                android:clickable="true"
                                 android:padding="5dp"
                                 android:layout_weight="0.1"
                                 android:textColor="@color/black"
