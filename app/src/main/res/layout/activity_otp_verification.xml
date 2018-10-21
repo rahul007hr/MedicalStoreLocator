@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/backg"
     android:orientation="vertical"
-    tools:context=".Activity.OtpVerificationActivity">
+    tools:context="com.medicalstorefinder.mychemists.Activity.OtpVerificationActivity">
 
     <ImageView
         android:layout_width="169dp"
@@ -25,6 +25,8 @@
         android:gravity="center"
         android:padding="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:text="Please Enter OTP Sent On \n +91 1234567890"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -34,10 +36,10 @@
 
     <com.alimuzaffar.lib.pin.PinEntryEditText
         android:id="@+id/txt_pin_entry"
-        android:layout_width="300dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:cursorVisible="false"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="25dp"
         android:digits="1234567890"
         android:inputType="number"
         android:maxLength="6"
@@ -48,13 +50,14 @@
 
     <Button
         android:id="@+id/otpVerifyBtn"
-        android:layout_width="330dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:padding="3dp"
         android:text="verify"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:background="@drawable/loginbutton_selector"

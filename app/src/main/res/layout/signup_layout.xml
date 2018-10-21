@@ -237,7 +237,7 @@
         android:drawablePadding="8dp"
         android:maxLength="20"
         android:gravity="center_vertical"
-        android:hint="Passowrd"
+        android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
         android:singleLine="true"

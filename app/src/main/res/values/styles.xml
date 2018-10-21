@@ -25,31 +25,9 @@
 
     </style>
     <!--Success Alert Dialog styles-->
-    <style name="AppCompatAlertDialogStyleSuccess" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">#FFCC00</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:background">@drawable/alertdialog_background_success</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowAnimationStyle">@style/AlertDialogAnimation</item>
-    </style>
     <!--Alert Dialog Animations-->
-    <style name="AlertDialogAnimation" >
-        <item name="android:windowEnterAnimation" >@anim/bounce_interpolator</item>
-        <item name="android:windowExitAnimation">@anim/alert_out</item>
-    </style>
 
     <!--Failed Alert Dialog styles-->
-    <style name="AppCompatAlertDialogStyleFailed" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">#FFCC00</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:background">@drawable/alertdialog_background_failed</item>
-        <item name="android:lineSpacingMultiplier">1.1</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowAnimationStyle">@style/AlertDialogAnimation</item>
-    </style>
 
     <style name="NewDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/kilol</item>

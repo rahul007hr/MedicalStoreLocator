@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "422560111867",
-    "firebase_url": "https://medicalstorelocator.firebaseio.com",
-    "project_id": "medicalstorelocator",
-    "storage_bucket": "medicalstorelocator.appspot.com"
+    "project_number": "106855698648",
+    "firebase_url": "https://my-chemists-1539971582919.firebaseio.com",
+    "project_id": "my-chemists-1539971582919",
+    "storage_bucket": "my-chemists-1539971582919.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:422560111867:android:3531558e068614bc",
+        "mobilesdk_app_id": "1:106855698648:android:220669954539e360",
         "android_client_info": {
-          "package_name": "com.medicalstorefinder.medicalstoreslocatorss"
+          "package_name": "com.medicalstorefinder.mychemists"
         }
       },
       "oauth_client": [
         {
-          "client_id": "422560111867-e3o75n8ejp1lb9of2tatjuh9k21ev5dn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.medicalstorefinder.medicalstoreslocatorss",
-            "certificate_hash": "d506ad77f5a0f862f2b7e9daab8ba050602bf649"
-          }
-        },
-        {
-          "client_id": "422560111867-1tflbhv6qrcc4ij05q4200ht67rp0bc1.apps.googleusercontent.com",
+          "client_id": "106855698648-8o9t81np8rog2fafpt3chi3jc8rtnrpu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9nKKl_hlRPpT1t64PpolK2LTakPsC9UA"
+          "current_key": "AIzaSyCElJnxoNVMnPMu_o898Z187EILrk0zN-4"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "422560111867-1tflbhv6qrcc4ij05q4200ht67rp0bc1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

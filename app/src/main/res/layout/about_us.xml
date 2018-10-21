@@ -45,7 +45,6 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/isoft_logo"
                 android:layout_gravity="center"
                 android:elevation="50dp"
                 android:background="@drawable/logo"
@@ -66,10 +65,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/check_update"
                 android:text="Check Update"
                 android:layout_marginTop="1dp"
                 android:textSize="10dp"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:layout_marginLeft="5dp"
@@ -94,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="mychemist247@gmail.com"
-                android:id="@+id/companyEmail"
                 android:layout_marginTop="5dp"
                 android:textSize="10dp"
                 android:textColor="@color/black"

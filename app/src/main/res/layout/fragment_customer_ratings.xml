@@ -4,20 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backg"
-    tools:context=".Fragments.CustomerRatingsFragment">
+    tools:context="com.medicalstorefinder.mychemists.Fragments.CustomerRatingsFragment">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:orientation="vertical">
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="4dp"
         android:gravity="start"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="0dp"
         android:text="Provide ratings to medical store for better user experience in future"
         android:textSize="20sp"/>
 
@@ -45,6 +46,8 @@
         android:layout_width="340dp"
         android:layout_height="wrap_content"
         android:id="@+id/etFeedback"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:inputType="textMultiLine"
         android:layout_gravity="center_horizontal"
         android:lines="5"

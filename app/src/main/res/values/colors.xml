@@ -7,56 +7,32 @@
     <color name="black_overlay">#66000000</color>
 
     <!--main_background Colour-->
-    <color name="blackkground">#0069cc</color>
 
     <!--Text Colour-->
-    <color name="text_color">#ffffff</color>
 
 
     <!--Basic Colors-->
     <color name="color_white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="color_transperant_white">#cccccc</color>
 
     <!--navigation drawer selector-->
     <color name="colorHighlight">#a0aaed</color>
 
     <color name="primary">#0068ff</color>
     <color name="primary_dark">#f8a222</color>
-    <color name="primary_light">#d9b76a</color>
     <color name="accent">#f9ba29</color>
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#757575</color>
-    <color name="icons">#212121</color>
-    <color name="divider">#BDBDBD</color>
 
 
-    <color name="background_color">#8BC34A</color>
     <color name="white">#FFFFFF</color>
-    <color name="white_greyish">#EEEEEE</color>
-    <color name="button_selectorcolor">#9E9E9E</color>
-    <color name="green">#8BC34A</color>
-    <color name="default_role_selector_color">#FFBB33</color>
     <color name="btn_alertdialog">#0068ff</color>
 
      <!--App SubTitle-->
-    <color name="app_sub_title">#8BC34A</color>
 
-
-    <color name="logoes">#75a7f5</color>
 
     <!--<color name="background_color">#009688</color>-->
     <color name="tx_FAILURE">#D50000</color>
     <color name="tx_SUCCESS">#1B5E20</color>
-    <color name="tx_PENDING">#E65100</color>
-    <color name="tx_REVERSED">#0D47A1</color>
 
-    <color name="colorNavIcon">#dae9f6</color>
-    <color name="colorNavText">#01294b</color>
-
-    <color name="default_screen_bg">#f9f9f9</color>
-    <color name="rounded_container_bg">#222222</color>
-    <color name="rounded_container_border">#3b3f44</color>
     <color name="light_gray_header_color">#646663</color>
 
     <color name="kilol">#851212</color>

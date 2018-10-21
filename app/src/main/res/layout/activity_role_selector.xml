@@ -4,5 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backg"
-    tools:context=".Activity.RoleSelectorActivity"
+    tools:context="com.medicalstorefinder.mychemists.Activity.RoleSelectorActivity"
     tools:ignore="MergeRootFrame" />

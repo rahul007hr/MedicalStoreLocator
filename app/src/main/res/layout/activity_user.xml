@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="right|bottom"
             android:divider="@drawable/tool_bal_dim"
-            android:dividerPadding="8dp"
+            android:dividerPadding="0dp"
             android:orientation="horizontal"
             android:showDividers="end">
 
@@ -31,7 +31,7 @@
                     android:id="@+id/balance_tool"
                     android:layout_gravity="right|center|end"
                     android:src="@drawable/ic_notifications_black_24dp"
-                    android:paddingRight="8dp"
+                    android:paddingRight="0dp"
                     android:layout_marginRight="15dp"/>
         </LinearLayout>
 

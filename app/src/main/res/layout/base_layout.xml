@@ -12,7 +12,6 @@
         android:orientation="vertical" >
 
         <ProgressBar
-            android:id="@+id/progressBar"
             android:layout_width="40dp"
             android:indeterminate="true"
             android:indeterminateTintMode="src_atop"

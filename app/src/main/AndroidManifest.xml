@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.medicalstorefinder.medicalstoreslocatorss">
+    package="com.medicalstorefinder.mychemists">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -33,14 +33,14 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDSSmL5P0bPxDDDuvb6vDnPw9IDDd0c94M" />
+            android:value="AIzaSyDRhQ3__a-bSQ5EM-bDgTBljmLVsZ1LJ-I" />
 
         <provider
-            android:name=".Provider.PlaceContentProvider"
-            android:authorities="com.medicalstorefinder.medicalstoreslocatorss"
+            android:name="com.medicalstorefinder.mychemists.Provider.PlaceContentProvider"
+            android:authorities="com.medicalstorefinder.mychemists"
             android:exported="false" />
 
-        <receiver android:name=".IncomingSms"
+        <receiver android:name="com.medicalstorefinder.mychemists.IncomingSms"
             android:permission="android.permission.BROADCAST_SMS"
             android:exported="true">
             <intent-filter android:priority="999">
@@ -49,7 +49,7 @@
         </receiver>
 
         <activity
-            android:name=".Activity.MainActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.SplashScreenActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,7 +67,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.WelcomeInstructinsActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.WelcomeInstructinsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -76,10 +76,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.FirebaseMainActivity"></activity>
+        <activity android:name="com.medicalstorefinder.mychemists.Activity.FirebaseMainActivity"></activity>
         <!-- ..................................................... -->
         <activity
-            android:name=".Activity.UserActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.UserActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,7 +88,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.RoleSelectorActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.RoleSelectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -98,18 +98,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.OtpVerificationActivity"
+            android:name="com.medicalstorefinder.mychemists.Activity.OtpVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.CustomerActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name="com.medicalstorefinder.mychemists.Activity.CustomerActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
-        <service android:name=".MyFirebaseInstanceIDService">
+        <service android:name="com.medicalstorefinder.mychemists.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseMessagingService"
+        <service android:name="com.medicalstorefinder.mychemists.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

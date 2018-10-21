@@ -17,7 +17,6 @@
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:id="@+id/linear_layout_tx_card_item"
             android:padding="6dp"
             android:orientation="vertical"
             android:layout_width="match_parent"

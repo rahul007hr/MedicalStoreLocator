@@ -41,15 +41,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/distanceTxt"
             android:padding="10dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
             android:text="Select Range of Medical Store : 2 Km"
             android:textColor="#000000"
-            android:textSize="20sp" />
+            android:textSize="19sp" />
 
         <SeekBar
             android:id="@+id/volume_bar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="7dp"
             android:max="20"
             android:progress="20"
             android:progressDrawable="@drawable/progressbar"
@@ -74,6 +76,7 @@
             android:padding="10dp"
             android:text="Medical Stores : 0"
             android:textColor="#000000"
+            android:layout_marginLeft="10dp"
             android:visibility="gone"
             android:textSize="20sp" />
 
@@ -122,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:id="@+id/postOrderBtn"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:background="@drawable/loginbutton_selector"
             android:textColor="@color/white"
             android:visibility="gone"
