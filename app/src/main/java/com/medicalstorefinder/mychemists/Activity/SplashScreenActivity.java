@@ -124,7 +124,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
                         String versionName = BuildConfig.VERSION_NAME;
-                        if((int)(Float.parseFloat(jsonObject.getString("version")))==((int)(Float.parseFloat(versionName)))){
+                        if((int)(Float.parseFloat(jsonObject.getString("version")))<=((int)(Float.parseFloat(versionName)))){
                             if(userRole.equalsIgnoreCase("customer")){
                                 new AuthoriseOTP().execute();
                             }else{

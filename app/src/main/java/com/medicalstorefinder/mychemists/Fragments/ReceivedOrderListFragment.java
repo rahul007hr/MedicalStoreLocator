@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.medicalstorefinder.mychemists.Constants.Utility;
 import com.medicalstorefinder.mychemists.SingleTouchImageViewFragment;
 import com.medicalstorefinder.mychemists.Constants.Constants;
 import com.medicalstorefinder.mychemists.Constants.SharedPreference;
@@ -332,7 +333,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -345,8 +346,17 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }else{
-                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
+                }*/else{
+//                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
+
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+"no_avatar.jpg",options);
                 }
 
                 tr.setStatus("Pending");
@@ -467,9 +477,14 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             @Override
                             public void onClick(View view) {
 
-                               String[] s = {tr.getImagepath(),tr.getOrderid()};
-
-                                new DownloadImage().execute(s);
+                                String[] s = {tr.getImagepath(),tr.getOrderid()};
+                                if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")){
+                                    boolean result= Utility.checkPermission(getContext());
+                                    if(result)
+                                    new DownloadImage().execute(s);
+                                }else{
+                                    Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
 
@@ -511,11 +526,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                             serviceProviderDetails.setOrderid(tr.getOrderid());
 
 
-                                            if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase(""))&& (cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                            /*if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase(""))&& (cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
                                                 Toast.makeText(getContext(),"Please Enter Cost and Description",Toast.LENGTH_LONG).show();
                                             }else  if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase("")) ){
                                                 Toast.makeText(getContext(),"Please Enter Description",Toast.LENGTH_LONG).show();
-                                            }else  if((cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                            }else */ if((cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
                                                 Toast.makeText(getContext(),"Please Enter Cost",Toast.LENGTH_LONG).show();
                                             }else{
                                                 new SendCostToCustomer().execute();
@@ -553,6 +568,8 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         protected void onPostExecute(File response) {
             progressDialog.dismiss();
+            boolean result= Utility.checkPermission(getContext());
+            if(response!=null && result==true)
             viewimage(response);
 
         }
@@ -576,12 +593,17 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
         Bitmap b;
         //            b = BitmapFactory.decodeStream(new FileInputStream(mypath));
 
+        /*Installation failed with message Failed to finalize session : INSTALL_FAILED_CONFLICTING_PROVIDER: Package couldn't be installed in /data/app/com.medicalstorefinder.mychemists-1: Can't install because provider name com.zoftino.android.fileprovider (in package com.medicalstorefinder.mychemists) is already used by com.medicalstorefinder.medicalstoreslocatorss.
+            It is possible that this issue is resolved by uninstalling an existing version of the apk if it is present, and then re-installing.
 
+            WARNING: Uninstalling will remove the application data!
+
+            Do you want to uninstall the existing application?*/
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         Uri apkURI = FileProvider.getUriForFile(
                 getContext(),
-                "com.zoftino.android.fileprovider", mypath);
+                "com.zoftino.android.fileproviders", mypath);
         intent.setDataAndType(apkURI, "image/");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

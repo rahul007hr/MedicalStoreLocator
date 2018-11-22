@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.medicalstorefinder.mychemists.Constants.Utility;
 import com.medicalstorefinder.mychemists.SingleTouchImageViewFragment;
 import com.medicalstorefinder.mychemists.Activity.CustomerActivity;
 import com.medicalstorefinder.mychemists.Constants.Constants;
@@ -634,7 +635,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -647,8 +648,15 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 new GlideImageLoader(holder.imageViews,
                         holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-            }else{
-                Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
+            }*/else{
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+"no_avatar.jpg",options);
             }
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
 
@@ -822,7 +830,16 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                                 String[] s = {tr.getImagepath(),tr.getOrderid()};
 
-                                new DownloadImage().execute(s);
+                                if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")){
+
+                                    boolean result= Utility.checkPermission(getContext());
+                                    if(result)
+                                    new DownloadImage().execute(s);
+                                }else{
+                                    Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                }
+
+
                             }
                         });
 
@@ -939,6 +956,8 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         protected void onPostExecute(File response) {
             progressDialog.dismiss();
+            boolean result= Utility.checkPermission(getContext());
+            if(response!=null && result==true)
             viewimage(response);
 
         }
@@ -971,7 +990,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
         Uri apkURI = FileProvider.getUriForFile(
                 getContext(),
-                "com.zoftino.android.fileprovider", mypath);
+                "com.zoftino.android.fileproviders", mypath);
         intent.setDataAndType(apkURI, "image/");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

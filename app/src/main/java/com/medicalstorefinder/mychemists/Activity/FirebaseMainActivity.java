@@ -2,6 +2,7 @@ package com.medicalstorefinder.mychemists.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.medicalstorefinder.mychemists.Constants.Constants.NO_AVATAR_IMAGE_PATH;
+
 public class FirebaseMainActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private TextView tvNotificationDetails;
@@ -47,6 +51,11 @@ public class FirebaseMainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     String str;
+    final String[] desc = new String[1];
+    final String[] cost = new String[1];
+    String orderId,customerId,medicalId;
+    String strNotification;
+    SharedPreference sharedPreference = new SharedPreference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +99,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
         str = String.valueOf(text);
         String[] str1 = str.split("\\(");
         String[] str2 = str1[1].split("\\)");
-
+        strNotification=String.valueOf(text);;
         new Notifications().execute(str2);
 
     }
@@ -150,7 +159,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -161,10 +170,17 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             .priority(Priority.HIGH);
 
                     new GlideImageLoader(holder.imageViews,
-                            holder.getProgressBar()).load(Constants.NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
+                            holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }else{
-                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
+                }*/else{
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+"no_avatar.jpg",options);
                 }
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getMedicalProfileUrl()).into(holder.imageViews);
 
@@ -228,7 +244,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                         String lStatus = "Pending";
 
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
-
+                        final android.support.v7.app.AlertDialog.Builder alertDialogBuilder2 = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
@@ -237,11 +253,124 @@ public class FirebaseMainActivity extends AppCompatActivity {
                                         "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
                                         "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply());
 
+
+
+
+
+                        //...............................
+
+                        String description = (tr.getDescription()!=null &&
+                                !tr.getDescription().equalsIgnoreCase("null"))?tr.getDescription():"-";
+
+                        String medicalCost = (tr.getMedicalCost()!=null &&
+                                !tr.getMedicalCost().equalsIgnoreCase("null"))?tr.getMedicalCost():"-";
+
+                        String medicalDescription = (tr.getMedicalReply()!=null &&
+                                !tr.getMedicalReply().equalsIgnoreCase("null"))?tr.getMedicalReply():"-";
+
+//                        final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getBaseContext(),R.style.AppCompatAlertDialogStyle );
+
+//                        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getBaseContext(),R.style.AppCompatAlertDialogStyle );
+                       /* alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
+                        alertDialogBuilder.setMessage(
+                                Html.fromHtml(getString(R.string.orderid))+ tr.getOrderid() +
+                                        "\n"+Html.fromHtml(getString(R.string.description)) + description+
+                                        "\n"+Html.fromHtml(getString(R.string.medicalcost)) + medicalCost +
+                                        "\n"+Html.fromHtml(getString(R.string.medicaldescription)) +medicalDescription );*/
+
+                        if(strNotification.contains("received") && (medicalCost==null || medicalCost.equalsIgnoreCase("null")
+                                || medicalCost.equalsIgnoreCase("") || medicalCost.equalsIgnoreCase("-"))){
+
+
+
+                            alertDialogBuilder.setPositiveButton("Accept",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            alertDialogBuilder2.show();
+                                        }
+                                    });
+
+                        }else if(strNotification.contains("response") && (medicalCost!=null && !medicalCost.equalsIgnoreCase("null")
+                                && !medicalCost.equalsIgnoreCase("") && !medicalCost.equalsIgnoreCase("-"))){
+                       /* if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
+
+                        }else{*/
+                            alertDialogBuilder.setPositiveButton("Accept",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            if (sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
+                                                new SendCostConfirmation().execute();
+                                            }else{
+                                                new SendFinalConfirmationFromMedicalToCustomer().execute();
+                                            }
+                                        }
+                                    });
+                        }
+//                        }
+
                         alertDialogBuilder.show();
+
+                        if(strNotification.contains("received")){
+
+                            LayoutInflater li = LayoutInflater.from(getBaseContext());
+                            View promptsView = li.inflate(R.layout.custom_view_for_alert_dialogue, null);
+
+                            alertDialogBuilder2.setTitle(Html.fromHtml(getString(R.string.transactions)));
+
+                            alertDialogBuilder2.setView(promptsView);
+
+                            final EditText userInput = (EditText) promptsView
+                                    .findViewById(R.id.editTextDialogUserInput);
+
+                            final EditText userCost = (EditText) promptsView
+                                    .findViewById(R.id.editTextCost);
+
+
+
+                            alertDialogBuilder2.setPositiveButton("Send",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+
+//                                            Toast.makeText(getContext(),userInput.getText()+"::"+userCost.getText(),Toast.LENGTH_LONG).show();
+
+                                            desc[0] = String.valueOf(userInput.getText());
+                                            cost[0] = String.valueOf(userCost.getText());
+//                                            serviceProviderDetails.setOrderid(tr.getOrderid());
+
+
+                                            /*if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase(""))&& (cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                                Toast.makeText(getBaseContext(),"Please Enter Cost and Description",Toast.LENGTH_LONG).show();
+                                            }else  if((desc[0].equalsIgnoreCase("null") || desc[0].equalsIgnoreCase("")) ){
+                                                Toast.makeText(getBaseContext(),"Please Enter Description",Toast.LENGTH_LONG).show();
+                                            }else*/  if((cost[0].equalsIgnoreCase("null") || cost[0].equalsIgnoreCase("") || cost[0].equalsIgnoreCase("0.00")) ){
+                                                Toast.makeText(getBaseContext(),"Please Enter Cost",Toast.LENGTH_LONG).show();
+                                            }else{
+                                                new SendCostToCustomer().execute();
+                                            }
+
+
+
+                                        }
+                                    });
+                        }
+
+
+                        //..............................
+
+
+
+
+
 
                     }
 
                 });
+
+
+
+
 
             }
 
@@ -270,7 +399,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
             s1=urls[0];
             String address;
-            SharedPreference sharedPreference = new SharedPreference();
+//            SharedPreference sharedPreference = new SharedPreference();
             if (sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")) {
                 address = Constants.API_SINGLE_NOTIFICATION;
             }else{
@@ -305,7 +434,6 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     }
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
 //                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
-//remaining
 
 
 
@@ -333,9 +461,24 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             serviceProviderDetails1.setOrderid(jsonObject.getString("mainorderid"));
                             serviceProviderDetails1.setDescription(jsonObject.getString("description").equalsIgnoreCase("null")?"":jsonObject.getString("description"));
                             serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
+
+//...............................
+                        String medical = "";
+
+                        if (sharedPreference.getValue( getBaseContext(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer"))
+                            medical = jsonObject.getString("medicalid")!=null?jsonObject.getString("medicalid"):"";
+                        serviceProviderDetails1.setMedicalId(medical);
+//...............................
+
                             serviceProviderDetails1.setMedicalCost(jsonObject.getString("cost").equalsIgnoreCase("null")?"":jsonObject.getString("cost"));
                             serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
 
+//...............................
+                            orderId = jsonObject.getString("orderid");
+                            customerId = jsonObject.getString("userid");
+                            medicalId = medical;
+
+//...............................
                             String string = jsonObject.getString("address");
                             String[] bits = string.split(",");
                             String lastWord = "";
@@ -351,6 +494,11 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             recyclerView.setAdapter(adapter);
 
                         tvNotificationDetails.setText(str);
+
+
+
+
+
                     }
                 }
 
@@ -367,7 +515,185 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
 
 
+    class SendFinalConfirmationFromMedicalToCustomer extends AsyncTask<Void, Void, String> {
 
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getBaseContext());
+
+            String address = Constants.API_MEDICAL_FINAL_CONFIRMATION;
+            Map<String, String> params = new HashMap<>();
+            params.put("userid", customerId);//orderId  customerId
+//            params.put("userid", "14");
+            params.put("orderid", orderId);
+            params.put("medicalid",  sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
+//            params.put("medicalid", "23");
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+                progressDialog.dismiss();
+            }
+
+        }
+    }
+
+
+    class SendCostToCustomer extends AsyncTask<Void, Void, String> {
+
+        protected void onPreExecute() {
+//            progressDialog.show();
+        }
+
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getBaseContext());
+
+            String address = Constants.API_MEDICAL_RECEIVED_ORDER;
+            Map<String, String> params = new HashMap<>();
+            params.put("medicalid", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
+            params.put("orderid", orderId);
+            params.put("description", desc[0]!=null?desc[0]:"");
+            params.put("cost", cost[0]!=null?cost[0]:"");
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+//				{"Content":"{\"status\":\"success\",\"result\":{\"id\":\"28\",\"firstname\":\"Mangesh\",\"lastname\":\"Khalale\",\"shopname\":\"Mango\",\"email\":\"mangesh@gmail.com\",\"password\":\"111\",\"mobile\":\"8793377994\",\"address\":\"Pathardi Phata,Pathardi Phata, Nashik, Maharashtra, India\",\"latitude\":\"19.946922\",\"longitude\":\"73.7654367\",\"profilepic\":\"no_avatar.jpg\",\"role\":\"medical\",\"regdate\":\"2018-07-27 10:44:22\",\"status\":\"0\",\"deletestatus\":null,\"loginstatus\":\"1\",\"otp\":null}}","Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
+
+//                        String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
+//
+//                        if(listOfOrderIds.equalsIgnoreCase("")) {
+//                            listOfOrderIds = serviceProviderDetails.getOrderid();
+//                        }else{
+//                            listOfOrderIds += ","+serviceProviderDetails.getOrderid();
+//                        }
+//                        sharedPreference.putValue(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_KEY_ORDER_ID_LIST,listOfOrderIds);
+//
+//                        new RetrieveFeedTask1().execute();
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+//                progressDialog.dismiss();
+            }
+
+        }
+    }
+
+
+    class SendCostConfirmation extends AsyncTask<Void, Void, String> {
+
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        protected String doInBackground(Void... urls) {
+
+            Utilities utilities = new Utilities(getBaseContext());
+
+            String address = Constants.API_MEDICAL_COST_RESPONCE_STATUS;
+            Map<String, String> params = new HashMap<>();
+            params.put("userid", customerId);
+            params.put("orderid", orderId);
+            params.put("medicalid",  medicalId);
+
+            return utilities.apiCalls(address,params);
+
+        }
+
+        protected void onPostExecute(String response) {
+            try {
+
+                JSONObject jsonObject1 = new JSONObject(response);
+                JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
+
+//				{"Content":"{\"status\":\"success\",\"result\":{\"id\":\"28\",\"firstname\":\"Mangesh\",\"lastname\":\"Khalale\",\"shopname\":\"Mango\",\"email\":\"mangesh@gmail.com\",\"password\":\"111\",\"mobile\":\"8793377994\",\"address\":\"Pathardi Phata,Pathardi Phata, Nashik, Maharashtra, India\",\"latitude\":\"19.946922\",\"longitude\":\"73.7654367\",\"profilepic\":\"no_avatar.jpg\",\"role\":\"medical\",\"regdate\":\"2018-07-27 10:44:22\",\"status\":\"0\",\"deletestatus\":null,\"loginstatus\":\"1\",\"otp\":null}}","Message":"OK","Length":-1,"Type":"text\/html; charset=UTF-8"}
+                if(response.equals("NO_INTERNET")) {
+                    Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
+                }
+                else if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                    Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    if(jsonObject2.getString("status").equalsIgnoreCase("error")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                    else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
+                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
+
+//                        new RetrieveFeedTask1().execute();
+                    }
+                }
+
+            } catch (Exception e) {
+                Toast.makeText( getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            finally {
+                progressDialog.dismiss();
+            }
+
+        }
+    }
 
 
 

@@ -39,6 +39,7 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.medicalstorefinder.mychemists.Constants.Constants;
+import com.medicalstorefinder.mychemists.Constants.Utility;
 import com.medicalstorefinder.mychemists.Constants.Utils1;
 import com.medicalstorefinder.mychemists.Activity.MainActivity;
 import com.medicalstorefinder.mychemists.Constants.CustomToast;
@@ -176,9 +177,14 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 
 		case R.id.addLocationBtn:
 
-			if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-					!= PackageManager.PERMISSION_GRANTED) {
-				Toast.makeText(getContext(), getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+			boolean result= Utility.checkPermissionLocation(getContext());
+//                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getContext(), getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+
+			if(!result){
+
+
 				return;
 			}
 			try {
@@ -207,15 +213,24 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			user.setEmail(emailId.getText().toString());
 			user.setRegMobile(mobileNumber.getText().toString());
 
+			Integer itemCount = mRecyclerView.getAdapter().getItemCount();
 
-			String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
-			String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
-			String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
+			String title = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
+			String address = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
+			String latLongitude = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
 
-			String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
-			String[] s = answer.split(",");
-			String lat = s[0];
-			String longi = s[1];
+			/*String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
+			String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
+			String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
+*/
+			String answer = latLongitude!=""?latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")")):"";
+			String lat = "";
+			String longi ="";
+			if(!answer.equalsIgnoreCase("")) {
+				String[] s = answer.split(",");
+				lat = s[0];
+				longi = s[1];
+			}
 
 			user.setLatitude(lat);
 			user.setLongitude(longi);
@@ -244,14 +259,29 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			String getEmailId = emailId.getText().toString();
 			String getMobileNumber = mobileNumber.getText().toString();
 
-			String title = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
-			String address = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
-			String latLongitude = ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText()!=null?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
+			/*String title = (((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view))!=null && ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText()!=null)?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
+			String address = (((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view))!=null && ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText()!=null)?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
+			String latLongitude = (((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view))!=null && ((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText()!=null)?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
+*/
 
-			String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
+        Integer itemCount = mRecyclerView.getAdapter().getItemCount();
+
+        String title = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.name_text_view)).getText().toString():"";
+        String address = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.address_text_view)).getText().toString():"";
+        String latLongitude = itemCount!=0?((TextView) mRecyclerView.findViewHolderForAdapterPosition(0).itemView.findViewById(R.id.latLong_text_view)).getText().toString():"";
+		String answer = latLongitude!=""?latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")")):"";
+		String lat = "";
+		String longi ="";
+		if(!answer.equalsIgnoreCase("")) {
 			String[] s = answer.split(",");
-			String lat = s[0];
-			String longi = s[1];
+			lat = s[0];
+			longi = s[1];
+		}
+
+//        String answer = latLongitude.substring(latLongitude.indexOf("(")+1,latLongitude.indexOf(")"));
+//			String[] s = answer.split(",");
+//			String lat = s[0];
+//			String longi = s[1];
 
 			String getLatitude =lat;
 			String getLongitude =longi;
@@ -265,19 +295,50 @@ public class SignUp_Fragment extends Fragment implements OnClickListener,GoogleA
 			Matcher m = p.matcher(getEmailId);
 
 			// Check if all strings are null or not
-			if (getFirstName.equals("") || getFirstName.length() == 0
-					|| getLastName.equals("") || getLastName.length() == 0
-					|| getEmailId.equals("") || getEmailId.length() == 0
-					|| getMobileNumber.equals("") || getMobileNumber.length() == 0
-					|| getAddress.equals("") || getAddress.length() == 0
-					|| getShopName.equals("") || getShopName.length() == 0
-					|| getPassword.equals("") || getPassword.length() == 0
-					|| getConfirmPassword.equals("")
-					|| getConfirmPassword.length() == 0)
 
-				new CustomToast().Show_Toast(getActivity(), view,
-						"All fields are required.");
 
+		if (getFirstName.equals("") || getFirstName.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"First Name is required.");
+
+		}else if (getLastName.equals("") || getLastName.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Last Name is required.");
+
+		}else if (getShopName.equals("") || getShopName.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Shop Name is required.");
+
+		}else if (answer.equals("") || answer.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Address is required.");
+
+		}else if (getEmailId.equals("") || getEmailId.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Email Id is required.");
+
+		}else if (getMobileNumber.equals("") || getMobileNumber.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Mobile No is required.");
+
+		}else if (getPassword.equals("") || getPassword.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Password is required.");
+
+		}else if (getConfirmPassword.equals("")|| getConfirmPassword.length() == 0) {
+
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Confirm Password is required.");
+
+
+		}
 				// Check if email id valid or not
 			else if (!m.find())
 				new CustomToast().Show_Toast(getActivity(), view,

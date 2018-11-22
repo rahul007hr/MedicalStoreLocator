@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -32,10 +33,14 @@ public class SingleTouchImageViewFragment extends Fragment {
 
 //		spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
 		setProgressBar(pb);
+		if(!value.equalsIgnoreCase("")){
+			Picasso.with(getContext())
+					.load(value) //extract as User instance method
+					.into(image);
+		}else{
+			Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+		}
 
-		Picasso.with(getContext())
-				.load(value) //extract as User instance method
-				.into(image);
 		/*RequestOptions options = new RequestOptions()
 				.centerCrop()
 				.placeholder(R.drawable.profile_pic)

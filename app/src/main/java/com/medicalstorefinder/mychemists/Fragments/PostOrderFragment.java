@@ -256,10 +256,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.addLocationBtn:
+                boolean result= Utility.checkPermissionLocation(getContext());
+//                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getContext(), getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
 
-                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getContext(), getString(R.string.need_location_permission_message), Toast.LENGTH_LONG).show();
+                if(!result){
+
+
                     return;
                 }
                 try {
@@ -606,7 +610,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
             new CustomToast().Show_Toast(getActivity(), view,
                     "Description is required.");
-        }else if (getAddress.equals("") || getAddress.length() == 0){
+        }else if (answer.equals("") || answer.length() == 0){
 
             new CustomToast().Show_Toast(getActivity(), view,
                     "Address is required.");

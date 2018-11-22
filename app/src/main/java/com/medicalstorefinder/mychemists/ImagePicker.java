@@ -44,10 +44,10 @@ public class ImagePicker {
         pickIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && context != null) {
-            Uri uri = FileProvider.getUriForFile(context,  "com.zoftino.android.fileprovider", getTempFile(context));
+            Uri uri = FileProvider.getUriForFile(context,  "com.zoftino.android.fileproviders", getTempFile(context));
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         } else {
-            Uri uri = FileProvider.getUriForFile(context,  "com.zoftino.android.fileprovider", getTempFile(context));
+            Uri uri = FileProvider.getUriForFile(context,  "com.zoftino.android.fileproviders", getTempFile(context));
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         }
 //        intentList = addIntentsToList(context, intentList, pickIntent);

@@ -296,7 +296,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -309,8 +309,15 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }else{
-                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
+                }*/else{
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.drawable.profile_pic)
+//                            .error(R.drawable.ic_pic_error)
+                            .priority(Priority.HIGH);
+
+                    new GlideImageLoader(holder.imageViews,
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+"no_avatar.jpg",options);
                 }
 
 //                tr.setStatus("Success");
