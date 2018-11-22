@@ -1,10 +1,14 @@
 package com.medicalstorefinder.mychemists.Fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +51,12 @@ public class AboutUsFragment extends Fragment  {
         companyName.setMovementMethod(LinkMovementMethod.getInstance());
 
         TextView policy = (TextView) v.findViewById(R.id.policy);
+        TextView aboutUsEmail = (TextView) v.findViewById(R.id.aboutUsEmail);
+
+       /* String text = "<a href='https://mychemist.net.in/app/policy.html'>Privacy Policy</a>";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            policy.setText(Html.fromHtml(text,Html.FROM_HTML_MODE_COMPACT));
+        }*/
         policy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +66,20 @@ public class AboutUsFragment extends Fragment  {
                 fragmentTransaction.replace(R.id.containerView, fragment2);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        aboutUsEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+
+                String[] recepient = {"mychemist247@gmail.com"};
+
+                Intent callIntent = new Intent(Intent.ACTION_SEND);
+                callIntent.setData(Uri.parse("mailto:"));
+                callIntent.setType("message/rfc822");
+                callIntent.putExtra(Intent.EXTRA_EMAIL,recepient);
+                startActivity(Intent.createChooser(callIntent,"Choose Application To Send Email"));
             }
         });
 

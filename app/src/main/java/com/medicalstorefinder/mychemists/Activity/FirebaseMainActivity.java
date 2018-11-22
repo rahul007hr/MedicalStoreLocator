@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -31,6 +33,7 @@ import com.medicalstorefinder.mychemists.Constants.Utilities;
 import com.medicalstorefinder.mychemists.GlideImageLoader;
 import com.medicalstorefinder.mychemists.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.mychemists.R;
+import com.medicalstorefinder.mychemists.SingleTouchImageViewFragment;
 
 import org.json.JSONObject;
 
@@ -159,7 +162,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -172,7 +175,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     new GlideImageLoader(holder.imageViews,
                             holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }*/else{
+                }else{
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
@@ -189,7 +192,7 @@ public class FirebaseMainActivity extends AppCompatActivity {
                 switch (tr.getStatus()) {
                     case "Pending":
                         holder.vtxtStatus.setText("PENDING");
-                        holder.vtxtStatus.setTextColor(getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
+                        holder.vtxtStatus.setTextColor(getApplicationContext().getResources().getColor(R.color.primary_dark));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
@@ -233,6 +236,25 @@ public class FirebaseMainActivity extends AppCompatActivity {
                 spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
                 setProgressBar(spinner);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
+
+                imageViews.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
+
+//                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
+                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                        Bundle args1 = new Bundle();
+                        args1.putString("position1", String.valueOf(tr.getImagepath()));
+
+                        ldf1.setArguments(args1);
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
+                        xfragmentTransaction.replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                    }
+                });
 
 
                 view.setOnClickListener(new View.OnClickListener() {

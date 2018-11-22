@@ -635,7 +635,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -648,7 +648,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 new GlideImageLoader(holder.imageViews,
                         holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-            }*/else{
+            }else{
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
@@ -665,7 +665,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 switch (tr.getStatus()) {
                     case "Pending":
                         holder.vtxtStatus.setText("PENDING");
-                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
+                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.primary_dark));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
@@ -678,7 +678,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                     case "Canceled":
                         holder.vtxtStatus.setText("CANCELED");
-                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
+                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
@@ -686,7 +686,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                     case "Hold":
                         holder.vtxtStatus.setText("ON HOLD");
-                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
+                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.primary_dark));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
@@ -786,11 +786,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         if(strtext.equalsIgnoreCase("Pending Delivery")){
                             alertDialogBuilder.setMessage(
-                                    Html.fromHtml(getString(R.string.description)) + tr.getOrderid() +
+                                    Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
                                             "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
                                             "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
                                             "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() +
-                                            "\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() +
+                                            "\n\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() +"\n"+
 
 //                                        "\n\nStatus : " + tr.getOrderstatus());
                                             "\n"+Html.fromHtml(getString(R.string.download)) );

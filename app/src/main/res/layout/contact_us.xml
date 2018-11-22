@@ -160,7 +160,7 @@
                                 android:clickable="true"
                                 android:padding="5dp"
                                 android:layout_weight="0.1"
-                                android:textColor="@color/black"
+                                android:textColor="@color/accent"
                                 android:textSize="18dp" />
 
 

@@ -19,7 +19,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
             android:background="@drawable/banner"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/primary_dark"
             >
 
             <LinearLayout

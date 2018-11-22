@@ -16,7 +16,7 @@
     <a href="mailto:mychemist247@gmail.com">mychemist247@gmail.com</a>
     </string>
     <string name="create_new_account"><u>Create New Account</u></string>
-    <string name="contact">Support : www.ridsinfocom.com \n Email : mychemist247@gmail.com</string>
+    <string name="contact">Support : www.ridsinfocom.com \n Email : mychemist247@gmail.com \n Mobile No : +919969707707</string>
 
 
     <string name="html_contact_us">
@@ -46,7 +46,7 @@
     </string>
     <string name="description">
      <![CDATA[
- <b>Description : </b>
+ <b>Customer Description : </b>
     ]]>
     </string>
     <string name="address">
@@ -81,7 +81,7 @@
     </string>
     <string name="download">
      <![CDATA[
- <b>Download Prescription : </b>
+ <b>Download Prescription</b>
     ]]>
     </string>
     <string name="distances">
@@ -111,7 +111,7 @@
     </string>
     <string name="transactions">
      <![CDATA[
- <b>Transaction Details : </b>
+ <b>Transaction Details</b>
     ]]>
     </string>
 </resources>

@@ -276,7 +276,7 @@ public class AllNotificationsFragment extends Fragment {
                             holder.getProgressBar()).load(tr.getImagepath(),options);
 
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -289,7 +289,7 @@ public class AllNotificationsFragment extends Fragment {
                     new GlideImageLoader(holder.imageViews,
                             holder.getProgressBar()).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }*/else{
+                }else{
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
@@ -487,7 +487,7 @@ public class AllNotificationsFragment extends Fragment {
                                 "\n"+Html.fromHtml(getString(R.string.medicalcost)) + medicalCost +
                                 "\n"+Html.fromHtml(getString(R.string.medicaldescription)) +medicalDescription );
 
-                        if(strNotification.contains("received") && (medicalCost==null || medicalCost.equalsIgnoreCase("null")
+                       /* if(strNotification.contains("received") && (medicalCost==null || medicalCost.equalsIgnoreCase("null")
                                             || medicalCost.equalsIgnoreCase("") || medicalCost.equalsIgnoreCase("-"))){
 
 
@@ -502,9 +502,9 @@ public class AllNotificationsFragment extends Fragment {
 
                         }else if(strNotification.contains("response") && (medicalCost!=null && !medicalCost.equalsIgnoreCase("null")
                                 && !medicalCost.equalsIgnoreCase("") && !medicalCost.equalsIgnoreCase("-"))){
-                       /* if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
+                       *//* if (sharedPreference.getValue( getActivity(), Constants.PREF_USER_ROLE, Constants.PREF_USER_ROLE ).equalsIgnoreCase("customer")){
 
-                        }else{*/
+                        }else{*//*
                             alertDialogBuilder.setPositiveButton("Accept",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -516,7 +516,7 @@ public class AllNotificationsFragment extends Fragment {
                                             }
                                         }
                                     });
-                            }
+                            }*/
 //                        }
 
                         alertDialogBuilder.show();

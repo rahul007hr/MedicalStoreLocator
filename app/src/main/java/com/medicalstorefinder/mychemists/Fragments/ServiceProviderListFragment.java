@@ -349,7 +349,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -362,7 +362,7 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }*/else{
+                }else{
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
@@ -457,11 +457,11 @@ public class ServiceProviderListFragment extends Fragment implements View.OnClic
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
                                 Html.fromHtml(getString(R.string.emailids)) + tr.getEmailId() +
-                                        "\n"+ Html.fromHtml(getString(R.string.mobileno)) + tr.getCustomerNo() +
+                                        "\n\n"+ Html.fromHtml(getString(R.string.mobileno)) + tr.getCustomerNo()  +"\n"+
                                         "\n"+ Html.fromHtml(getString(R.string.deliverydate)) + tr.getDeliveryDate() +
                                         "\n"+ Html.fromHtml(getString(R.string.servicetype)) + tr.getServiceTypeName() +
-                                        "\n"+ Html.fromHtml(getString(R.string.locations)) + tr.getLocation() +
-                                        "\n"+Html.fromHtml(getString(R.string.status)) + lStatus);
+                                        "\n"+ Html.fromHtml(getString(R.string.locations)) + tr.getLocation());
+//                                        "\n"+Html.fromHtml(getString(R.string.status)) + lStatus);
 
 
 

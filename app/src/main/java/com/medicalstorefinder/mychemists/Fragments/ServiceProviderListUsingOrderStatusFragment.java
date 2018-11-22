@@ -296,7 +296,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -309,7 +309,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }*/else{
+                }else{
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
@@ -394,9 +394,9 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                                 Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
                                         "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
                                         "\n"+Html.fromHtml(getString(R.string.address)) + tr.getAddress() +
-                                        "\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() +
-                                        "\n"+Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime() +
-                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus());
+                                        "\n\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile()  +"\n"+
+                                        "\n"+Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime());
+//                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus());
                         final String imagePath = tr.getImagepath();
                         final String descriptionss = tr.getDescription();
 

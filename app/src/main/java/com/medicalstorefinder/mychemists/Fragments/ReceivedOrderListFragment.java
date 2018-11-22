@@ -333,7 +333,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(tr.getImagepath(),options);
 
-                }/*else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
+                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
 //                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
 //                    holder.imageViews.setImageResource(android.R.color.transparent);
 
@@ -346,7 +346,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                     new GlideImageLoader(holder.imageViews,
                             holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
 
-                }*/else{
+                }else{
 //                    Glide.with(context).load(R.drawable.profile_pic).into(holder.imageViews);
 
                     RequestOptions options = new RequestOptions()
@@ -363,7 +363,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                 switch (tr.getStatus()) {
                     case "Pending":
                         holder.vtxtStatus.setText("PENDING");
-                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
+                        holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.primary_dark));
 //                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
@@ -454,7 +454,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                 Html.fromHtml(getString(R.string.orderid)) + tr.getOrderMainId() +
                                         "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
                                         "\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM" +
-                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus()+
+//                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus()+
                                         "\n"+Html.fromHtml(getString(R.string.download)) );
 
                         LinearLayout lv = new LinearLayout(getActivity());
