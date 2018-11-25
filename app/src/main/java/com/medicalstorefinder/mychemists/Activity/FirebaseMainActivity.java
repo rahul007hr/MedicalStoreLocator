@@ -3,16 +3,23 @@ package com.medicalstorefinder.mychemists.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +27,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -30,6 +39,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.mychemists.Constants.Constants;
 import com.medicalstorefinder.mychemists.Constants.SharedPreference;
 import com.medicalstorefinder.mychemists.Constants.Utilities;
+import com.medicalstorefinder.mychemists.Constants.Utility;
+import com.medicalstorefinder.mychemists.Fragments.AllNotificationsFragment;
+import com.medicalstorefinder.mychemists.Fragments.ChooseOrderTypeFragment;
+import com.medicalstorefinder.mychemists.Fragments.ReceivedOrderListFragment;
 import com.medicalstorefinder.mychemists.GlideImageLoader;
 import com.medicalstorefinder.mychemists.Models.ServiceProviderDetailsModel;
 import com.medicalstorefinder.mychemists.R;
@@ -37,6 +50,8 @@ import com.medicalstorefinder.mychemists.SingleTouchImageViewFragment;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,12 +74,37 @@ public class FirebaseMainActivity extends AppCompatActivity {
     String orderId,customerId,medicalId;
     String strNotification;
     SharedPreference sharedPreference = new SharedPreference();
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase_main);
         initControls();
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setTitle(getString(R.string.app_name));
+            mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    /*AllNotificationsFragment ldf1 = new AllNotificationsFragment();
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, ldf1).commit();*/
+
+
+
+                    finish();
+                }
+            });
+//        }
+
+
+
         setNotificationData(getIntent().getExtras());
 
         progressDialog = new ProgressDialog(this);
@@ -81,6 +121,11 @@ public class FirebaseMainActivity extends AppCompatActivity {
     private void initControls() {
         tvNotificationDetails = (TextView) findViewById(R.id.tvNotificationDetails);
         recyclerView = (RecyclerView) findViewById(R.id.rep_recyclerView);
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        }
+
     }
     private void setNotificationData(Bundle extras) {
         if (extras == null)
@@ -245,14 +290,20 @@ public class FirebaseMainActivity extends AppCompatActivity {
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
 //                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
-                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
-                        Bundle args1 = new Bundle();
-                        args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        ldf1.setArguments(args1);
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-                        xfragmentTransaction.replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                            Bundle args1 = new Bundle();
+                            args1.putString("position1", String.valueOf(tr.getImagepath()));
+
+                            ldf1.setArguments(args1);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
+                            xfragmentTransaction.replace(R.id.containerView1, ldf1).commit();
+                        }else{
+                            Toast.makeText( getBaseContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -262,7 +313,41 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
+                        String addrs="";
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            addrs="\n"+Html.fromHtml(getString(R.string.download));
+                        }else{
+                            addrs="";
+                        }
 
+                        String dstnc="";
+                        if(tr.getKm()!=null && !tr.getKm().equalsIgnoreCase("") && !tr.getKm().equalsIgnoreCase("null")) {
+                            dstnc="\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM";
+                        }else{
+                            dstnc="";
+                        }
+
+                        String mdclcst="";
+                        if(tr.getMedicalCost()!=null && !tr.getMedicalCost().equalsIgnoreCase("") && !tr.getMedicalCost().equalsIgnoreCase("null")&& !tr.getMedicalCost().equalsIgnoreCase("-")) {
+                            mdclcst="\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() ;
+                        }else{
+                            mdclcst="";
+                        }
+
+                        String mdclrply="";
+                        if(tr.getMedicalReply()!=null && !tr.getMedicalReply().equalsIgnoreCase("") && !tr.getMedicalReply().equalsIgnoreCase("null")&& !tr.getMedicalReply().equalsIgnoreCase("-")) {
+                            mdclrply="\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() ;
+                        }else{
+                            mdclrply="";
+                        }
+
+                        String cstmrDescription="";
+                        if(tr.getDescription()!=null && !tr.getDescription().equalsIgnoreCase("") && !tr.getDescription().equalsIgnoreCase("null")&& !tr.getDescription().equalsIgnoreCase("-")) {
+                            cstmrDescription="\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() ;
+                        }else{
+                            cstmrDescription="";
+                        }
                         String lStatus = "Pending";
 
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
@@ -270,12 +355,12 @@ public class FirebaseMainActivity extends AppCompatActivity {
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(FirebaseMainActivity.this,R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
-                                        "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
-                                        "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
-                                        "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply());
-
-
+                        Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
+                                cstmrDescription+
+                                mdclcst +
+                                mdclrply +
+                                dstnc +
+                                addrs );
 
 
 
@@ -285,10 +370,10 @@ public class FirebaseMainActivity extends AppCompatActivity {
                                 !tr.getDescription().equalsIgnoreCase("null"))?tr.getDescription():"-";
 
                         String medicalCost = (tr.getMedicalCost()!=null &&
-                                !tr.getMedicalCost().equalsIgnoreCase("null"))?tr.getMedicalCost():"-";
+                                !tr.getMedicalCost().equalsIgnoreCase("null") && !tr.getMedicalCost().equalsIgnoreCase(""))?tr.getMedicalCost():"-";
 
                         String medicalDescription = (tr.getMedicalReply()!=null &&
-                                !tr.getMedicalReply().equalsIgnoreCase("null"))?tr.getMedicalReply():"-";
+                                !tr.getMedicalReply().equalsIgnoreCase("null") && !tr.getMedicalReply().equalsIgnoreCase(""))?tr.getMedicalReply():"-";
 
 //                        final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getBaseContext(),R.style.AppCompatAlertDialogStyle );
 
@@ -331,6 +416,39 @@ public class FirebaseMainActivity extends AppCompatActivity {
                                     });
                         }
 //                        }
+
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            LinearLayout lv = new LinearLayout(getBaseContext());
+                            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            lv.setLayoutParams(vp);
+//                        lv.setPadding(0,-40,0,0);
+                            ImageView image = new ImageView(getBaseContext());
+//                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            image.setLayoutParams(vp);
+                            image.setMaxHeight(10);
+                            image.setMaxWidth(10);
+//                        image.setPadding(0,-30,0,0);
+                            // other image settings
+                            image.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                            lv.addView(image);
+
+                            alertDialogBuilder.setView(lv);
+
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    String[] s = {tr.getImagepath(), tr.getOrderid()};
+                                    if (tr.getImagepath() != null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")) {
+                                        boolean result = Utility.checkPermission(getBaseContext());
+                                        if (result)
+                                            new DownloadImage().execute(s);
+                                    } else {
+                                        Toast.makeText(getBaseContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
 
                         alertDialogBuilder.show();
 
@@ -406,6 +524,70 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
         }
     }
+    class DownloadImage extends AsyncTask<String, Void, File> {
+
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        @Override
+        protected File doInBackground(String... urls) {
+            Utilities utilities = new Utilities(getBaseContext());
+
+            String s1,s2;
+
+            s1=urls[0];
+            s2=urls[1];
+
+            return utilities.downloadImagesToSdCard(s1,s2);
+        }
+
+        protected void onPostExecute(File response) {
+            progressDialog.dismiss();
+            boolean result= Utility.checkPermission(getBaseContext());
+            if(response!=null && result==true)
+                viewimage(response);
+
+        }
+    }
+
+    public void viewimage(File fileName)
+    {
+//        String path = serialnumber+".png";
+        File mypath =null;
+        String selectedOutputPath = "";
+
+       /* File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");*/
+        // Create a storage directory if it does not exist
+
+        // Create a media file name
+        selectedOutputPath = fileName!=null ? fileName.getPath():"";
+        Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
+        mypath = new File(selectedOutputPath);
+
+
+        Bitmap b;
+        //            b = BitmapFactory.decodeStream(new FileInputStream(mypath));
+
+        /*Installation failed with message Failed to finalize session : INSTALL_FAILED_CONFLICTING_PROVIDER: Package couldn't be installed in /data/app/com.medicalstorefinder.mychemists-1: Can't install because provider name com.zoftino.android.fileprovider (in package com.medicalstorefinder.mychemists) is already used by com.medicalstorefinder.medicalstoreslocatorss.
+            It is possible that this issue is resolved by uninstalling an existing version of the apk if it is present, and then re-installing.
+
+            WARNING: Uninstalling will remove the application data!
+
+            Do you want to uninstall the existing application?*/
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Uri apkURI = FileProvider.getUriForFile(
+                getBaseContext(),
+                "com.zoftino.android.fileproviders", mypath);
+        intent.setDataAndType(apkURI, "image/");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
+
+//            _context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.valueOf(mypath))));
+    }
 
     class Notifications extends AsyncTask<String, Void, String> {
 
@@ -457,9 +639,9 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
 //                        Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
+//                        {"userid":"66","mainorderid":"ORD000061","cost":null,"medicalreply":null,"customerconfirm":"0","customeconfirmdatetime":"0000-00-00 00:00:00","medicalconfirm":"0","orderid":"61","latitude":"18.5889719","longitude":"73.8217155","description":"aaa","imagepath":"https:\/\/www.mychemist.net.in\/admin\/images\\\/65\/1540142957.jpg","address":"Dolly Enterprises,Sainath Nagar, Gokul Nagari, Pimple Gurav, Pimpri-Chinchwad, Maharashtra 411027, India","mobile":"9923651772","ordstatus":"Pending","created_at":"2018-11-25 13:05:13"}
 
-
-
+                        String userId = sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
 
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("result"));
 
@@ -471,8 +653,11 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
                             if (listDetails.size() > 0) {
                                 listDetails.clear();
                             }
@@ -483,6 +668,29 @@ public class FirebaseMainActivity extends AppCompatActivity {
                             serviceProviderDetails1.setOrderid(jsonObject.getString("mainorderid"));
                             serviceProviderDetails1.setDescription(jsonObject.getString("description").equalsIgnoreCase("null")?"":jsonObject.getString("description"));
                             serviceProviderDetails1.setCustomerId(jsonObject.getString("userid"));
+
+
+                        /*String km =(jsonObject.getString("km"));
+                        if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                            km="0.00";
+                        }
+                        if (km.toLowerCase().contains("-")) {
+
+                            String[] kmList = km.split(",");
+
+                            for (int k = 0; k < kmList.length; k++) {
+
+                                if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                    String[] kms = kmList[k].split("-");
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                }
+                            }
+                        }else{
+                            DecimalFormat roundup = new DecimalFormat("#.##");
+                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                        }*/
+
 
 //...............................
                         String medical = "";
@@ -579,6 +787,11 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
+                        Intent myIntent = new Intent(getBaseContext(), UserActivity.class);
+                        startActivity(myIntent);
+                        finish();
+
+
                     }
                 }
 
@@ -636,16 +849,9 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("result"), Toast.LENGTH_LONG).show();
 
-//                        String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
-//
-//                        if(listOfOrderIds.equalsIgnoreCase("")) {
-//                            listOfOrderIds = serviceProviderDetails.getOrderid();
-//                        }else{
-//                            listOfOrderIds += ","+serviceProviderDetails.getOrderid();
-//                        }
-//                        sharedPreference.putValue(getActivity(), Constants.PREF_SERVICE_PROVIDER_IDS, Constants.PREF_KEY_ORDER_ID_LIST,listOfOrderIds);
-//
-//                        new RetrieveFeedTask1().execute();
+                        Intent myIntent = new Intent(getBaseContext(), UserActivity.class);
+                        startActivity(myIntent);
+                        finish();
                     }
                 }
 
@@ -702,6 +908,9 @@ public class FirebaseMainActivity extends AppCompatActivity {
                     else if(jsonObject2.getString("status").equalsIgnoreCase("success")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("status"), Toast.LENGTH_LONG).show();
 
+                        Intent myIntent = new Intent(getBaseContext(), CustomerActivity.class);
+                        startActivity(myIntent);
+                        finish();
 //                        new RetrieveFeedTask1().execute();
                     }
                 }

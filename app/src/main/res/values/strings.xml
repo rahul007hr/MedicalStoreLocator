@@ -12,12 +12,15 @@
     <a href="www.ridsinfocom.com">www.ridsinfocom.com</a>
     </string>
 
-    <string name="email1">
-    <a href="mailto:mychemist247@gmail.com">mychemist247@gmail.com</a>
+    <string name="policy">
+    <a href="https://mychemist.net.in/app/policy.html">Privacy Policy</a>
     </string>
     <string name="create_new_account"><u>Create New Account</u></string>
     <string name="contact">Support : www.ridsinfocom.com \n Email : mychemist247@gmail.com \n Mobile No : +919969707707</string>
 
+    <string name="email1">
+    <a href="mailto:mychemist247@gmail.com">mychemist247@gmail.com</a>
+    </string>
 
     <string name="html_contact_us">
               <![CDATA[
@@ -114,4 +117,6 @@
  <b>Transaction Details</b>
     ]]>
     </string>
+
+    <string name="btn_back"><![CDATA[<< Back]]></string>
 </resources>

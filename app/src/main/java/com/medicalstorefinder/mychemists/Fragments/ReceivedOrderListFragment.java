@@ -200,8 +200,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         String listOfOrderIds = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID_LIST);
 
@@ -220,7 +223,9 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
 
                             String km =(jsonObject.getString("km"));
-
+                            if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                km="0.00";
+                            }
                             if (km.toLowerCase().contains("-")) {
 
                                 String[] kmList = km.split(",");
@@ -415,13 +420,19 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
 //                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
-                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
-                        Bundle args1 = new Bundle();
-                        args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        ldf1.setArguments(args1);
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                            Bundle args1 = new Bundle();
+                            args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                            ldf1.setArguments(args1);
+
+                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1, "C").addToBackStack(null).commit();
+                        }else{
+                            Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -445,49 +456,97 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                 break;
 
                         }
+                        String addrs="";
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            addrs="\n"+Html.fromHtml(getString(R.string.download));
+                        }else{
+                            addrs="";
+                        }
 
+                        String dstnc="";
+                        if(tr.getKm()!=null && !tr.getKm().equalsIgnoreCase("") && !tr.getKm().equalsIgnoreCase("null")) {
+                            dstnc="\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM";
+                        }else{
+                            dstnc="";
+                        }
+
+                        String mdclcst="";
+                        if(tr.getMedicalCost()!=null && !tr.getMedicalCost().equalsIgnoreCase("") && !tr.getMedicalCost().equalsIgnoreCase("null")&& !tr.getMedicalCost().equalsIgnoreCase("-")) {
+                            mdclcst="\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() ;
+                        }else{
+                            mdclcst="";
+                        }
+
+                        String mdclrply="";
+                        if(tr.getMedicalReply()!=null && !tr.getMedicalReply().equalsIgnoreCase("") && !tr.getMedicalReply().equalsIgnoreCase("null")&& !tr.getMedicalReply().equalsIgnoreCase("-")) {
+                            mdclrply="\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() ;
+                        }else{
+                            mdclrply="";
+                        }
+
+                        String cstmrDescription="";
+                        if(tr.getDescription()!=null && !tr.getDescription().equalsIgnoreCase("") && !tr.getDescription().equalsIgnoreCase("null")&& !tr.getDescription().equalsIgnoreCase("-")) {
+                            cstmrDescription="\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() ;
+                        }else{
+                            cstmrDescription="";
+                        }
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                Html.fromHtml(getString(R.string.orderid)) + tr.getOrderMainId() +
+                              /*  Html.fromHtml(getString(R.string.orderid)) + tr.getOrderMainId() +
                                         "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
                                         "\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM" +
 //                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus()+
-                                        "\n"+Html.fromHtml(getString(R.string.download)) );
+                                        "\n"+Html.fromHtml(getString(R.string.download)) );*/
 
-                        LinearLayout lv = new LinearLayout(getActivity());
-                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-                        lv.setLayoutParams(vp);
+
+
+                        Html.fromHtml(getString(R.string.orderid)) + tr.getOrderMainId() +
+                                cstmrDescription+
+                                mdclcst +//"null"
+                                mdclrply +//null
+                                dstnc +
+                                addrs );// address ok
+
+
+
+
+
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            LinearLayout lv = new LinearLayout(getActivity());
+                            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            lv.setLayoutParams(vp);
 //                        lv.setPadding(0,-40,0,0);
-                        ImageView image = new ImageView(getActivity());
+                            ImageView image = new ImageView(getActivity());
 //                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-                        image.setLayoutParams(vp);
-                        image.setMaxHeight(10);
-                        image.setMaxWidth(10);
+                            image.setLayoutParams(vp);
+                            image.setMaxHeight(10);
+                            image.setMaxWidth(10);
 //                        image.setPadding(0,-30,0,0);
-                        // other image settings
-                        image.setImageDrawable(getResources().getDrawable(R.drawable.down));
-                        lv.addView(image);
+                            // other image settings
+                            image.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                            lv.addView(image);
 
-                        alertDialogBuilder.setView(lv);
+                            alertDialogBuilder.setView(lv);
 
-                        image.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                String[] s = {tr.getImagepath(),tr.getOrderid()};
-                                if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")){
-                                    boolean result= Utility.checkPermission(getContext());
-                                    if(result)
-                                    new DownloadImage().execute(s);
-                                }else{
-                                    Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                    String[] s = {tr.getImagepath(), tr.getOrderid()};
+                                    if (tr.getImagepath() != null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")) {
+                                        boolean result = Utility.checkPermission(getContext());
+                                        if (result)
+                                            new DownloadImage().execute(s);
+                                    } else {
+                                        Toast.makeText(getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        });
-
+                            });
+                        }
                         if(lStatus.equalsIgnoreCase("Pending")){
 
                             alertDialogBuilder.setPositiveButton("Accept",

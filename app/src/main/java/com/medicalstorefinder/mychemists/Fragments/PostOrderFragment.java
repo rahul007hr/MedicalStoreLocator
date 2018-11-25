@@ -363,9 +363,10 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
+//                Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
                 onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA){
+            }else if (requestCode == REQUEST_CAMERA){
 
                 Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
 //                mProfileBase64 = Utils.convertBitmapToBase64(bitmap);
@@ -407,8 +408,18 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     private void galleryIntent() {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(i, SELECT_FILE);
+
+        /*Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(i,"Select Picture"),SELECT_FILE);*/
+
+       /* Intent i = ImagePicker.getPickImageIntent(getActivity());
+        startActivityForResult(i, SELECT_FILE);*/
+
+
     }
 
     private void cameraIntent() {

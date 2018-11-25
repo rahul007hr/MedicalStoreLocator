@@ -10,12 +10,12 @@
     tools:context="com.medicalstorefinder.mychemists.Activity.FirebaseMainActivity">
 
 
-    <android.support.design.widget.AppBarLayout
+  <!--  <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:id="@+id/appbar"
-        >
+        >-->
         <android.support.v7.widget.Toolbar
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -27,39 +27,45 @@
             android:id="@+id/toolbar"
             />
 
-    </android.support.design.widget.AppBarLayout>
+   <!-- </android.support.design.widget.AppBarLayout>-->
 
-
-    <LinearLayout
+    <FrameLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:id="@+id/containerView1">
+    </FrameLayout>
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
 
-        >
+        >-->
 
         <TextView
             android:id="@+id/tvNotificationDetails"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@android:color/transparent"
-            android:text=" "
-            />
+            android:layout_below="@+id/toolbar"
+            android:text=""
+            android:textSize="17dp"
+            android:textStyle="bold" />
 
 
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rep_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/appbar"
+        android:layout_below="@+id/tvNotificationDetails"
         android:layout_marginBottom="9dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginRight="5dp">
 
     </android.support.v7.widget.RecyclerView>
 

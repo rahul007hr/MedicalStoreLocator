@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class ForgotPassword_Fragment extends Fragment implements OnClickListener
 
 	private static View view;
 	private static EditText emailId;
-	private static TextView submit, back;
+	private static Button submit, back;
 	String getEmailId;
 
 	public ForgotPassword_Fragment() {
@@ -46,8 +47,8 @@ public class ForgotPassword_Fragment extends Fragment implements OnClickListener
 
 	private void initViews() {
 		emailId = (EditText) view.findViewById(R.id.registered_mobile_no);
-		submit = (TextView) view.findViewById(R.id.forgot_button);
-		back = (TextView) view.findViewById(R.id.backToLoginBtn);
+		submit = (Button) view.findViewById(R.id.forgot_button);
+		back = (Button) view.findViewById(R.id.backToLoginBtn);
 
 	}
 

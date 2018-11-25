@@ -93,11 +93,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/aboutUsEmail"
-                android:text="mychemist247@gmail.com"
+                android:text="@string/email1"
                 android:layout_marginTop="5dp"
                 android:textSize="10dp"
                 android:clickable="true"
-                android:textColor="@color/black"
+                android:textColor="@color/colorAccent"
                 android:textAlignment="center"
                 android:layout_marginLeft="5dp"
                 android:layout_margin="5dp"/>
@@ -128,7 +128,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Privacy Policy"
+                        android:text="@string/policy"
                         android:id="@+id/policy"
                         android:layout_marginTop="5dp"
                         android:textSize="10dp"

@@ -4,13 +4,18 @@ package com.medicalstorefinder.mychemists.Fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.medicalstorefinder.mychemists.Constants.Utility;
 import com.medicalstorefinder.mychemists.SingleTouchImageViewFragment;
 import com.medicalstorefinder.mychemists.Activity.CustomerActivity;
 import com.medicalstorefinder.mychemists.Constants.Constants;
@@ -38,6 +45,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,7 +120,7 @@ public class AllNotificationsFragment extends Fragment {
     class RetrieveFeedTask1 extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
-            progressDialog.show();
+           /* progressDialog.show();*/
         }
 
         @Override
@@ -148,7 +157,7 @@ public class AllNotificationsFragment extends Fragment {
                     if (listDetails.size() > 0) {
                         listDetails.clear();
                     }
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
 
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
@@ -170,14 +179,37 @@ public class AllNotificationsFragment extends Fragment {
 
                             Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                            String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                            Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                            SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                            String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                            parsedDate=parsedDate.toUpperCase();
 
+                            ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+                           /* String km =(jsonObject.getString("km"));
+                            if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                km="0.00";
+                            }
+                            if (km.toLowerCase().contains("-")) {
 
+                                String[] kmList = km.split(",");
+
+                                for (int k = 0; k < kmList.length; k++) {
+
+                                    if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                        String[] kms = kmList[k].split("-");
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                    }
+                                }
+                            }else{
+                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                            }*/
 
 
 //                            {"notificationtitle":"My Chemist","notification":"You have received new order (ORD000092)","notifytime":"2018-09-15 18:36:03","imagepath":"http:\/\/www.allegoryweb.com\/emedical\/images\/27\/IMG_20171111_144622.jpg","description":"h"}
-                                    ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+
                                     serviceProviderDetails1.setNotification(jsonObject.getString("notification"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
                                     serviceProviderDetails1.setImagepath(jsonObject.getString("imagepath"));
@@ -213,7 +245,7 @@ public class AllNotificationsFragment extends Fragment {
                 Toast.makeText( getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
             }
             finally {
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
             }
         }
     }
@@ -342,13 +374,18 @@ public class AllNotificationsFragment extends Fragment {
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
 //                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
-                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
-                        Bundle args1 = new Bundle();
-                        args1.putString("position1", String.valueOf(tr.getImagepath()));
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                            Bundle args1 = new Bundle();
+                            args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        ldf1.setArguments(args1);
+                            ldf1.setArguments(args1);
 
-                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1, "C").addToBackStack(null).commit();
+                        }else{
+                            Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -414,7 +451,7 @@ public class AllNotificationsFragment extends Fragment {
 
         protected void onPostExecute(String response) {
             try {
-
+                String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                 JSONObject jsonObject1 = new JSONObject(response);
                 JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
 
@@ -440,7 +477,30 @@ public class AllNotificationsFragment extends Fragment {
                             listDetails.clear();
                         }*/
 
-                        ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+                        final ServiceProviderDetailsModel serviceProviderDetails1 = new ServiceProviderDetailsModel();
+
+
+                       /* String km =(jsonObject.getString("km"));
+                        if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                            km="0.00";
+                        }
+                        if (km.toLowerCase().contains("-")) {
+
+                            String[] kmList = km.split(",");
+
+                            for (int k = 0; k < kmList.length; k++) {
+
+                                if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                    String[] kms = kmList[k].split("-");
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                }
+                            }
+                        }else{
+                            DecimalFormat roundup = new DecimalFormat("#.##");
+                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                        }*/
+
 
                         serviceProviderDetails1.setMedicalReply(jsonObject.getString("medicalreply"));
                         serviceProviderDetails1.setOrderid(jsonObject.getString("mainorderid"));
@@ -469,23 +529,63 @@ public class AllNotificationsFragment extends Fragment {
 //                        serviceProviderDetails1.setAddress(jsonObject.getString("address"));
 
                         String description = (serviceProviderDetails1.getDescription()!=null &&
-                                !serviceProviderDetails1.getDescription().equalsIgnoreCase("null"))?serviceProviderDetails1.getDescription():"-";
+                                !serviceProviderDetails1.getDescription().equalsIgnoreCase("null") && !serviceProviderDetails1.getDescription().equalsIgnoreCase(""))?serviceProviderDetails1.getDescription():"-";
 
                         String medicalCost = (serviceProviderDetails1.getMedicalCost()!=null &&
-                                !serviceProviderDetails1.getMedicalCost().equalsIgnoreCase("null"))?serviceProviderDetails1.getMedicalCost():"-";
+                                !serviceProviderDetails1.getMedicalCost().equalsIgnoreCase("null") && !serviceProviderDetails1.getMedicalCost().equalsIgnoreCase(""))?serviceProviderDetails1.getMedicalCost():"-";
 
                         String medicalDescription = (serviceProviderDetails1.getMedicalReply()!=null &&
-                                !serviceProviderDetails1.getMedicalReply().equalsIgnoreCase("null"))?serviceProviderDetails1.getMedicalReply():"-";
+                                !serviceProviderDetails1.getMedicalReply().equalsIgnoreCase("null") && !serviceProviderDetails1.getMedicalReply().equalsIgnoreCase(""))?serviceProviderDetails1.getMedicalReply():"-";
+
+                        String addrs="";
+                        if(serviceProviderDetails1.getImagepath()!=null && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("") && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("null")&& !serviceProviderDetails1.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            addrs="\n"+Html.fromHtml(getString(R.string.download));
+                        }else{
+                            addrs="";
+                        }
+
+                        String dstnc="";
+                        if(serviceProviderDetails1.getKm()!=null && !serviceProviderDetails1.getKm().equalsIgnoreCase("") && !serviceProviderDetails1.getKm().equalsIgnoreCase("null")) {
+                            dstnc="\n"+Html.fromHtml(getString(R.string.distances)) + serviceProviderDetails1.getKm() + " KM";
+                        }else{
+                            dstnc="";
+                        }
+
+                        String mdclcst="";
+                        if(medicalCost!=null && !medicalCost.equalsIgnoreCase("") && !medicalCost.equalsIgnoreCase("null")&& !medicalCost.equalsIgnoreCase("-")) {
+                            mdclcst="\n"+Html.fromHtml(getString(R.string.medicalcost)) + medicalCost ;
+                        }else{
+                            mdclcst="";
+                        }
+
+                        String mdclrply="";
+                        if(medicalDescription!=null && !medicalDescription.equalsIgnoreCase("") && !medicalDescription.equalsIgnoreCase("null")&& !medicalDescription.equalsIgnoreCase("-")) {
+                            mdclrply="\n"+Html.fromHtml(getString(R.string.medicaldescription)) + medicalDescription ;
+                        }else{
+                            mdclrply="";
+                        }
+
+                        String cstmrDescription="";
+                        if(description!=null && !description.equalsIgnoreCase("") && !description.equalsIgnoreCase("null")&& !description.equalsIgnoreCase("-")) {
+                            cstmrDescription="\n"+Html.fromHtml(getString(R.string.description)) + description ;
+                        }else{
+                            cstmrDescription="";
+                        }
+
+
+
 
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder2 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
-                                Html.fromHtml(getString(R.string.orderid))+ serviceProviderDetails1.getOrderid() +
-                                "\n"+Html.fromHtml(getString(R.string.description)) + description+
-                                "\n"+Html.fromHtml(getString(R.string.medicalcost)) + medicalCost +
-                                "\n"+Html.fromHtml(getString(R.string.medicaldescription)) +medicalDescription );
+                        Html.fromHtml(getString(R.string.orderid)) + serviceProviderDetails1.getOrderid() +
+                                cstmrDescription+
+                                mdclcst+//"-"
+                                mdclrply +//"-"
+                                dstnc +
+                                addrs );
 
                        /* if(strNotification.contains("received") && (medicalCost==null || medicalCost.equalsIgnoreCase("null")
                                             || medicalCost.equalsIgnoreCase("") || medicalCost.equalsIgnoreCase("-"))){
@@ -519,6 +619,38 @@ public class AllNotificationsFragment extends Fragment {
                             }*/
 //                        }
 
+                        if(serviceProviderDetails1.getImagepath()!=null && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("") && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("null")&& !serviceProviderDetails1.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            LinearLayout lv = new LinearLayout(getActivity());
+                            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            lv.setLayoutParams(vp);
+//                        lv.setPadding(0,-40,0,0);
+                            ImageView image = new ImageView(getActivity());
+//                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            image.setLayoutParams(vp);
+                            image.setMaxHeight(10);
+                            image.setMaxWidth(10);
+//                        image.setPadding(0,-30,0,0);
+                            // other image settings
+                            image.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                            lv.addView(image);
+
+                            alertDialogBuilder.setView(lv);
+
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    String[] s = {serviceProviderDetails1.getImagepath(), serviceProviderDetails1.getOrderid()};
+                                    if (serviceProviderDetails1.getImagepath() != null && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("") && !serviceProviderDetails1.getImagepath().equalsIgnoreCase("null")) {
+                                        boolean result = Utility.checkPermission(getContext());
+                                        if (result)
+                                            new DownloadImage().execute(s);
+                                    } else {
+                                        Toast.makeText(getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
                         alertDialogBuilder.show();
 
                     if(strNotification.contains("received")){
@@ -579,6 +711,72 @@ public class AllNotificationsFragment extends Fragment {
 //                progressDialog.dismiss();
             }
         }
+    }
+
+    class DownloadImage extends AsyncTask<String, Void, File> {
+
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+        @Override
+        protected File doInBackground(String... urls) {
+            Utilities utilities = new Utilities(getContext());
+
+            String s1,s2;
+
+            s1=urls[0];
+            s2=urls[1];
+
+            return utilities.downloadImagesToSdCard(s1,s2);
+        }
+
+        protected void onPostExecute(File response) {
+            progressDialog.dismiss();
+            boolean result= Utility.checkPermission(getContext());
+            if(response!=null && result==true)
+                viewimage(response);
+
+        }
+    }
+
+
+    public void viewimage(File fileName)
+    {
+//        String path = serialnumber+".png";
+        File mypath =null;
+        String selectedOutputPath = "";
+
+       /* File mediaStorageDir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");*/
+        // Create a storage directory if it does not exist
+
+        // Create a media file name
+        selectedOutputPath = fileName!=null ? fileName.getPath():"";
+        Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
+        mypath = new File(selectedOutputPath);
+
+
+        Bitmap b;
+        //            b = BitmapFactory.decodeStream(new FileInputStream(mypath));
+
+        /*Installation failed with message Failed to finalize session : INSTALL_FAILED_CONFLICTING_PROVIDER: Package couldn't be installed in /data/app/com.medicalstorefinder.mychemists-1: Can't install because provider name com.zoftino.android.fileprovider (in package com.medicalstorefinder.mychemists) is already used by com.medicalstorefinder.medicalstoreslocatorss.
+            It is possible that this issue is resolved by uninstalling an existing version of the apk if it is present, and then re-installing.
+
+            WARNING: Uninstalling will remove the application data!
+
+            Do you want to uninstall the existing application?*/
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Uri apkURI = FileProvider.getUriForFile(
+                getContext(),
+                "com.zoftino.android.fileproviders", mypath);
+        intent.setDataAndType(apkURI, "image/");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
+
+//            _context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(String.valueOf(mypath))));
     }
 
 

@@ -195,8 +195,11 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         serviceProviderDetails.setOrderid(jsonObject.getString("orderid"));
                         serviceProviderDetails.setDescription(jsonObject.getString("description"));
@@ -397,6 +400,15 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                                         "\n\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile()  +"\n"+
                                         "\n"+Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime());
 //                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus());
+
+                       /* Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
+                                "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
+                                "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
+                                "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() +
+                                "\n\n"+Html.fromHtml(getString(R.string.distances)) + tr.getMobile() +"\n"+
+                                "\n"+Html.fromHtml(getString(R.string.download)) );*/
+
+
                         final String imagePath = tr.getImagepath();
                         final String descriptionss = tr.getDescription();
 

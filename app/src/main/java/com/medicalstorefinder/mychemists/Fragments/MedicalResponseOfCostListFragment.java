@@ -50,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -211,7 +212,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                        listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -232,8 +233,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
                         JSONObject jsonObjectMedicalids = null;
                         try {
                             JSONObject json = new JSONObject(jsonObject.getString("medicalids"));
@@ -269,6 +273,28 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 //                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
                                     serviceProviderDetails1.setStatus("Pending");
+
+                                    String km =(jsonObject.getString("km"));
+                                    if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                        km="0.00";
+                                    }
+                                    if (km.toLowerCase().contains("-")) {
+
+                                        String[] kmList = km.split(",");
+
+                                        for (int k = 0; k < kmList.length; k++) {
+
+//                                            if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                                String[] kms = kmList[k].split("-");
+                                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+//                                            }
+                                        }
+                                    }else{
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                    }
+
 
                                     serviceProviderDetails1.setMedicalId(jsonObjectMedicalids.getString("medicalid"));
                                     serviceProviderDetails1.setMedicalReply(jsonObjectMedicalids.getString("medicalreply"));
@@ -355,7 +381,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 //                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
                 } else {
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     if (listDetails.size() > 0) {
                         listDetails.clear();
                     }
@@ -381,8 +407,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         try {
 
@@ -406,6 +435,28 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                 serviceProviderDetails1.setAddress(lastWord);
+
+                                String km =(jsonObject.getString("km"));
+                                if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                    km="0.00";
+                                }
+                                if (km.toLowerCase().contains("-")) {
+
+                                    String[] kmList = km.split(",");
+
+                                    for (int k = 0; k < kmList.length; k++) {
+
+                                        if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                            String[] kms = kmList[k].split("-");
+                                            DecimalFormat roundup = new DecimalFormat("#.##");
+                                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                        }
+                                    }
+                                }else{
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                }
+
 
 //                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                 serviceProviderDetails1.setMobile(jsonObject.getString("mobile"));
@@ -494,7 +545,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -515,8 +566,12 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
 
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
+
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         try {
 
@@ -541,6 +596,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                 serviceProviderDetails1.setAddress(lastWord);
+
+
+                                String km =(jsonObject.getString("km"));
+                                if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                    km="0.00";
+                                }
+                                if (km.toLowerCase().contains("-")) {
+
+                                    String[] kmList = km.split(",");
+
+                                    for (int k = 0; k < kmList.length; k++) {
+
+                                        if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                            String[] kms = kmList[k].split("-");
+                                            DecimalFormat roundup = new DecimalFormat("#.##");
+                                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                        }
+                                    }
+                                }else{
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                }
+
 
 //                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                 serviceProviderDetails1.setMobile(jsonObject.getString("mobile"));
@@ -734,13 +812,19 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
 
 //                        Toast.makeText(getContext(),"hello",Toast.LENGTH_LONG).show();
-                        SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
-                        Bundle args1 = new Bundle();
-                        args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        ldf1.setArguments(args1);
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                            Bundle args1 = new Bundle();
+                            args1.putString("position1", String.valueOf(tr.getImagepath()));
 
-                        getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1,"C").addToBackStack(null).commit();
+                            ldf1.setArguments(args1);
+
+                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf1, "C").addToBackStack(null).commit();
+                        }else{
+                            Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -777,7 +861,41 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                 break;
 
                         }
+                        String addrs="";
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
+                                ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
+                            addrs="\n"+Html.fromHtml(getString(R.string.download));
+                        }else{
+                            addrs="";
+                        }
 
+                        String dstnc="";
+                        if(tr.getKm()!=null && !tr.getKm().equalsIgnoreCase("") && !tr.getKm().equalsIgnoreCase("null")) {
+                            dstnc="\n"+Html.fromHtml(getString(R.string.distances)) + tr.getKm() + " KM";
+                        }else{
+                            dstnc="";
+                        }
+
+                        String mdclcst="";
+                        if(tr.getMedicalCost()!=null && !tr.getMedicalCost().equalsIgnoreCase("") && !tr.getMedicalCost().equalsIgnoreCase("null")&& !tr.getMedicalCost().equalsIgnoreCase("-")) {
+                            mdclcst="\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() ;
+                        }else{
+                            mdclcst="";
+                        }
+
+                        String mdclrply="";
+                        if(tr.getMedicalReply()!=null && !tr.getMedicalReply().equalsIgnoreCase("") && !tr.getMedicalReply().equalsIgnoreCase("null")&& !tr.getMedicalReply().equalsIgnoreCase("-")) {
+                            mdclrply="\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() ;
+                        }else{
+                            mdclrply="";
+                        }
+
+                        String cstmrDescription="";
+                        if(tr.getDescription()!=null && !tr.getDescription().equalsIgnoreCase("") && !tr.getDescription().equalsIgnoreCase("null")&& !tr.getDescription().equalsIgnoreCase("-")) {
+                            cstmrDescription="\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() ;
+                        }else{
+                            cstmrDescription="";
+                        }
                         final android.support.v7.app.AlertDialog.Builder alertDialogBuilder1 = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
 
                         android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
@@ -787,61 +905,69 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         if(strtext.equalsIgnoreCase("Pending Delivery")){
                             alertDialogBuilder.setMessage(
                                     Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
-                                            "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
-                                            "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
-                                            "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() +
+                                            cstmrDescription+
+                                            mdclcst +
+                                            mdclrply +
                                             "\n\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() +"\n"+
-
+                                            dstnc +
 //                                        "\n\nStatus : " + tr.getOrderstatus());
-                                            "\n"+Html.fromHtml(getString(R.string.download)) );
+                                            addrs );//image path ok
+
+
+
                         }else{
                             alertDialogBuilder.setMessage(
                                     Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
-                                            "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
-                                            "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
-                                            "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() +
-
+                                            cstmrDescription+
+                                            mdclcst +
+                                            mdclrply +//""
+                                            dstnc +// null
 //                                        "\n\nStatus : " + tr.getOrderstatus());
-                                            "\n"+Html.fromHtml(getString(R.string.download)) );
+                                            addrs );// image path ""
+
+
+
                         }
 
 
 
                         sharedPreference.putValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_ORDER_ID,tr.getOrderid() );
+                        if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
 
-                        LinearLayout lv = new LinearLayout(getActivity());
-                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-                        lv.setLayoutParams(vp);
-                        ImageView image = new ImageView(getActivity());
+                            LinearLayout lv = new LinearLayout(getActivity());
+                            LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                            lv.setLayoutParams(vp);
+                            ImageView image = new ImageView(getActivity());
 //                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-                        image.setLayoutParams(vp);
-                        image.setMaxHeight(10);
-                        image.setMaxWidth(10);
+                            image.setLayoutParams(vp);
+                            image.setMaxHeight(10);
+                            image.setMaxWidth(10);
 
-                        // other image settings
-                        image.setImageDrawable(getResources().getDrawable(R.drawable.down));
-                        lv.addView(image);
+                            // other image settings
+                            image.setImageDrawable(getResources().getDrawable(R.drawable.down));
+                            lv.addView(image);
 
-                        alertDialogBuilder.setView(lv);
+                            alertDialogBuilder.setView(lv);
 
-                        image.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
+                            image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
 
-                                String[] s = {tr.getImagepath(),tr.getOrderid()};
+                                    String[] s = {tr.getImagepath(), tr.getOrderid()};
 
-                                if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")){
+                                    if (tr.getImagepath() != null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase("null")) {
 
-                                    boolean result= Utility.checkPermission(getContext());
-                                    if(result)
-                                    new DownloadImage().execute(s);
-                                }else{
-                                    Toast.makeText( getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                        boolean result = Utility.checkPermission(getContext());
+                                        if (result)
+                                            new DownloadImage().execute(s);
+                                    } else {
+                                        Toast.makeText(getContext(), "Image Not Available", Toast.LENGTH_LONG).show();
+                                    }
+
+
                                 }
-
-
-                            }
-                        });
+                            });
+                        }
 
                         if(lStatus.equalsIgnoreCase("Pending")){
 
@@ -864,7 +990,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                             }
                                         });
 
-                                alertDialogBuilder.setNeutralButton("Order Delivered",
+                                alertDialogBuilder.setNeutralButton("Delivered",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
@@ -884,7 +1010,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                             }else if(strtext.equalsIgnoreCase("Pending Delivery Customer")){
 
-                                alertDialogBuilder.setNeutralButton("Order Delivered",
+                                alertDialogBuilder.setNeutralButton("Delivered",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
 
@@ -1217,7 +1343,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -1285,7 +1411,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                                 Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                                String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                                Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                                SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
+
+                                String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                                parsedDate=parsedDate.toUpperCase();
                                 if(jsonObjectMedicalids.getString("medicalconfirm").equalsIgnoreCase("1")
                                         &&jsonObjectMedicalids.getString("customerconfirm").equalsIgnoreCase("1")) {
 
@@ -1302,6 +1432,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                     serviceProviderDetails1.setAddress(lastWord);
+
+
+                                    String km =(jsonObject.getString("km"));
+                                    if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                        km="0.00";
+                                    }
+                                    if (km.toLowerCase().contains("-")) {
+
+                                        String[] kmList = km.split(",");
+
+                                        for (int k = 0; k < kmList.length; k++) {
+
+//                                            if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                                String[] kms = kmList[k].split("-");
+                                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+//                                            }
+                                        }
+                                    }else{
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                    }
+
 
 //                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
@@ -1470,7 +1623,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -1492,8 +1645,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
                         try {
 
                             if(( jsonObject.getString("customerconfirm").equalsIgnoreCase("1")
@@ -1519,6 +1675,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                 serviceProviderDetails1.setAddress(lastWord);
+
+                                String km =(jsonObject.getString("km"));
+                                if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                    km="0.00";
+                                }
+                                if (km.toLowerCase().contains("-")) {
+
+                                    String[] kmList = km.split(",");
+
+                                    for (int k = 0; k < kmList.length; k++) {
+
+                                        if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                            String[] kms = kmList[k].split("-");
+                                            DecimalFormat roundup = new DecimalFormat("#.##");
+                                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                        }
+                                    }
+                                }else{
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                }
+
+
 //                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                 serviceProviderDetails1.setMobile(jsonObject.getString("mobile"));
                                 serviceProviderDetails1.setOrderstatus(jsonObject.getString("orderstatus"));
@@ -1601,7 +1780,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -1623,8 +1802,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
                         try {
 
                             if(( jsonObject.getString("customerconfirm").equalsIgnoreCase("1")
@@ -1648,6 +1830,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                 serviceProviderDetails1.setAddress(lastWord);
+
+                                String km =(jsonObject.getString("km"));
+                                if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                    km="0.00";
+                                }
+                                if (km.toLowerCase().contains("-")) {
+
+                                    String[] kmList = km.split(",");
+
+                                    for (int k = 0; k < kmList.length; k++) {
+
+                                        if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                            String[] kms = kmList[k].split("-");
+                                            DecimalFormat roundup = new DecimalFormat("#.##");
+                                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                        }
+                                    }
+                                }else{
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                }
+
+
 
 //                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                 serviceProviderDetails1.setNotificationTime(parsedDate);
@@ -1734,7 +1939,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -1755,8 +1960,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         try {
 
@@ -1781,6 +1989,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                     lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                 serviceProviderDetails1.setAddress(lastWord);
+
+
+                                String km =(jsonObject.getString("km"));
+                                if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                    km="0.00";
+                                }
+                                if (km.toLowerCase().contains("-")) {
+
+                                    String[] kmList = km.split(",");
+
+                                    for (int k = 0; k < kmList.length; k++) {
+
+                                        if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                            String[] kms = kmList[k].split("-");
+                                            DecimalFormat roundup = new DecimalFormat("#.##");
+                                            serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+                                        }
+                                    }
+                                }else{
+                                    DecimalFormat roundup = new DecimalFormat("#.##");
+                                    serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                }
+
 
 //                                serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                 serviceProviderDetails1.setNotificationTime(parsedDate);
@@ -1867,7 +2098,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -1890,8 +2121,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         JSONObject jsonObjectMedicalids = null;
                         try {
@@ -1920,6 +2154,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                     serviceProviderDetails1.setAddress(lastWord);
+
+                                    String km =(jsonObject.getString("km"));
+                                    if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                        km="0.00";
+                                    }
+                                    if (km.toLowerCase().contains("-")) {
+
+                                        String[] kmList = km.split(",");
+
+                                        for (int k = 0; k < kmList.length; k++) {
+
+//                                            if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                                String[] kms = kmList[k].split("-");
+                                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+//                                            }
+                                        }
+                                    }else{
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                    }
+
+
 
 //                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
@@ -2011,7 +2268,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -2066,8 +2323,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         JSONObject jsonObjectMedicalids = null;
                         try {
@@ -2096,6 +2356,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                     serviceProviderDetails1.setAddress(lastWord);
+
+                                    String km =(jsonObject.getString("km"));
+                                    if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                        km="0.00";
+                                    }
+                                    if (km.toLowerCase().contains("-")) {
+
+                                        String[] kmList = km.split(",");
+
+                                        for (int k = 0; k < kmList.length; k++) {
+
+//                                            if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                                String[] kms = kmList[k].split("-");
+                                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+//                                            }
+                                        }
+                                    }else{
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                    }
+
+
 
 //                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
@@ -2188,7 +2471,7 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                         listDetails.clear();
                     }
 
-
+                    String userId = sharedPreference.getValue( getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID );
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
 //                        btnReportLoad.setVisibility(View.GONE);
@@ -2243,8 +2526,11 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
 
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
-                        String parsedDate = formatter.format(initDate) + " "+ s1[1];
+                        Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
+                        SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
 
+                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
+                        parsedDate=parsedDate.toUpperCase();
 
                         JSONObject jsonObjectMedicalids = null;
                         try {
@@ -2273,6 +2559,29 @@ ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsM
                                         lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
 
                                     serviceProviderDetails1.setAddress(lastWord);
+
+
+                                    String km =(jsonObject.getString("km"));
+                                    if(km==null || km.equalsIgnoreCase("null")||km.equalsIgnoreCase("")){
+                                        km="0.00";
+                                    }
+                                    if (km.toLowerCase().contains("-")) {
+
+                                        String[] kmList = km.split(",");
+
+                                        for (int k = 0; k < kmList.length; k++) {
+
+//                                            if (kmList[k].toLowerCase().contains(userId.toLowerCase())) {
+                                                String[] kms = kmList[k].split("-");
+                                                DecimalFormat roundup = new DecimalFormat("#.##");
+                                                serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(kms[0]))).toString());
+//                                            }
+                                        }
+                                    }else{
+                                        DecimalFormat roundup = new DecimalFormat("#.##");
+                                        serviceProviderDetails1.setKm(Double.valueOf(roundup.format(Double.parseDouble(km))).toString());
+                                    }
+
 
 //                                    serviceProviderDetails1.setAddress(jsonObject.getString("address"));
                                     serviceProviderDetails1.setNotificationTime(parsedDate);
