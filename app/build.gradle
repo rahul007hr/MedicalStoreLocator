@@ -6,10 +6,10 @@ android {
         applicationId "com.medicalstorefinder.mychemists"
         minSdkVersion 15
         targetSdkVersion 28
-        versionName '2.2'
+        versionName '2.3'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 4
+        versionCode 5
     }
     buildTypes {
         release {

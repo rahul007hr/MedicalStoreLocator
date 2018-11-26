@@ -293,14 +293,14 @@ public class FirebaseMainActivity extends AppCompatActivity {
 
                         if(tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("") && !tr.getImagepath().equalsIgnoreCase
                                 ("null")&& !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
-                            SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
+                            /*SingleTouchImageViewFragment ldf1 = new SingleTouchImageViewFragment();
                             Bundle args1 = new Bundle();
                             args1.putString("position1", String.valueOf(tr.getImagepath()));
 
                             ldf1.setArguments(args1);
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction xfragmentTransaction = fragmentManager.beginTransaction();
-                            xfragmentTransaction.replace(R.id.containerView1, ldf1).commit();
+                            xfragmentTransaction.replace(R.id.containerView1, ldf1).commit();*/
                         }else{
                             Toast.makeText( getBaseContext(), "Image Not Available", Toast.LENGTH_LONG).show();
                         }

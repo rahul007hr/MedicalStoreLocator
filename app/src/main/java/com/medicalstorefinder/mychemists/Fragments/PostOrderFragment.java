@@ -140,6 +140,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     String name;
     EditText descriptionEdtxt;
     String imagePath,description;
+    Boolean isImageSet=false;
 
     public PostOrderFragment() {
         // Required empty public constructor
@@ -190,6 +191,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
                     Picasso.with(getContext())
                             .load(imagePath)
                             .into(profile_img);
+                    isImageSet=true;
 
                 }
                 descriptionEdtxt.setText(description);
@@ -363,15 +365,14 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE) {
-//                Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
+            if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
-            }else if (requestCode == REQUEST_CAMERA){
+            else if (requestCode == REQUEST_CAMERA){
 
                 Bitmap bitmap = ImagePicker.getImageFromResult(getActivity(), resultCode, data);
 //                mProfileBase64 = Utils.convertBitmapToBase64(bitmap);
                 profile_img.setImageBitmap(bitmap);
-
+                isImageSet=true;
 
                 onCaptureImageResult(bitmap);
             }
@@ -408,7 +409,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
     private void galleryIntent() {
         Intent i = new Intent(
                 Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, SELECT_FILE);
 
         /*Intent i = new Intent();
@@ -486,6 +487,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
 //        new ImageCompressionAsyncTask(true).execute(String.valueOf(destination));
 
         profile_img.setImageBitmap(thumbnail);
+        isImageSet=true;
     }
 
     @SuppressWarnings("deprecation")
@@ -494,6 +496,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
         Bitmap bm=null;
         if (data != null) {
             try {
+
                 bm = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), data.getData());
 
                 int dataSize=0;
@@ -554,6 +557,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             }
         }
         profile_img.setImageBitmap(bm);
+        isImageSet=true;
     }
 
 
@@ -617,10 +621,11 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             getAddress = title + "," + address;
         }
         // Check if all strings are null or not
-        if (getDescription.equals("") || getDescription.length() == 0){
+//        Log.d(TAG, "checkValidation: "+profile_img.getDrawable());
+        if (isImageSet== false){
 
             new CustomToast().Show_Toast(getActivity(), view,
-                    "Description is required.");
+                    "Prescription Image is required.");
         }else if (answer.equals("") || answer.length() == 0){
 
             new CustomToast().Show_Toast(getActivity(), view,
@@ -812,7 +817,7 @@ public class PostOrderFragment extends Fragment implements View.OnClickListener,
             f = new File(picturePath);
             ts = f.getName();
             profile_img.setImageBitmap(decodeBitmapFromPath(res));
-
+            isImageSet=true;
 
             new uploadTask().execute();
         }
