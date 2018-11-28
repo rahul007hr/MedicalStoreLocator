@@ -16,9 +16,5 @@
         android:icon="@drawable/nearby"
         android:title="@string/title_range" />
 
-   <!-- <item
-        android:id="@+id/serviceProviderResponceList"
-        android:icon="@drawable/ic_profile_black_24dp"
-        android:title="@string/title_profile" />-->
 
 </menu>

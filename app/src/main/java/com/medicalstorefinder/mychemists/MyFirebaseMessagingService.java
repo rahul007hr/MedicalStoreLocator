@@ -19,70 +19,30 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
-    /**
-     * Called when message is received.
-     *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
-     */
-// [START receive_message]
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
-
         JSONObject object = new JSONObject(remoteMessage.getData());
-        //            String title = object.getString("title");
-//            String message = object.getString("message");
-
         Intent intent = new Intent(getBaseContext(), FirebaseMainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-       /* NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext());
-
-        b.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.logo)
-                .setTicker("Ticker")
-                    .setContentTitle("title")
-                    .setContentText(remoteMessage.getNotification().getBody())
-                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                .setContentIntent(contentIntent)
-                .setContentInfo("Info");*/
-
         Random r = new Random();
         int randomNo = r.nextInt(100000000 + 1);
-
-       /* NotificationManager notificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(randomNo, b.build());*/
-
-
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-// Check if message contains a data payload.
-        sendNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getTitle());
-       /* if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            sendNotification("text");
-        }*/
-// Check if message contains a notification payload.
+        sendNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
     }
 
 
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    private void sendNotification(String messageBody,String messageTitle) {
+    private void sendNotification(String messageBody, String messageTitle) {
         Intent intent = new Intent(this, FirebaseMainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("keysMessageBody", messageBody);
         intent.putExtra("keysMessageTitle", messageTitle);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(messageTitle)
@@ -92,6 +52,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
     }
 }

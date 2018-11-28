@@ -10,8 +10,8 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:visibility="gone"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"
@@ -29,9 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="My-Chemist Intro Text"
-        android:visibility="gone"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:visibility="gone" />
 
 </LinearLayout>

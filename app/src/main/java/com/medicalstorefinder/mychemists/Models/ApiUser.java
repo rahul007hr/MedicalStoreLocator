@@ -20,16 +20,15 @@ public class ApiUser {
         RegMobile = "";
         Email = "";
         ProfilePicUrl = "";
-        First_Name="";
-        Address="";
-        Passwords="";
-        Shop_Name="";
-        User_Role="";
-        Latitude="";
-        Longitude="";
+        First_Name = "";
+        Address = "";
+        Passwords = "";
+        Shop_Name = "";
+        User_Role = "";
+        Latitude = "";
+        Longitude = "";
 
     }
-
 
 
     public String getFirst_Name() {
@@ -128,6 +127,5 @@ public class ApiUser {
     public void setLongitude(String longitude) {
         Longitude = longitude;
     }
-
 
 }

@@ -27,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.medicalstorefinder.mychemists.Constants.Constants;
@@ -50,12 +49,8 @@ import java.util.Map;
 import static com.medicalstorefinder.mychemists.Constants.Constants.NO_AVATAR_IMAGE_PATH;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
+public class ServiceProviderListUsingOrderStatusFragment extends Fragment {
 
-//    int _PageNo = 1;
 
     ProgressDialog progressDialog;
 
@@ -65,8 +60,7 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
     private SeekBar volumeControl = null;
     TextView distanceTxt;
     int progressChanged1 = 0;
-    String strtext="";
-//    private Button btnReportLoad;
+    String strtext = "";
     private ImageView imgRepNotFound;
     String myValue;
     StringBuilder URL_Report;
@@ -82,53 +76,28 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.fragment_service_provider_list,null);
-
+        View v = inflater.inflate(R.layout.fragment_service_provider_list, null);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
-
         recyclerView = (RecyclerView) v.findViewById(R.id.rep_recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-
-        imageView=(ImageView)v.findViewById(R.id.image_View);
-
+        imageView = (ImageView) v.findViewById(R.id.image_View);
         imgRepNotFound = (ImageView) v.findViewById(R.id.img_rep_not_found);
         imgRepNotFound.setVisibility(View.GONE);
-
-        postOrderBtn=(Button)v.findViewById(R.id.postOrderBtn);
+        postOrderBtn = (Button) v.findViewById(R.id.postOrderBtn);
         postOrderBtn.setVisibility(View.GONE);
         volumeControl = (SeekBar) v.findViewById(R.id.volume_bar);
         volumeControl.setVisibility(View.GONE);
-        distanceTxt=(TextView)v.findViewById(R.id.distanceTxt);
+        distanceTxt = (TextView) v.findViewById(R.id.distanceTxt);
         distanceTxt.setVisibility(View.GONE);
-
         strtext = getArguments().getString("key");
-
         new RetrieveFeedTask1().execute();
-
-
-
-
         return v;
     }
-
-
-   /* @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.report_load_btn:
-
-                new RetrieveFeedTask1().execute();
-
-                break;
-        }
-    }*/
 
 
     class RetrieveFeedTask1 extends AsyncTask<Void, Void, String> {
@@ -139,16 +108,12 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
         @Override
         protected String doInBackground(Void... urls) {
-
             Utilities utilities = new Utilities(getContext());
-
             String address = Constants.API_SERVICE_PROVIDER_LIST_USING_ORDER_STATUS;
             Map<String, String> params = new HashMap<>();
-            params.put("userid", sharedPreference.getValue( getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID ));
-//            params.put("userid", "15");
+            params.put("userid", sharedPreference.getValue(getActivity(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID));
             params.put("status", strtext);
-
-            return utilities.apiCalls(address,params);
+            return utilities.apiCalls(address, params);
         }
 
         protected void onPostExecute(String response) {
@@ -156,98 +121,66 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                 JSONObject jsonObject1 = new JSONObject(response);
                 JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
                 imgRepNotFound.setVisibility(View.GONE);
-
                 if (response.equals("NO_INTERNET")) {
                     Toast.makeText(getActivity().getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
                 } else if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                     imgRepNotFound.setVisibility(View.VISIBLE);
-
                     final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                     imgRepNotFound.startAnimation(animImgRecordNotFound);
-
-//                    btnReportLoad.setVisibility(View.GONE);
-//                    Toast.makeText(getActivity().getBaseContext(), "Somthing went wrong", Toast.LENGTH_LONG).show();
                 } else {
-
-
                     if (listDetails.size() > 0) {
-                       listDetails.clear();
+                        listDetails.clear();
                     }
-
-
                     JSONArray jsonarray = new JSONArray(jsonObject2.getString("result"));
                     if (jsonarray.length() <= 0) {
-//                        btnReportLoad.setVisibility(View.GONE);
                         Toast.makeText(getActivity().getBaseContext(), "No more record found.", Toast.LENGTH_SHORT).show();
                     }
-
-                    String listOfMedicalUsers="";
-
+                    String listOfMedicalUsers = "";
                     for (int i = 0; i < jsonarray.length(); i++) {
                         ServiceProviderDetailsModel serviceProviderDetails = new ServiceProviderDetailsModel();
                         JSONObject jsonObject = jsonarray.getJSONObject(i);
-
-                        //                            2018-09-22 03:48:19
                         String s = jsonObject.getString("createddate");
-//                        String s ="2018-09-22 03:48:19";
                         String[] s1 = s.split("\\s+");
                         String s2 = s1[0];
-
                         Date initDate = new SimpleDateFormat("yyyy-MM-dd").parse(s2);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
                         Date initTime = new SimpleDateFormat("hh:mm:ss").parse(s1[1]);
                         SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm a");
-
-                        String parsedDate = formatter.format(initDate) + " "+ timeFormatter.format(initTime);
-                        parsedDate=parsedDate.toUpperCase();
-
+                        String parsedDate = formatter.format(initDate) + " " + timeFormatter.format(initTime);
+                        parsedDate = parsedDate.toUpperCase();
                         serviceProviderDetails.setOrderid(jsonObject.getString("orderid"));
                         serviceProviderDetails.setDescription(jsonObject.getString("description"));
                         serviceProviderDetails.setImagepath(jsonObject.getString("imagepath"));
-
                         String string = jsonObject.getString("address");
                         String[] bits = string.split(",");
                         String lastWord = "";
-                        if(bits.length>2)
+                        if (bits.length > 2)
                             lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
-
                         serviceProviderDetails.setAddress(lastWord);
-
-//                        serviceProviderDetails.setAddress(jsonObject.getString("address"));
                         serviceProviderDetails.setNotificationTime(parsedDate);
                         serviceProviderDetails.setLatitude(jsonObject.getString("latitude"));
                         serviceProviderDetails.setLongitude(jsonObject.getString("longitude"));
                         serviceProviderDetails.setMobile(jsonObject.getString("mobile"));
                         serviceProviderDetails.setCreateddate(jsonObject.getString("createddate"));
                         serviceProviderDetails.setOrderstatus(jsonObject.getString("orderstatus"));
-
                         listDetails.add(serviceProviderDetails);
                     }
-
                     if (listDetails.size() <= 0) {
                         imgRepNotFound.setVisibility(View.VISIBLE);
-
                         final Animation animImgRecordNotFound = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_interpolator);
                         imgRepNotFound.startAnimation(animImgRecordNotFound);
 
-//                        btnReportLoad.setVisibility(View.GONE);
                     }
-
-                    adapter = new ServiceProviderReportCardAdapter(getContext(),listDetails);
+                    adapter = new ServiceProviderReportCardAdapter(getContext(), listDetails);
                     recyclerView.setAdapter(adapter);
                 }
-            }
-
-            catch (Exception e1) {
-                Toast.makeText( getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
-            }
-            finally {
+            } catch (Exception e1) {
+                Toast.makeText(getActivity().getApplicationContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+            } finally {
                 progressDialog.dismiss();
             }
         }
     }
-
-//*************  Adapter Class*************//
 
     public class ServiceProviderReportCardAdapter extends RecyclerView.Adapter<ServiceProviderReportCardAdapter.ViewHolder> {
 
@@ -258,7 +191,6 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
         List<ServiceProviderDetailsModel> listServiceProviderDetails;
 
         public ServiceProviderReportCardAdapter(Context context, List<ServiceProviderDetailsModel> listServiceProviderDetails) {
-//            super();
             this.context = context;
             this.listServiceProviderDetails = listServiceProviderDetails;
         }
@@ -268,11 +200,8 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.service_provider_card_item, parent, false);
             ViewHolder viewHolder = new ViewHolder(v);
-
             final Animation anim_record_item = AnimationUtils.loadAnimation(parent.getContext(), R.anim.swipe_down);
             viewHolder.itemView.startAnimation(anim_record_item);
-
-//            linearLayoutTxCardItem = (LinearLayout) v.findViewById(R.id.linear_layout_tx_card_item);
             return viewHolder;
         }
 
@@ -280,78 +209,59 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             try {
-
                 ServiceProviderDetailsModel tr = listServiceProviderDetails.get(position);
-                holder.vtxtLocation.setText("Location : "+tr.getAddress());
-                holder.vtxtTime.setText("Date : "+tr.getNotificationTime());
-
-                if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
-//                    Glide.with(context).load(tr.getImagepath()).into(holder.imageViews);
-//                    holder.imageViews.setImageResource(android.R.color.transparent);
-
-
+                holder.vtxtLocation.setText("Location : " + tr.getAddress());
+                holder.vtxtTime.setText("Date : " + tr.getNotificationTime());
+                if (!tr.getImagepath().equalsIgnoreCase("") && tr.getImagepath() != null && !tr.getImagepath().equalsIgnoreCase("no_avatar.jpg")) {
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
-//                            .error(R.drawable.ic_pic_error)
                             .priority(Priority.HIGH);
-
                     new GlideImageLoader(holder.imageViews,
-                            holder.spinner).load(tr.getImagepath(),options);
+                            holder.spinner).load(tr.getImagepath(), options);
 
-                }else if(!tr.getImagepath().equalsIgnoreCase("")&& tr.getImagepath()!=null) {
-//                    Glide.with(context).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath()).into(holder.imageViews);
-//                    holder.imageViews.setImageResource(android.R.color.transparent);
-
+                } else if (!tr.getImagepath().equalsIgnoreCase("") && tr.getImagepath() != null) {
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
-//                            .error(R.drawable.ic_pic_error)
                             .priority(Priority.HIGH);
-
                     new GlideImageLoader(holder.imageViews,
-                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+tr.getImagepath(),options);
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH + tr.getImagepath(), options);
 
-                }else{
+                } else {
                     RequestOptions options = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.drawable.profile_pic)
-//                            .error(R.drawable.ic_pic_error)
                             .priority(Priority.HIGH);
-
                     new GlideImageLoader(holder.imageViews,
-                            holder.spinner).load(NO_AVATAR_IMAGE_PATH+"no_avatar.jpg",options);
+                            holder.spinner).load(NO_AVATAR_IMAGE_PATH + "no_avatar.jpg", options);
                 }
-
-//                tr.setStatus("Success");
                 switch (tr.getOrderstatus()) {
                     case "Canceled":
                         holder.vtxtStatus.setText("CANCELED");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_FAILURE));
-//                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_FAILURE));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
                     case "Completed":
                         holder.vtxtStatus.setText("COMPLETED");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.tx_SUCCESS));
-//                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
                     case "On Hold":
                         holder.vtxtStatus.setText("ON HOLD");
                         holder.vtxtStatus.setTextColor(getActivity().getApplicationContext().getResources().getColor(R.color.primary_dark));
-//                        linearLayoutTxCardItem.setBackgroundColor(getActivity().getApplicationContext().getResources().getColor(R.color.bg_SUCCESS));
                         holder.cardViewTxCardItem.setCardBackgroundColor(Color.parseColor("#ffffff"));
                         break;
 
                 }
-            } catch (Exception e1)
-            {
+            } catch (Exception e1) {
             }
         }
 
         @Override
-        public int getItemCount() {   return listServiceProviderDetails.size();   }
+        public int getItemCount() {
+            return listServiceProviderDetails.size();
+        }
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -364,24 +274,19 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-
                 final View view = itemView;
                 vtxtLocation = (TextView) itemView.findViewById(R.id.location);
                 vtxtTime = (TextView) itemView.findViewById(R.id.time);
                 vtxtStatus = (TextView) itemView.findViewById(R.id.status);
-                imageViews=(ImageView)itemView.findViewById(R.id.image_View);
-//                vtxtViewDetails = (TextView) itemView.findViewById(R.id.recharge_details);
+                imageViews = (ImageView) itemView.findViewById(R.id.image_View);
                 cardViewTxCardItem = (CardView) itemView.findViewById(R.id.cardview_tx_card_item);
-                spinner = (ProgressBar)itemView.findViewById(R.id.progressBar1);
-
+                spinner = (ProgressBar) itemView.findViewById(R.id.progressBar1);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         final ServiceProviderDetailsModel tr = listServiceProviderDetails.get(getAdapterPosition());
-
                         String lStatus = "Success";
-                        switch ( tr.getOrderstatus()) {
+                        switch (tr.getOrderstatus()) {
                             case "Pending":
                                 lStatus = "PENDING";
                                 break;
@@ -390,47 +295,25 @@ public class ServiceProviderListUsingOrderStatusFragment extends Fragment  {
                                 break;
 
                         }
-
-                        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.AppCompatAlertDialogStyle );
+                        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
                         alertDialogBuilder.setTitle(Html.fromHtml(getString(R.string.transactions)));
                         alertDialogBuilder.setMessage(
                                 Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
-                                        "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
-                                        "\n"+Html.fromHtml(getString(R.string.address)) + tr.getAddress() +
-                                        "\n\n"+Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile()  +"\n"+
-                                        "\n"+Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime());
-//                                        "\n"+Html.fromHtml(getString(R.string.status)) + tr.getOrderstatus());
-
-                       /* Html.fromHtml(getString(R.string.orderid)) + tr.getOrderid() +
-                                "\n"+Html.fromHtml(getString(R.string.description)) + tr.getDescription()+
-                                "\n"+Html.fromHtml(getString(R.string.medicalcost)) + tr.getMedicalCost() +
-                                "\n"+Html.fromHtml(getString(R.string.medicaldescription)) + tr.getMedicalReply() +
-                                "\n\n"+Html.fromHtml(getString(R.string.distances)) + tr.getMobile() +"\n"+
-                                "\n"+Html.fromHtml(getString(R.string.download)) );*/
-
-
+                                        "\n" + Html.fromHtml(getString(R.string.description)) + tr.getDescription() +
+                                        "\n" + Html.fromHtml(getString(R.string.address)) + tr.getAddress() +
+                                        "\n\n" + Html.fromHtml(getString(R.string.mobileno)) + tr.getMobile() + "\n" +
+                                        "\n" + Html.fromHtml(getString(R.string.createddate)) + tr.getNotificationTime());
                         final String imagePath = tr.getImagepath();
                         final String descriptionss = tr.getDescription();
-
-
-                        if(lStatus.equalsIgnoreCase("SUCCESS")){
-
+                        if (lStatus.equalsIgnoreCase("SUCCESS")) {
                             alertDialogBuilder.setPositiveButton("Create Order",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                           /* PostOrderFragment ldf = new PostOrderFragment ();
-
-                                            getFragmentManager().beginTransaction().replace(R.id.containerView, ldf).commit();*/
-
                                             Bundle bundle = new Bundle();
-                                            bundle.putString("imagePath",imagePath);
-                                            bundle.putString("description",descriptionss);
-
-
+                                            bundle.putString("imagePath", imagePath);
+                                            bundle.putString("description", descriptionss);
                                             PostOrderFragment fragment2 = new PostOrderFragment();
-
                                             fragment2.setArguments(bundle);
-
                                             FragmentManager fragmentManager = getFragmentManager();
                                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                             fragmentTransaction.replace(R.id.containerView, fragment2);

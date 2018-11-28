@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="20dp" >
+    android:padding="20dp">
 
     <TextView
         android:layout_width="fill_parent"
@@ -26,23 +26,24 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/usr" />
 
-    <EditText
-        android:id="@+id/firstName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:maxLength="50"
-        android:gravity="center_vertical"
-        android:hint="First Name"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/firstName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="First Name"
+            android:inputType="textCapWords"
+            android:maxLength="50"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
@@ -59,23 +60,24 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/usr" />
 
-    <EditText
-        android:id="@+id/lastName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:maxLength="50"
-        android:gravity="center_vertical"
-        android:hint="Last Name"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/lastName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Last Name"
+            android:inputType="textCapWords"
+            android:maxLength="50"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
@@ -92,57 +94,57 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/shp" />
 
-    <EditText
-        android:id="@+id/shop_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Shop Name"
-        android:maxLength="50"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/shop_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Shop Name"
+            android:inputType="textCapWords"
+            android:maxLength="50"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
         android:background="#f9ba29" />
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:id="@+id/addLocationBtn"
-            android:background="@drawable/loginbutton_selector"
-            android:textColor="@color/white"
-            android:text="@string/add_new_location"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-         />
+    <Button
+        android:id="@+id/addLocationBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/loginbutton_selector"
+        android:text="@string/add_new_location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/location_list"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimaryDark" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/location_list"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimaryDark" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2px"
-            android:background="#f9ba29" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2px"
+        android:background="#f9ba29" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="fill_parent"
@@ -160,23 +162,24 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/em" />
 
-    <EditText
-        android:id="@+id/userEmailId"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:maxLength="50"
-        android:gravity="center_vertical"
-        android:hint="Email Id"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/userEmailId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Email Id"
+            android:inputType="textEmailAddress"
+            android:maxLength="50"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
@@ -193,22 +196,22 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/cl" />
 
-    <EditText
-        android:id="@+id/mobileNumber"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Mobile Number"
-        android:inputType="phone"
-        android:maxLength="10"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/mobileNumber"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Mobile Number"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -228,22 +231,22 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/pw" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:maxLength="20"
-        android:gravity="center_vertical"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -264,23 +267,24 @@
             android:layout_marginLeft="0dp"
             android:src="@drawable/pw" />
 
-    <EditText
-        android:id="@+id/confirmPassword"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:maxLength="20"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="2px"
@@ -301,12 +305,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:padding="3dp"
         android:background="@drawable/loginbutton_selector"
+        android:padding="3dp"
         android:text="Register"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold" />
+
     <TextView
         android:id="@+id/already_user"
         android:layout_width="wrap_content"

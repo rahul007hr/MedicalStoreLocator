@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -55,6 +54,7 @@ public class ProgressAppGlideModule extends AppGlideModule {
     public static void forget(String url) {
         ProgressAppGlideModule.DispatchingProgressListener.forget(url);
     }
+
     public static void expect(String url, ProgressAppGlideModule.UIonProgressListener listener) {
         ProgressAppGlideModule.DispatchingProgressListener.expect(url, listener);
     }
@@ -65,10 +65,7 @@ public class ProgressAppGlideModule extends AppGlideModule {
 
     public interface UIonProgressListener {
         void onProgress(long bytesRead, long expectedLength);
-        /**
-         * Control how often the listener needs an update. 0% and 100% will always be dispatched.
-         * @return in percentage (0.2 = call {@link #onProgress} around every 0.2 percent of progress)
-         */
+
         float getGranualityPercentage();
     }
 
@@ -93,7 +90,6 @@ public class ProgressAppGlideModule extends AppGlideModule {
 
         @Override
         public void update(HttpUrl url, final long bytesRead, final long contentLength) {
-            //System.out.printf("%s: %d/%d = %.2f%%%n", url, bytesRead, contentLength, (100f * bytesRead) / contentLength);
             String key = url.toString();
             final UIonProgressListener listener = LISTENERS.get(key);
             if (listener == null) {
@@ -167,7 +163,7 @@ public class ProgressAppGlideModule extends AppGlideModule {
                 public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
                     long fullLength = responseBody.contentLength();
-                    if (bytesRead == -1) { // this source is exhausted
+                    if (bytesRead == -1) {
                         totalBytesRead = fullLength;
                     } else {
                         totalBytesRead += bytesRead;

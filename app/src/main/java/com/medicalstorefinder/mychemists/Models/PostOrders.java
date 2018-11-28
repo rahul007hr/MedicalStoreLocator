@@ -10,10 +10,10 @@ public class PostOrders {
 
     public PostOrders() {
         PicUrl = "";
-        Description="";
-        Address="";
-        Latitude="";
-        Longitude="";
+        Description = "";
+        Address = "";
+        Latitude = "";
+        Longitude = "";
     }
 
     public String getPicUrl() {

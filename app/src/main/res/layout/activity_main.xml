@@ -4,22 +4,21 @@
     android:layout_height="fill_parent"
     android:fillViewport="true"
     android:overScrollMode="never"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white">
 
 
         <FrameLayout
             android:id="@+id/frameContainer"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
 
     </RelativeLayout>

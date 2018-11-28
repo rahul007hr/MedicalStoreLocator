@@ -9,62 +9,58 @@
     tools:openDrawer="start">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white"
-            app:theme="@style/ToolbarColoredBackArrow"
-            android:layout_height="?attr/actionBarSize"
-            android:id="@+id/toolbar"
-            >
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="right|bottom"
-                android:divider="@drawable/tool_bal_dim"
-                android:dividerPadding="8dp"
-                android:orientation="horizontal"
-                android:showDividers="end">
+                android:background="@color/colorPrimary"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:title="@string/app_name"
+                app:titleTextColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="right|bottom"
+                    android:divider="@drawable/tool_bal_dim"
+                    android:dividerPadding="8dp"
+                    android:orientation="horizontal"
+                    android:showDividers="end">
 
 
+                    <ImageView
+                        android:id="@+id/balance_tool"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right|center|end"
+                        android:layout_marginRight="15dp"
+                        android:paddingRight="0dp"
+                        android:src="@drawable/ic_notifications_black_24dp" />
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/balance_tool"
-                    android:layout_gravity="right|center|end"
-                    android:src="@drawable/ic_notifications_black_24dp"
-                    android:paddingRight="0dp"
-                    android:layout_marginRight="15dp"/>
-            </LinearLayout>
-
-        </android.support.v7.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
+
         <FrameLayout
-            android:orientation="vertical"
+            android:id="@+id/containerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="56dp"
             android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+            android:orientation="vertical"
             android:text="@string/title_range"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/containerView">
-        </FrameLayout>
+            app:layout_constraintTop_toTopOf="parent"></FrameLayout>
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
@@ -72,27 +68,23 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/primary_dark"
-            app:itemTextColor="@color/bottom_nav_color"
-            app:itemIconTint="@color/bottom_nav_color"
             android:visibility="gone"
-            app:menu="@menu/navigation"/>
-
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
+            app:menu="@menu/navigation" />
 
 
     </RelativeLayout>
 
 
-
-    <android.support.design.widget.NavigationView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/drawer_header"
-        android:layout_gravity="start"
         android:id="@+id/nav"
-        app:menu="@menu/drawermenucustomer"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawermenucustomer" />
 
 </android.support.v4.widget.DrawerLayout>

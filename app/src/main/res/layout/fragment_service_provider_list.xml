@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fitsSystemWindows="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">-->
-<LinearLayout android:layout_width="match_parent"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/backg"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -18,31 +14,16 @@
         android:layout_margin="5dp"
         android:background="@drawable/background_view_rounded_single"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="visible">
 
-       <!-- <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Seekbar"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <SeekBar
-            android:id="@+id/seek1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:progress="20"
-            android:secondaryProgress="20" />-->
 
         <TextView
+            android:id="@+id/distanceTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/distanceTxt"
-            android:padding="10dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="8dp"
+            android:padding="10dp"
             android:text="Select Range of Medical Store : 2 Km"
             android:textColor="#000000"
             android:textSize="19sp" />
@@ -62,81 +43,61 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fitsSystemWindows="true"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/medicalStoreCntTxt"
-            android:padding="10dp"
-            android:text="Medical Stores : 0"
-            android:textColor="#000000"
-            android:layout_marginLeft="10dp"
-            android:visibility="gone"
-            android:textSize="20sp" />
-
-      <!--  <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:theme="@style/Theme.Design.NoActionBar"
-            app:title="Service Providers"
-            />-->
-        <!--android:background="@color/app_sub_title"
-        app:navigationIcon="@drawable/ic_transaction_history"-->
-        <ImageView
-            android:layout_width="169dp"
-            android:layout_height="153dp"
-            android:id="@+id/img_rep_not_found"
-            android:layout_gravity="center|bottom"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/record_not_found"
-            />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/medicalStoreCntTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:text="Medical Stores : 0"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:visibility="gone" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rep_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="9dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="9dp">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <!--<android.support.v7.widget.AppCompatButton
-            android:id="@+id/report_load_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:layout_margin="15dp"
-            android:text="Load more ... "/>-->
-        <!--android:background="@drawable/loginbutton_selector"-->
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:id="@+id/postOrderBtn"
-            android:layout_margin="20dp"
-            android:background="@drawable/loginbutton_selector"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            android:text="Post Order"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button"
-            />
+            <ImageView
+                android:id="@+id/img_rep_not_found"
+                android:layout_width="169dp"
+                android:layout_height="153dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/record_not_found" />
 
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rep_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="9dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <Button
+                android:id="@+id/postOrderBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/loginbutton_selector"
+                android:text="Post Order"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
 
     </ScrollView>
 
-    </LinearLayout>
-<!--</ScrollView>-->
+</LinearLayout>

@@ -7,14 +7,13 @@
     tools:context="com.medicalstorefinder.mychemists.Activity.SplashScreenActivity">
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="169dp"
         android:layout_height="153dp"
-        android:id="@+id/logo"
         android:layout_gravity="center|bottom"
-        android:layout_marginTop="185dp"
         android:layout_marginLeft="110dp"
-        android:src="@drawable/logo"
-        />
+        android:layout_marginTop="185dp"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="match_parent"
@@ -25,7 +24,7 @@
         android:textColor="@color/primary"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"

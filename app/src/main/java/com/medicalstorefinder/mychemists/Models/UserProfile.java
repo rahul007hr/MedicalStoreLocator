@@ -5,12 +5,12 @@ public class UserProfile {
     public String RegMobile;
     public String Email;
     public String ProfilePicUrl;
-    public String Full_Name,FirstName,LastName,ShopName;
+    public String Full_Name, FirstName, LastName, ShopName;
     public String Location;
     public String cType;
     public String cStatus;
     public String Activated;
-    public String Adhar_Card_Number,Created_Date,Activated_Date;
+    public String Adhar_Card_Number, Created_Date, Activated_Date;
 
     public String getFull_Name() {
         return Full_Name;

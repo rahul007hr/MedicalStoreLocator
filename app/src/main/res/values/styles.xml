@@ -24,8 +24,7 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
 
     </style>
-    <!--Success Alert Dialog styles-->
-    <!--Alert Dialog Animations-->
+   
 
     <!--Failed Alert Dialog styles-->
 

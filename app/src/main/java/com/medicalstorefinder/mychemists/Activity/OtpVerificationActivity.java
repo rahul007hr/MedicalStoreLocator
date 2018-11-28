@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,8 +19,8 @@ import com.alimuzaffar.lib.pin.PinEntryEditText;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.medicalstorefinder.mychemists.Constants.Constants;
 import com.medicalstorefinder.mychemists.Constants.SharedPreference;
-import com.medicalstorefinder.mychemists.Models.ApiUser;
 import com.medicalstorefinder.mychemists.Constants.Utilities;
+import com.medicalstorefinder.mychemists.Models.ApiUser;
 import com.medicalstorefinder.mychemists.R;
 
 import org.json.JSONObject;
@@ -40,29 +40,25 @@ public class OtpVerificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_verification);
-
-        Button verifyOTP = (Button)findViewById(R.id.otpVerifyBtn);
-        resendOTP = (TextView)findViewById(R.id.otpResendBtn);
+        Button verifyOTP = (Button) findViewById(R.id.otpVerifyBtn);
+        resendOTP = (TextView) findViewById(R.id.otpResendBtn);
         pinEntry = (PinEntryEditText) findViewById(R.id.txt_pin_entry);
-        TextView txtMobileNo=(TextView)findViewById(R.id.txtMobileNo);
-        txtTimer=(TextView)findViewById(R.id.txtTimer);
-
-        txtMobileNo.setText("Please Enter OTP Sent On \n +91 "+(sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE )));
-        reverseTimer(120,txtTimer);
-
+        TextView txtMobileNo = (TextView) findViewById(R.id.txtMobileNo);
+        txtTimer = (TextView) findViewById(R.id.txtTimer);
+        txtMobileNo.setText("Please Enter OTP Sent On \n +91 " + (sharedPreference.getValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE)));
+        reverseTimer(120, txtTimer);
         verifyOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (pinEntry != null) {
                     new AuthoriseOTP().execute();
-                }else{
+                } else {
                     Toast.makeText(OtpVerificationActivity.this, "Please Enter OTP", Toast.LENGTH_SHORT).show();
                     pinEntry.setText(null);
                 }
 
             }
         });
-
         resendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,27 +66,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
             }
         });
-
-           /* pinEntry.setOnPinEnteredListener(new PinEntryEditText.OnPinEnteredListener() {
-                @Override
-                public void onPinEntered(CharSequence str) {
-                    *//*if (str.toString().equals("1234")) {
-                        Toast.makeText(OtpVerificationActivity.this, "SUCCESS", Toast.LENGTH_SHORT).show();
-
-                        Intent splashIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(splashIntent);
-                        finish();
-
-                    } else {
-                        Toast.makeText(OtpVerificationActivity.this, "FAIL", Toast.LENGTH_SHORT).show();
-                        pinEntry.setText(null);
-                    }*//*
-
-
-
-                }
-            });*/
-
 
     }
 
@@ -117,8 +92,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            if(intent.getAction().equalsIgnoreCase("otp")){
+            if (intent.getAction().equalsIgnoreCase("otp")) {
                 final String message = intent.getStringExtra("message");
                 pinEntry.setText(message);
             }
@@ -126,77 +100,50 @@ public class OtpVerificationActivity extends AppCompatActivity {
     };
 
 
-
-
     class AuthoriseOTP extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
-//            progressDialog.show();
         }
 
         protected String doInBackground(Void... urls) {
-
             Utilities utilities = new Utilities(getBaseContext());
-
             String address = Constants.API_VERIFY_OTP;
             Map<String, String> params = new HashMap<>();
-            params.put("mobile", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+            params.put("mobile", sharedPreference.getValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE));
             params.put("otp", pinEntry.getText().toString());
-
-            return utilities.apiCalls(address,params);
+            return utilities.apiCalls(address, params);
 
         }
 
         protected void onPostExecute(String response) {
             try {
-
-                if(response.equals("NO_INTERNET")) {
+                if (response.equals("NO_INTERNET")) {
                     Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                }
-                else if(response.equalsIgnoreCase("ERROR")) {
+                } else if (response.equalsIgnoreCase("ERROR")) {
                     Toast.makeText(getBaseContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-
+                } else {
                     JSONObject jsonObject1 = new JSONObject(response);
                     JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
-//                    JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
-
-                    if(jsonObject2.getString("status").equalsIgnoreCase("error"))
-                    {
+                    if (jsonObject2.getString("status").equalsIgnoreCase("error")) {
                         Toast.makeText(getBaseContext(), jsonObject2.getString("message"), Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         JSONObject jsonObject = new JSONObject(jsonObject2.getString("message"));
-
                         apiUser = new ApiUser();
-
                         apiUser.setID(jsonObject.getInt("id"));
                         apiUser.setFirst_Name(jsonObject.getString("firstname"));
                         apiUser.setLast_Name(jsonObject.getString("lastname"));
                         apiUser.setRegMobile(jsonObject.getString("mobile"));
-
                         String string = jsonObject.getString("address");
                         String[] bits = string.split(",");
                         String lastWord = "";
-                        if(bits.length>2)
+                        if (bits.length > 2)
                             lastWord = bits[bits.length - 3] + ", " + bits[bits.length - 2] + ", " + bits[bits.length - 1];
-
-//                        serviceProviderDetails1.setAddress(lastWord);
-
                         apiUser.setAddress(lastWord);
                         apiUser.setShop_Name(jsonObject.getString("shopname"));
                         apiUser.setEmail(jsonObject.getString("email"));
                         apiUser.setUserRole(jsonObject.getString("role"));
-						apiUser.setPasswords( pinEntry.getText().toString());
-//						apiUser.setProfilePicUrl(jsonObject.getString("photo"));
-
-//						sharedPreference = new SharedPreference();
-
+                        apiUser.setPasswords(pinEntry.getText().toString());
                         sharedPreference.clearSharedPreference(getBaseContext(), Constants.PREF_IS_USER);
-//                        sharedPreference.createSharedPreference(new OtpVerificationActivity(), Constants.PREF_IS_USER);
-
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ID, String.valueOf(apiUser.getID()));
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Email, apiUser.getEmail());
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_Address, apiUser.getAddress());
@@ -206,10 +153,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE, apiUser.getRegMobile());
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_USER_ROLE, apiUser.getUserRole());
                         sharedPreference.putValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PASS, apiUser.getPasswords());
-//							sharedPreference.putValue(getContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_ProfilePic, apiUser.getProfilePicUrl());
-
                         Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_SHORT).show();
-
                         Intent myIntent = new Intent(getBaseContext(), CustomerActivity.class);
                         startActivity(myIntent);
                         finish();
@@ -217,80 +161,66 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Toast.makeText( getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-            }
-            finally {
-//                progressDialog.dismiss();
+            } finally {
             }
 
         }
     }
+
     class AuthoriseCustomer extends AsyncTask<Void, Void, String> {
         String token = "";
+
         protected void onPreExecute() {
             token = FirebaseInstanceId.getInstance().getToken();
-            while(token == null)//this is used to get firebase token until its null so it will save you from null pointer exeption
-            {
+            while (token == null) {
                 token = FirebaseInstanceId.getInstance().getToken();
             }
         }
 
         protected String doInBackground(Void... urls) {
-
             Utilities utilities = new Utilities(getBaseContext());
-
             String address = Constants.API_CUSTOMER_LOGIN;
             Map<String, String> params = new HashMap<>();
-            params.put("mobile", sharedPreference.getValue( getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE ));
+            params.put("mobile", sharedPreference.getValue(getBaseContext(), Constants.PREF_IS_USER, Constants.PREF_KEY_USER_PHONE));
             params.put("deviceid", token);
-            return utilities.apiCalls(address,params);
+            return utilities.apiCalls(address, params);
 
         }
 
         protected void onPostExecute(String response) {
             try {
-
-
-                if(response.equals("NO_INTERNET")) {
+                if (response.equals("NO_INTERNET")) {
                     Toast.makeText(getBaseContext(), "Check internet connection", Toast.LENGTH_LONG).show();
-                }
-                else if(response.equals("ERROR")) {
+                } else if (response.equals("ERROR")) {
                     Toast.makeText(getBaseContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    if(response.equals("false"))
-                    {
+                } else {
+                    if (response.equals("false")) {
                         Toast.makeText(getBaseContext(), "Please enter registered mobile number", Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         JSONObject jsonObject1 = new JSONObject(response);
                         JSONObject jsonObject2 = new JSONObject(jsonObject1.getString("Content"));
                         String s = jsonObject2.getString("status");
-                        if(s.equalsIgnoreCase("success")){
+                        if (s.equalsIgnoreCase("success")) {
                             Toast.makeText(getBaseContext(), "Login Success", Toast.LENGTH_LONG).show();
                             resendOTP.setVisibility(View.GONE);
-                            reverseTimer(120,txtTimer);
+                            reverseTimer(120, txtTimer);
                         }
-
                     }
                 }
 
             } catch (Exception e) {
-                Toast.makeText( getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Please try again later...", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
-            }
-            finally {
-
+            } finally {
             }
 
         }
     }
 
-    public void reverseTimer(int Seconds,final TextView tv){
-
-        new CountDownTimer(Seconds* 1000+1000, 1000) {
+    public void reverseTimer(int Seconds, final TextView tv) {
+        new CountDownTimer(Seconds * 1000 + 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 resendOTP.setVisibility(View.GONE);
@@ -302,7 +232,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-//                tv.setText("Completed");
                 resendOTP.setVisibility(View.VISIBLE);
             }
         }.start();

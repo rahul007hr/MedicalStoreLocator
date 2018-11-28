@@ -25,7 +25,6 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 
     @Override
     public PlaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Get the RecyclerView item layout
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_place_card, parent, false);
         return new PlaceViewHolder(view);
@@ -34,24 +33,20 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 
     @Override
     public void onBindViewHolder(PlaceViewHolder holder, int position) {
-
         int count = mPlaces.getCount();
-        if(position==count-1) {
+        if (position == count - 1) {
             String placeName = mPlaces.get(position).getName().toString();
             String placeAddress = mPlaces.get(position).getAddress().toString();
-
             String placeLatLong = mPlaces.get(position).getLatLng().toString();
-
             holder.nameTextView.setText(placeName);
             holder.addressTextView.setText(placeAddress);
             holder.latLongTextView.setText(placeLatLong);
         }
     }
 
-    public void swapPlaces(PlaceBuffer newPlaces){
+    public void swapPlaces(PlaceBuffer newPlaces) {
         mPlaces = newPlaces;
         if (mPlaces != null) {
-            // Force the RecyclerView to refresh
             this.notifyDataSetChanged();
         }
     }
@@ -59,13 +54,11 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 
     @Override
     public int getItemCount() {
-        if(mPlaces==null) return 0;
+        if (mPlaces == null) return 0;
         return mPlaces.getCount();
     }
 
-    /**
-     * PlaceViewHolder class for the recycler view item
-     */
+
     public static class PlaceViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView;
@@ -76,7 +69,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             addressTextView = (TextView) itemView.findViewById(R.id.address_text_view);
-            latLongTextView=(TextView) itemView.findViewById(R.id.latLong_text_view);
+            latLongTextView = (TextView) itemView.findViewById(R.id.latLong_text_view);
         }
 
     }

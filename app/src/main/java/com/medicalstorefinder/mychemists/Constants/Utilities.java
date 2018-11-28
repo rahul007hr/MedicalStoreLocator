@@ -33,38 +33,30 @@ public final class Utilities {
 
     private Context _context;
 
-    public Utilities(Context context){
+    public Utilities(Context context) {
         this._context = context;
     }
 
-    public final boolean isInternetAvailable(){
-
+    public final boolean isInternetAvailable() {
         ConnectivityManager cm = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-
                 return true;
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-
                 return true;
             }
         }
-
         return false;
     }
 
 
-    public final String apiCalls(String pUrl,Map<String, String> params) {
-
-        if( ! isInternetAvailable() )
+    public final String apiCalls(String pUrl, Map<String, String> params) {
+        if (!isInternetAvailable())
             return "NO_INTERNET";
-
         HttpURLConnection urlConnection;
         String requestBody;
         Uri.Builder builder = new Uri.Builder();
-
-        // encode parameters
         Iterator entries = params.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
@@ -72,12 +64,9 @@ public final class Utilities {
             entries.remove();
         }
         requestBody = builder.build().getEncodedQuery();
-
         try {
             URL url = null;
-
             url = new URL(pUrl);
-
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -87,36 +76,28 @@ public final class Utilities {
             writer.flush();
             writer.close();
             outputStream.close();
-
             JSONObject jsonObject = new JSONObject();
             InputStream inputStream;
-            // get stream
             if (urlConnection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                 inputStream = urlConnection.getInputStream();
             } else {
                 inputStream = urlConnection.getErrorStream();
             }
-            // parse stream
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String temp, response = "";
             while ((temp = bufferedReader.readLine()) != null) {
                 response += temp;
             }
-            // put into JSONObject
             jsonObject.put("Content", response);
             jsonObject.put("Message", urlConnection.getResponseMessage());
             jsonObject.put("Length", urlConnection.getContentLength());
             jsonObject.put("Type", urlConnection.getContentType());
-
             return jsonObject.toString();
         } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
             return "ERROR";
         } catch (IOException e) {
-//            e.printStackTrace();
             return "ERROR";
         } catch (JSONException e) {
-//            return e.toString();
             return "ERROR";
         }
 
@@ -124,136 +105,58 @@ public final class Utilities {
 
 
     public final String apiCall(String pUrl) {
-
-        if( ! isInternetAvailable() )
+        if (!isInternetAvailable())
             return "NO_INTERNET";
-
-       try {
-
+        try {
             URL url = new URL(pUrl.replace(" ", "%20"));
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-
-//            Log.i("url", String.valueOf(url));
-
-            try{
+            try {
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
-
-                while((line = bufferedReader.readLine())!= null) {
+                while ((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
-//                Log.i("responce",stringBuilder.toString());
-
                 return stringBuilder.toString();
 
             } catch (Exception e) {
                 return "ERROR";
-            } finally{
+            } finally {
                 bufferedReader.close();
                 httpURLConnection.disconnect();
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return "ERROR";
         }
     }
 
 
-
-
-
-    public final File downloadImagesToSdCard(String downloadUrl, String imageName)
-    {
-        File destination=null;
-        try
-        {
+    public final File downloadImagesToSdCard(String downloadUrl, String imageName) {
+        File destination = null;
+        try {
             URL url = new URL(downloadUrl);
-
-            /* making a directory in sdcard */
-            File file =null;
-            String selectedOutputPath = "";
-           /* if (isSDCARDMounted()) {
-                File mediaStorageDir = new File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "My-Chemist");
-                // Create a storage directory if it does not exist
-                if (!mediaStorageDir.exists()) {
-                    mediaStorageDir.mkdir();
-                    if (!mediaStorageDir.mkdirs()) {
-                        Log.d("PhotoEditorSDK", "Failed to create directory");
-                    }
-                }
-                // Create a media file name
-                selectedOutputPath = mediaStorageDir.getPath() + File.separator + imageName+".jpg";
-                Log.d("PhotoEditorSDK", "selected camera path " + selectedOutputPath);
-                file = new File(selectedOutputPath);
-                *//*try {
-                    FileOutputStream out = new FileOutputStream(file);
-                    if (layoutCollage != null) {
-                        layoutCollage.setDrawingCacheEnabled(true);
-                        layoutCollage.getDrawingCache().compress(Bitmap.CompressFormat.JPEG, 80, out);
-                    }
-                    out.flush();
-                    out.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*//*
-            }*/
-
-//            return selectedOutputPath;
-
-
-
-            //  String sdCard=Environment.getExternalStorageDirectory().toString();
-//            ContextWrapper cw = new ContextWrapper(_context);
-            // path to /data/data/yourapp/app_data/imageDir
-//            File directory = cw.getDir("images", Context.MODE_PRIVATE);
-
-//            File myDir = new File(directory,"My-Chemist");
-
-            /*  if specified not exist create new */
-           /* if(!myDir.exists())
-            {
-                myDir.mkdir();
-                Log.v("", "inside mkdir");
-            }*/
-
-            /* checks the file and if it already exist delete */
-           /* String fname = imageName;
-            File file = new File (myDir, fname+".jpg");
-            Log.d("file===========path", ""+file);
-            if (file.exists ())
-                file.delete ();*/
-
-            /* Open a connection */
             URLConnection ucon = url.openConnection();
             InputStream inputStream = null;
-            HttpURLConnection httpConn = (HttpURLConnection)ucon;
+            HttpURLConnection httpConn = (HttpURLConnection) ucon;
             httpConn.setRequestMethod("GET");
             httpConn.connect();
             inputStream = httpConn.getInputStream();
-                if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK)
-                {
-                    inputStream = httpConn.getInputStream();
-                }
+            if (httpConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                inputStream = httpConn.getInputStream();
+            }
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-
-            File myDir = new File(Environment.getExternalStorageDirectory(),"My-Chemist");
-            if(!myDir.exists())
-            {
+            File myDir = new File(Environment.getExternalStorageDirectory(), "My-Chemist");
+            if (!myDir.exists()) {
                 myDir.mkdir();
 
             }
-
-            File myDir1 = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Downloaded Prescriptions");
-            if(!myDir1.exists())
-            {
+            File myDir1 = new File(Environment.getExternalStorageDirectory(), "My-Chemist/Downloaded Prescriptions");
+            if (!myDir1.exists()) {
                 myDir1.mkdir();
 
             }
-            destination = new File(Environment.getExternalStorageDirectory(),"My-Chemist/Downloaded Prescriptions/"+imageName+".jpg");
+            destination = new File(Environment.getExternalStorageDirectory(), "My-Chemist/Downloaded Prescriptions/" + imageName + ".jpg");
             FileOutputStream fo = null;
-
-//            FileOutputStream fos = new FileOutputStream(file);
             try {
                 destination.createNewFile();
                 fo = new FileOutputStream(destination);
@@ -267,38 +170,26 @@ public final class Utilities {
             int downloadedSize = 0;
             byte[] buffer = new byte[1024];
             int bufferLength = 0;
-
-            while ( (bufferLength = inputStream.read(buffer)) >0 )
-            {
+            while ((bufferLength = inputStream.read(buffer)) > 0) {
                 try {
-//                    destination.createNewFile();
-//                    fo = new FileOutputStream(destination);
                     fo.write(buffer, 0, bufferLength);
                     downloadedSize += bufferLength;
-                    Log.i("Progress:","downloadedSize:"+downloadedSize+"totalSize:"+ totalSize) ;
+                    Log.i("Progress:", "downloadedSize:" + downloadedSize + "totalSize:" + totalSize);
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-//                fos.write(buffer, 0, bufferLength);
-
             }
             fo.close();
-
             Log.d("test", "Image Saved in sdcard..");
 
-        }
-        catch(IOException io)
-        {
+        } catch (IOException io) {
             io.printStackTrace();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
         return destination;
     }
 

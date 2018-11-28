@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 
 public class ServiceProviderDetailsModel implements Serializable {
-    public int   ID;
+    public int ID;
     public String EmailId;
-    public String  CustomerNo;
+    public String CustomerNo;
     public String FullName;
-    public String  ServiceTypeName;
+    public String ServiceTypeName;
     public String Location;
     public String Status;
-    public String Name,Password,DeliveryDate;
-    public int  Id;
+    public String Name, Password, DeliveryDate;
+    public int Id;
     public String Itemname1;
     public String Itemname2;
     public String Itemname3;
@@ -22,7 +22,7 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String Itemname7;
     public String Itemname8;
     public String Itemname9;
-    public String Itemname10,image_link;
+    public String Itemname10, image_link;
 
     public String orderid;
     public String orderMainId;
@@ -43,7 +43,7 @@ public class ServiceProviderDetailsModel implements Serializable {
     public String customerType;
     public String isDelivered;
     public String notification;
-    public String notificationTime,km,shopName,loginStatus;
+    public String notificationTime, km, shopName, loginStatus;
     public Float rating;
 
     public String getCustomerId() {
@@ -239,7 +239,6 @@ public class ServiceProviderDetailsModel implements Serializable {
         this.loginStatus = loginStatus;
     }
 
-    //............................................................................
 
     public int getId() {
         return Id;

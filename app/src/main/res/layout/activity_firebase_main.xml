@@ -1,62 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
     android:background="@drawable/backg"
+    android:paddingBottom="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
     android:paddingTop="@dimen/mtrl_bottomappbar_fab_cradle_vertical_offset"
     tools:context="com.medicalstorefinder.mychemists.Activity.FirebaseMainActivity">
 
 
-  <!--  <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:id="@+id/appbar"
-        >-->
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white"
-            app:theme="@style/ToolbarColoredBackArrow"
-            android:layout_height="?attr/actionBarSize"
-            android:id="@+id/toolbar"
-            />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:theme="@style/ToolbarColoredBackArrow"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/white" />
 
-   <!-- </android.support.design.widget.AppBarLayout>-->
 
     <FrameLayout
-        android:orientation="vertical"
+        android:id="@+id/containerView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/containerView1">
-    </FrameLayout>
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-
-        >-->
-
-        <TextView
-            android:id="@+id/tvNotificationDetails"
-            android:layout_width="335dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@android:color/transparent"
-            android:layout_below="@+id/toolbar"
-            android:text=""
-            android:textSize="17dp"
-            android:textStyle="bold" />
+        android:orientation="vertical"></FrameLayout>
 
 
+    <TextView
+        android:id="@+id/tvNotificationDetails"
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/transparent"
+        android:text=""
+        android:textSize="17dp"
+        android:textStyle="bold" />
 
-    <!--</LinearLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rep_recyclerView"
@@ -68,10 +50,6 @@
         android:layout_marginRight="5dp">
 
     </android.support.v7.widget.RecyclerView>
-
-
-
-
 
 
 </RelativeLayout>

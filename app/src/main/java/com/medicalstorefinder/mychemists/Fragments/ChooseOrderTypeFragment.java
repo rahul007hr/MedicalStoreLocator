@@ -16,39 +16,28 @@ import com.medicalstorefinder.mychemists.Activity.CustomerActivity;
 import com.medicalstorefinder.mychemists.Constants.Utility;
 import com.medicalstorefinder.mychemists.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class ChooseOrderTypeFragment extends Fragment {
 
     private String userChoosenTask;
+
     public ChooseOrderTypeFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         final View view = inflater.inflate(R.layout.fragment_choose_order_type, container, false);
-
-        Button newOrderBtn = (Button)view.findViewById(R.id.newOrder);
-        Button oldOrderBtn = (Button)view.findViewById(R.id.oldOrder);
-
+        Button newOrderBtn = (Button) view.findViewById(R.id.newOrder);
+        Button oldOrderBtn = (Button) view.findViewById(R.id.oldOrder);
         CustomerActivity.navigation.setVisibility(View.VISIBLE);
-
         CustomerActivity.navigation.getMenu().findItem(R.id.chooseOrderType).setChecked(true);
-
         CustomerActivity.navigation.getMenu().findItem(R.id.postOrder).setEnabled(false);
         CustomerActivity.navigation.getMenu().findItem(R.id.NearbyServiceProviderList).setEnabled(false);
-
-
         newOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 PostOrderFragment fragment2 = new PostOrderFragment();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -58,39 +47,29 @@ public class ChooseOrderTypeFragment extends Fragment {
 
             }
         });
-
-
         oldOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 selectPreviousOrderType();
-
 
             }
         });
-
         return view;
     }
 
     private void selectPreviousOrderType() {
-
-
-
-        final CharSequence[] items = { "Completed Orders", "Canceled Orders","On Hold Orders" };
+        final CharSequence[] items = {"Completed Orders", "Canceled Orders", "On Hold Orders"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Previous Order Type..");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result= Utility.checkPermission(getContext());
+                boolean result = Utility.checkPermission(getContext());
                 if (items[item].equals("Completed Orders")) {
-                    userChoosenTask ="Completed Orders";
-                    if(result){
+                    userChoosenTask = "Completed Orders";
+                    if (result) {
                         Bundle bundle = new Bundle();
                         bundle.putString("key", "Completed");
-
                         ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
                         fragment2.setArguments(bundle);
                         FragmentManager fragmentManager = getFragmentManager();
@@ -100,12 +79,10 @@ public class ChooseOrderTypeFragment extends Fragment {
                         fragmentTransaction.commit();
                     }
                 } else if (items[item].equals("Canceled Orders")) {
-                    userChoosenTask ="Canceled Orders";
-                    if(result){
-
+                    userChoosenTask = "Canceled Orders";
+                    if (result) {
                         Bundle bundle = new Bundle();
                         bundle.putString("key", "Canceled");
-
                         ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
                         fragment2.setArguments(bundle);
                         FragmentManager fragmentManager = getFragmentManager();
@@ -115,11 +92,10 @@ public class ChooseOrderTypeFragment extends Fragment {
                         fragmentTransaction.commit();
                     }
                 } else if (items[item].equals("On Hold Orders")) {
-                    userChoosenTask ="On Hold Orders";
-                    if(result){
+                    userChoosenTask = "On Hold Orders";
+                    if (result) {
                         Bundle bundle = new Bundle();
                         bundle.putString("key", "On Hold");
-
                         ServiceProviderListUsingOrderStatusFragment fragment2 = new ServiceProviderListUsingOrderStatusFragment();
                         fragment2.setArguments(bundle);
                         FragmentManager fragmentManager = getFragmentManager();

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="0dp"
     android:paddingTop="0dp">
 
@@ -17,128 +17,122 @@
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:padding="6dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="6dp">
 
             <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="5">
-            <TableRow>
-
-           <RelativeLayout
-               android:layout_height="70dp"
-               android:layout_width="70dp">
-
-
-               <ImageView
-                   android:layout_width="70dp"
-                   android:layout_height="70dp"
-                   android:id="@+id/image_View"
-                   android:paddingLeft="0dp"
-                   android:gravity="left"
-                   />
-
-               <ProgressBar
-                   android:id="@+id/progressBar1"
-                   android:layout_width="70dp"
-                   android:layout_gravity="center"
-                   android:background="@color/white"
-                   android:layout_height="70dp" />
-
-           </RelativeLayout>
-
-
-            <TableLayout
-                android:paddingLeft="10dp"
-                android:paddingRight="150dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:weightSum="5">
 
                 <TableRow>
-                    <TextView
-                        android:id="@+id/location"
-                        android:text="LOCATION"
-                        android:gravity="left"
-                        android:textSize="12dp"
-                        android:layout_weight="2"
-                        android:layout_width="230dp"
-                        android:layout_height="wrap_content" />
 
-                </TableRow>
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp">
 
-                <TableRow>
 
-                    <TextView
-                        android:id="@+id/time"
-                        android:text="Date"
-                        android:textStyle="bold"
-                        android:gravity="left"
-                        android:textSize="14dp"
-                        android:layout_weight="2.5"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <ImageView
+                            android:id="@+id/image_View"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:gravity="left"
+                            android:paddingLeft="0dp" />
 
-                </TableRow>
+                        <ProgressBar
+                            android:id="@+id/progressBar1"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            android:background="@color/white" />
 
-                <TableRow>
-                    <LinearLayout
+                    </RelativeLayout>
+
+
+                    <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <RatingBar
-                            android:id="@+id/ratingBar"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:numStars="5"
-                            android:stepSize="1.0"
-                            android:rating="0.0" />
-                    </LinearLayout>
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="150dp"
+                        android:weightSum="5">
 
-                </TableRow>
+                        <TableRow>
 
-                <TableRow>
+                            <TextView
+                                android:id="@+id/location"
+                                android:layout_width="230dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:gravity="left"
+                                android:text="LOCATION"
+                                android:textSize="12dp" />
 
-                    <TextView
-                        android:id="@+id/status"
-                        android:text="ONLINE"
-                        android:textStyle="bold"
-                        android:gravity="left"
-                        android:textSize="14dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="2.5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        </TableRow>
 
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2.5"
+                                android:gravity="left"
+                                android:text="Date"
+                                android:textSize="14dp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    style="?android:attr/ratingBarStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:numStars="5"
+                                    android:rating="0.0"
+                                    android:stepSize="1.0" />
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:id="@+id/status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="2.5"
+                                android:gravity="left"
+                                android:text="ONLINE"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                        </TableRow>
+                    </TableLayout>
                 </TableRow>
             </TableLayout>
-            </TableRow>
-            </TableLayout>
-
 
 
         </LinearLayout>
 
-       <!-- <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_centerHorizontal="true" />-->
 
     </android.support.v7.widget.CardView>
-
 
 
 </RelativeLayout>

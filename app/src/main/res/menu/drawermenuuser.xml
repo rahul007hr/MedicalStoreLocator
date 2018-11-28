@@ -5,31 +5,29 @@
         <menu>
 
 
-            <item android:title="Received Order"
+            <item
                 android:id="@+id/receivedOrder"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"
                 android:icon="@drawable/order_list_b"
                 android:iconTint="@color/primary"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:title="Received Order" />
 
 
-            <item android:title="Confirmed Order"
+            <item
                 android:id="@+id/confirmedOrder"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"
                 android:icon="@drawable/confirmed_delivery"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:title="Confirmed Order" />
 
-            <item android:title="Pending Delivery"
+            <item
                 android:id="@+id/pendingDelivery"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"
                 android:icon="@drawable/pending_delivery"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:title="Pending Delivery" />
 
-           <!-- <item android:title="Monthly Report"
-                android:id="@+id/monthlyReport"
-                android:icon="@drawable/user"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>-->
 
         </menu>
     </item>
@@ -38,25 +36,28 @@
         <menu>
 
 
-            <item android:title="Completed Orders"
+            <item
                 android:id="@+id/completedOrders"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"
                 android:icon="@drawable/completedhistory"
                 android:iconTint="@color/primary"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:title="Completed Orders" />
 
 
-            <item android:title="Canceled Orders"
+            <item
                 android:id="@+id/canceledOrders"
+                android:background="@drawable/custom_bg"
+                android:checkable="true"
                 android:icon="@drawable/canceledhistory"
-                android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:title="Canceled Orders" />
 
-            <item android:title="On Hold Orders"
+            <item
                 android:id="@+id/onHoldOrders"
-                android:icon="@drawable/onholdhistory"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"
+                android:icon="@drawable/onholdhistory"
+                android:title="On Hold Orders" />
 
         </menu>
     </item>
@@ -65,11 +66,11 @@
         <menu>
 
             <item
-                android:title="Profile"
                 android:id="@+id/profile"
-                android:icon="@drawable/user"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"
+                android:icon="@drawable/user"
+                android:title="Profile" />
 
             <!--<item
                 android:title="Change Password"
@@ -79,11 +80,11 @@
                 android:checkable="true"/>-->
 
             <item
-                android:title="Logout"
                 android:id="@+id/logout"
-                android:icon="@drawable/logout_b"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"
+                android:icon="@drawable/logout_b"
+                android:title="Logout" />
 
         </menu>
     </item>
@@ -92,18 +93,18 @@
     <item android:title="Help">
         <menu>
             <item
-                android:title="About us"
                 android:id="@+id/about_us"
-                android:icon="@drawable/about_us"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"
+                android:icon="@drawable/about_us"
+                android:title="About us" />
 
             <item
-                android:title="Contact us"
                 android:id="@+id/contact_us"
-                android:icon="@drawable/contact_us_b"
                 android:background="@drawable/custom_bg"
-                android:checkable="true"/>
+                android:checkable="true"
+                android:icon="@drawable/contact_us_b"
+                android:title="Contact us" />
         </menu>
     </item>
 </menu>

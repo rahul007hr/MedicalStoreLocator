@@ -6,13 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Rahul on 1/09/2018.
- */
-
 public class MyPagerAdapter extends PagerAdapter {
     private LayoutInflater inflater;
-    private int[]layouts;
+    private int[] layouts;
     private Context context;
 
     public MyPagerAdapter(int[] layouts, Context context) {
@@ -27,12 +23,12 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view==object;
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(layouts[position], container, false);
         container.addView(v);
         return v;
@@ -40,7 +36,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        View v = (View)object;
+        View v = (View) object;
         container.removeView(v);
     }
 }

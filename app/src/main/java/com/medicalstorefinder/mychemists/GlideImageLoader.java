@@ -27,10 +27,7 @@ public class GlideImageLoader {
 
     public void load(final String url, RequestOptions options) {
         if (url == null || options == null) return;
-
         onConnecting();
-
-        //set Listener & start
         ProgressAppGlideModule.expect(url, new ProgressAppGlideModule.UIonProgressListener() {
             @Override
             public void onProgress(long bytesRead, long expectedLength) {
@@ -45,7 +42,6 @@ public class GlideImageLoader {
                 return 1.0f;
             }
         });
-        //Get Image
         Glide.with(mImageView.getContext())
                 .load(url)
                 .transition(withCrossFade())

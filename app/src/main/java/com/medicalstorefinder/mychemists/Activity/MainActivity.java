@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
-
         if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
@@ -36,12 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         Fragment SignUp_Fragment = fragmentManager
                 .findFragmentByTag(Utils1.SignUp_Fragment);
         Fragment ForgotPassword_Fragment = fragmentManager
                 .findFragmentByTag(Utils1.ForgotPassword_Fragment);
-
         if (SignUp_Fragment != null)
             replaceLoginFragment();
         else if (ForgotPassword_Fragment != null)

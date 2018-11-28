@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@drawable/backg"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backg">
 
-  <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -15,133 +14,129 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="18dp"
-            >
+            android:paddingTop="18dp">
 
             <WebView
+                android:id="@+id/webview_about_us"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/webview_about_us"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:layout_marginTop="1dp"
-                android:textSize="17dp"
-                android:textAlignment="center"
+                android:layout_margin="1dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="1dp"
+                android:text="@string/app_name"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:layout_margin="1dp"/>
+                android:textSize="17dp" />
 
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:elevation="50dp"
+                android:layout_weight="0.13"
                 android:background="@drawable/logo"
-                android:layout_weight="0.13" />
+                android:elevation="50dp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
                 android:text="Version"
-                android:layout_marginTop="1dp"
-                android:textSize="14dp"
                 android:textAlignment="center"
-                android:layout_marginLeft="5dp"
                 android:textColor="@color/black"
-                android:layout_margin="1dp"/>
+                android:textSize="14dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
                 android:text="Check Update"
-                android:layout_marginTop="1dp"
-                android:textSize="10dp"
-                android:visibility="gone"
-                android:textColor="@color/black"
                 android:textAlignment="center"
-                android:layout_marginLeft="5dp"
-                android:layout_margin="1dp"/>
-
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:visibility="gone" />
 
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/company"
                 android:id="@+id/companyName"
-                android:layout_marginTop="5dp"
-                android:textSize="10dp"
-                android:textColor="@color/black"
-                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:autoLink="web"
-                android:layout_margin="5dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/aboutUsEmail"
-                android:text="@string/email1"
-                android:layout_marginTop="5dp"
-                android:textSize="10dp"
-                android:clickable="true"
-                android:textColor="@color/colorAccent"
+                android:text="@string/company"
                 android:textAlignment="center"
-                android:layout_marginLeft="5dp"
-                android:layout_margin="5dp"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="All rights reserved."
-                android:layout_marginTop="1dp"
-                android:textSize="10dp"
-                android:textAlignment="center"
-                android:layout_marginLeft="5dp"
                 android:textColor="@color/black"
-                android:layout_margin="1dp"/>
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/aboutUsEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:text="@string/email1"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="10dp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="1dp"
+                android:text="All rights reserved."
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="10dp" />
 
             <TableLayout
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
                 android:weightSum="5">
 
                 <TableRow>
 
                     <TextView
+                        android:id="@+id/policy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/policy"
-                        android:id="@+id/policy"
-                        android:layout_marginTop="5dp"
-                        android:textSize="10dp"
-                        android:textColor="@color/black"
-                        android:textAlignment="center"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
                         android:autoLink="web"
                         android:linksClickable="true"
-                        android:layout_margin="5dp"/>
+                        android:text="@string/policy"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="10dp" />
 
                 </TableRow>
             </TableLayout>
-
 
 
         </LinearLayout>
